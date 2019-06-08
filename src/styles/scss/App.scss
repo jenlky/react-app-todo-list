@@ -1,0 +1,48 @@
+:root {
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px dotted tomato; */
+  box-sizing: border-box;
+  border-width: 0 1px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 1.6rem;
+  /* text-align: center; */
+  margin: 0 auto;
+  max-width: 700px;
+  min-height: 100vh;
+  padding: 4rem;
+}
+
+.todo {
+  btn {
+    align-self: flex-end;
+  }
+
+  input {
+  }
+
+  &-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  &-item {
+    padding: 1rem 0;
+    cursor: move;
+
+    /* become a block */
+    &:hover {
+    }
+  }
+}
+
+.done {
+  text-decoration: line-through;
+}
