@@ -3,7 +3,7 @@ import ToDoItems from "./ToDoItems";
 
 const ToDoList = ({ items }) => {
   return (
-    <ul>
+    <ul className="todo-list">
       <ToDoItems items={items} />
     </ul>
   );

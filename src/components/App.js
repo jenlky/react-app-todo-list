@@ -3,6 +3,8 @@ import Input from "./Input";
 import Button from "./Button";
 import ToDoList from "./ToDoList";
 import "../styles/App.css";
+import { DragDropContextProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 // Can Remove Item(Bonus): No
 // Able to handle very long todo item(Bonus): No
@@ -32,11 +34,8 @@ class App extends React.Component {
 
   handleClick = () => {
     if (this.state.searchField !== "") {
-      const items = [...this.state.items];
-      items.push(this.state.searchField);
-
       this.setState({
-        items
+        items: [...this.state.items, this.state.searchField]
       });
     }
   };
@@ -44,12 +43,10 @@ class App extends React.Component {
   handleKeyDown = event => {
     const enterCondition =
       event.key === "Enter" && this.state.searchField !== "";
-    if (enterCondition) {
-      const items = [...this.state.items];
-      items.push(this.state.searchField);
 
+    if (enterCondition) {
       this.setState({
-        items
+        items: [...this.state.items, this.state.searchField]
       });
       event.target.value = "";
     }
@@ -61,15 +58,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        <h1>My To-Do List</h1>
-        <Input
-          searchField={this.searchField}
-          handleKeyDown={this.handleKeyDown}
-        />
-        <Button handleClick={this.handleClick} />
-        <ToDoList items={this.state.items} />
-      </div>
+      <DragDropContextProvider backend={HTML5Backend}>
+        <div className="todo">
+          <h1>My To-Do List</h1>
+          <Input
+            searchField={this.searchField}
+            handleKeyDown={this.handleKeyDown}
+          />
+          <Button handleClick={this.handleClick} />
+          <ToDoList items={this.state.items} />
+        </div>
+      </DragDropContextProvider>
     );
   }
 }
