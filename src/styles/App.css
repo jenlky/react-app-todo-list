@@ -60,11 +60,12 @@ body {
       .todo-item:hover .todo-item-cancel {
         visibility: visible; }
   .todo-icons {
-    display: flex; }
+    display: flex;
+    align-items: center; }
 
 .dropdown-triangle {
   margin-left: 10px;
-  font-size: 20px; }
+  font-size: 16px; }
 
 .done {
   text-decoration: line-through; }
