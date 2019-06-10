@@ -27,7 +27,7 @@ const ToDoItems = ({ items, removeItem }) => {
           />
           <span className="dropdown-triangle">▶&nbsp;</span>
         </div>
-        {item}
+        <span className="todo-item-content">{item}</span>
       </li>
     );
   });
