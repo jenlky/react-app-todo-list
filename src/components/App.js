@@ -7,9 +7,7 @@ import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 
 // Able to handle very long todo item(Bonus): No
-
 // Responsive(Bonus): No
-// Cannot have two of the same items (strings)
 
 // UI Usability Review:
 // Add style to increase the size of the todo list so that it makes better use of the white space.
@@ -24,7 +22,12 @@ class App extends React.Component {
     };
   }
 
-  checkDuplicates = () => {};
+  haveDuplicates = event => {
+    if (this.state.items.includes(event.target.value)) {
+      return true;
+    }
+    return false;
+  };
 
   searchField = event => {
     this.setState({
@@ -34,7 +37,9 @@ class App extends React.Component {
 
   handleKeyDown = event => {
     const enterCondition =
-      event.key === "Enter" && this.state.searchField !== "";
+      event.key === "Enter" &&
+      this.state.searchField !== "" &&
+      !this.haveDuplicates(event);
 
     if (enterCondition) {
       this.setState({
@@ -44,8 +49,11 @@ class App extends React.Component {
     }
   };
 
-  addItem = () => {
-    if (this.state.searchField !== "") {
+  addItem = event => {
+    const enterCondition =
+      this.state.searchField !== "" && !this.haveDuplicates(event);
+
+    if (enterCondition) {
       this.setState({
         items: [...this.state.items, this.state.searchField]
       });
