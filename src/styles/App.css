@@ -6,28 +6,64 @@ body {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  /* border: 1px dotted tomato; */
   box-sizing: border-box;
   border-width: 0 1px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 1.6rem;
+  font-size: 16px;
   /* text-align: center; */
   margin: 0 auto;
   max-width: 700px;
   min-height: 100vh;
-  padding: 4rem; }
+  padding: 40px; }
 
-.todo btn {
-  align-self: flex-end; }
+.todo {
+  text-align: center; }
+  .todo h1 {
+    margin-top: 10px; }
+  .todo-btn {
+    margin-left: 5px;
+    padding: 2px 10px;
+    font-size: 14px; }
+  .todo-input {
+    border-width: 0px 0px 2px 0px;
+    border-style: solid;
+    border-color: black;
+    outline: 0;
+    font-size: 18px;
+    line-height: 24px;
+    width: 400px; }
+    .todo-input:focus {
+      border-color: blue; }
+  .todo-list {
+    padding: 0;
+    list-style: none;
+    margin: 10px 0px;
+    text-align: left; }
+  .todo-item {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    padding: 6px 0;
+    cursor: pointer;
+    word-wrap: break-word; }
+    .todo-item-cancel {
+      visibility: hidden;
+      width: 10px;
+      margin-left: 8px; }
+    .todo-item:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
+      .todo-item:hover .todo-item-cancel {
+        visibility: visible; }
+  .todo-icons {
+    display: flex; }
 
-.todo-list {
-  padding: 0;
-  list-style: none; }
+.break-word {
+  width: 450px;
+  word-break: break-word; }
 
-.todo-item {
-  padding: 1rem 0;
-  cursor: move;
-  /* become a block */ }
+.dropdown-triangle {
+  margin-left: 10px;
+  width: 18px; }
 
 .done {
   text-decoration: line-through; }
