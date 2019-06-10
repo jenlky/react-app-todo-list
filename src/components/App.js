@@ -6,7 +6,6 @@ import "../styles/App.css";
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 
-// Able to handle very long todo item(Bonus): No
 // Responsive(Bonus): No
 
 // UI Usability Review:
@@ -17,7 +16,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: ["buy milk", "eat dinner", "nail javascript", "give feedback"],
+      items: [
+        "week 1",
+        "week 2",
+        "week 3",
+        "week 4",
+        "A veryyyyy longgggggggggggggggggggggggg word testing123"
+      ],
       searchField: ""
     };
   }
@@ -43,20 +48,27 @@ class App extends React.Component {
 
     if (enterCondition) {
       this.setState({
-        items: [...this.state.items, this.state.searchField]
+        items: [...this.state.items, this.state.searchField],
+        searchField: ""
       });
+      // set input value empty string
       event.target.value = "";
     }
   };
 
   addItem = event => {
+    // console.log(event.currentTarget.previousSibling);
+
     const enterCondition =
       this.state.searchField !== "" && !this.haveDuplicates(event);
 
     if (enterCondition) {
       this.setState({
-        items: [...this.state.items, this.state.searchField]
+        items: [...this.state.items, this.state.searchField],
+        searchField: ""
       });
+      // set input value empty string
+      event.currentTarget.previousSibling.value = "";
     }
   };
 
@@ -76,7 +88,7 @@ class App extends React.Component {
       <div className="todo">
         <DragDropContextProvider backend={HTML5Backend}>
           <h1>My To-Do List</h1>
-          <div>
+          <div className="todo-inputRow">
             <Input
               searchField={this.searchField}
               handleKeyDown={this.handleKeyDown}

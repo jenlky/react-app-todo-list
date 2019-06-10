@@ -3,8 +3,8 @@ import React from "react";
 const Input = ({ searchField, handleKeyDown }) => {
   return (
     <input
-      className="todo-input"
       type="text"
+      className="todo-input"
       onChange={searchField}
       onKeyDown={handleKeyDown}
     />
