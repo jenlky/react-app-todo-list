@@ -6,11 +6,9 @@ import "../styles/App.css";
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 
-// Can Remove Item(Bonus): No
 // Able to handle very long todo item(Bonus): No
 
 // Responsive(Bonus): No
-// Prevent adding empty task(Bonus): Yes
 // Cannot have two of the same items (strings)
 
 // UI Usability Review:
@@ -26,18 +24,12 @@ class App extends React.Component {
     };
   }
 
+  checkDuplicates = () => {};
+
   searchField = event => {
     this.setState({
       searchField: event.target.value
     });
-  };
-
-  handleClick = () => {
-    if (this.state.searchField !== "") {
-      this.setState({
-        items: [...this.state.items, this.state.searchField]
-      });
-    }
   };
 
   handleKeyDown = event => {
@@ -52,23 +44,40 @@ class App extends React.Component {
     }
   };
 
-  /* toDoList.addEventListener("click", event => {
-    event.target.classList.toggle("done");
-  }); */
+  addItem = () => {
+    if (this.state.searchField !== "") {
+      this.setState({
+        items: [...this.state.items, this.state.searchField]
+      });
+    }
+  };
+
+  removeItem = event => {
+    const textContent = event.target.parentNode.textContent;
+    const items = [...this.state.items];
+    const index = items.indexOf(textContent);
+    items.splice(index, 1);
+
+    this.setState({
+      items
+    });
+  };
 
   render() {
     return (
-      <DragDropContextProvider backend={HTML5Backend}>
-        <div className="todo">
+      <div className="todo">
+        <DragDropContextProvider backend={HTML5Backend}>
           <h1>My To-Do List</h1>
-          <Input
-            searchField={this.searchField}
-            handleKeyDown={this.handleKeyDown}
-          />
-          <Button handleClick={this.handleClick} />
-          <ToDoList items={this.state.items} />
-        </div>
-      </DragDropContextProvider>
+          <div>
+            <Input
+              searchField={this.searchField}
+              handleKeyDown={this.handleKeyDown}
+            />
+            <Button addItem={this.addItem} />
+          </div>
+          <ToDoList items={this.state.items} removeItem={this.removeItem} />
+        </DragDropContextProvider>
+      </div>
     );
   }
 }

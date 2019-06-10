@@ -1,8 +1,8 @@
 import React from "react";
 
-const Button = ({ handleClick }) => {
+const Button = ({ addItem }) => {
   return (
-    <button className="todo-btn" onClick={handleClick}>
+    <button className="todo-btn" onClick={addItem}>
       Add Todo
     </button>
   );

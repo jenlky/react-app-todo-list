@@ -1,10 +1,10 @@
 import React from "react";
 import ToDoItems from "./ToDoItems";
 
-const ToDoList = ({ items }) => {
+const ToDoList = ({ items, removeItem }) => {
   return (
     <ul className="todo-list">
-      <ToDoItems items={items} />
+      <ToDoItems items={items} removeItem={removeItem} />
     </ul>
   );
 };
