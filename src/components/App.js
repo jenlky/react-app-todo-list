@@ -21,7 +21,7 @@ class App extends React.Component {
         "week 2",
         "week 3",
         "week 4",
-        "A veryyyyy longgggggggggggggggggggggggg word testing123"
+        "A veryyyyy longgggggggggggggggggggg word testing123"
       ],
       searchField: ""
     };
@@ -73,7 +73,9 @@ class App extends React.Component {
   };
 
   removeItem = event => {
+    // parent = div todo-item-content that contains span {item} and img cross
     const textContent = event.target.parentNode.textContent;
+
     const items = [...this.state.items];
     const index = items.indexOf(textContent);
     items.splice(index, 1);
@@ -88,7 +90,7 @@ class App extends React.Component {
       <div className="todo">
         <DragDropContextProvider backend={HTML5Backend}>
           <h1>My To-Do List</h1>
-          <div className="todo-inputRow">
+          <div className="todo-inputAndBtn">
             <Input
               searchField={this.searchField}
               handleKeyDown={this.handleKeyDown}

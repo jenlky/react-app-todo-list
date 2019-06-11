@@ -32,23 +32,29 @@
   .todo-item-left-icons {
     display: flex;
     align-items: center; }
-  .todo-item-plus {
+  .todo-item-left-plus {
     margin-left: 10px;
     font-size: 16px; }
-  .todo-item-cross {
-    width: 12px;
-    min-width: 12px;
-    margin: 0px 10px; }
-  .todo-item-content {
+  .todo-item-left-triangle {
+    margin-left: 8px;
+    font-size: 16px; }
+  .todo-item-right-content {
     display: flex;
     justify-content: space-between;
     width: 100%;
     width: -webkit-fill-available;
     width: fill-available;
     width: -moz-available; }
+  .todo-item-right-cross {
+    font-size: 16px;
+    margin: 0px 10px; }
   .todo-item:hover {
     background-color: rgba(0, 0, 0, 0.1); }
     .todo-item:hover .todo-item-plus {
       visibility: visible; }
     .todo-item:hover .todo-item-cross {
       visibility: visible; }
+
+.dropdown-triangle {
+  margin-left: 8px;
+  font-size: 16px; }
