@@ -48,20 +48,33 @@ body {
   .todo-item {
     display: flex;
     align-items: center;
-    margin: 8px 0;
-    padding: 2px 0;
+    margin: 4px 0;
+    padding: 6px 0;
     cursor: pointer; }
-    .todo-item-cancel {
+    .todo-item-left-icons {
+      display: flex;
+      align-items: center; }
+    .todo-item-plus {
+      visibility: hidden;
+      margin-left: 8px;
+      font-size: 16px; }
+    .todo-item-cross {
       visibility: hidden;
       width: 12px;
-      margin-left: 8px; }
+      margin-right: 8px; }
+    .todo-item-content {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      width: -webkit-fill-available;
+      width: fill-available;
+      width: -moz-available; }
     .todo-item:hover {
       background-color: rgba(0, 0, 0, 0.1); }
-      .todo-item:hover .todo-item-cancel {
+      .todo-item:hover .todo-item-plus {
         visibility: visible; }
-  .todo-icons {
-    display: flex;
-    align-items: center; }
+      .todo-item:hover .todo-item-cross {
+        visibility: visible; }
 
 .dropdown-triangle {
   margin-left: 10px;

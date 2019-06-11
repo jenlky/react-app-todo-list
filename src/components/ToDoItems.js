@@ -18,16 +18,20 @@ const ToDoItems = ({ items, removeItem }) => {
         className="todo-item break-word"
         key={item}
       >
-        <div className="todo-icons">
+        <div className="todo-left-icons">
+          <span className="todo-item-plus">＋</span>
+          <span className="dropdown-triangle">▶&nbsp;</span>
+        </div>
+        <div className="todo-item-content">
+          <span>{item}</span>
           <img
             src={cancel}
             alt="Cancel"
-            className="todo-item-cancel"
+            className="todo-item-cross"
             onClick={removeItem}
           />
-          <span className="dropdown-triangle">▶&nbsp;</span>
         </div>
-        <span className="todo-item-content">{item}</span>
+        {/* <span className="todo-item-cross">⨉</span> */}
       </li>
     );
   });
