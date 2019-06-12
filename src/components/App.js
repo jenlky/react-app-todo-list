@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "./Input";
 import Button from "./Button";
-import ToDoList from "./ToDoList";
+import ToDoParentList from "./ToDoParentList";
 import "../styles/App.css";
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -13,11 +13,22 @@ class App extends React.Component {
     super(props);
     this.state = {
       items: [
-        { id: 1, text: "week 1" },
-        { id: 2, text: "week 2" },
-        { id: 3, text: "week 3" },
-        { id: 4, text: "week 4" },
-        { id: 5, text: "A veryyyyy longgggggggggggggggggggg word testing123" }
+        {
+          id: "1",
+          text: "week 1",
+          children: [
+            { id: "1-1", text: "git bash", children: [] },
+            { id: "1-2", text: "jest", children: [] }
+          ]
+        },
+        { id: "2", text: "week 2", children: [] },
+        { id: "3", text: "week 3", children: [] },
+        { id: "4", text: "week 4", children: [] },
+        {
+          id: "5",
+          text: "A veryyyyy longgggggggggggggggggggg word testing123",
+          children: []
+        }
       ],
       searchField: ""
     };
@@ -54,6 +65,7 @@ class App extends React.Component {
   };
 
   addItem = event => {
+    console.log(event.currentTarget);
     const enterCondition = this.state.searchField !== "";
 
     if (enterCondition) {
@@ -80,7 +92,7 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state.items);
+    // console.log(this.state.items);
 
     return (
       <div className="todo">
@@ -93,7 +105,11 @@ class App extends React.Component {
             />
             <Button addItem={this.addItem} />
           </div>
-          <ToDoList items={this.state.items} removeItem={this.removeItem} />
+          <ToDoParentList
+            items={this.state.items}
+            removeItem={this.removeItem}
+            addItem={this.addItem}
+          />
         </DragDropContextProvider>
       </div>
     );
