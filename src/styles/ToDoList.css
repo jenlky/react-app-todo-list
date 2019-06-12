@@ -41,6 +41,7 @@
   .todo-item-right-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     width: -webkit-fill-available;
     width: fill-available;

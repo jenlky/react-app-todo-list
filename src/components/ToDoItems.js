@@ -17,7 +17,7 @@ const ToDoItems = ({ items, removeItem }) => {
         // ref={drag}
         // style={{ opacity: isDragging ? 0.5 : 1 }}
         className="todo-item break-word"
-        key={item}
+        key={item.id}
       >
         <ToDoItemsLeft />
         <ToDoItemsRight item={item} removeItem={removeItem} />

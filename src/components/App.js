@@ -8,31 +8,20 @@ import HTML5Backend from "react-dnd-html5-backend";
 
 // Responsive(Bonus): No
 
-// UI Usability Review:
-// Add style to increase the size of the todo list so that it makes better use of the white space.
-// Keep the list items and the input field aligned to be more tidy.
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [
-        "week 1",
-        "week 2",
-        "week 3",
-        "week 4",
-        "A veryyyyy longgggggggggggggggggggg word testing123"
+        { id: 1, text: "week 1" },
+        { id: 2, text: "week 2" },
+        { id: 3, text: "week 3" },
+        { id: 4, text: "week 4" },
+        { id: 5, text: "A veryyyyy longgggggggggggggggggggg word testing123" }
       ],
       searchField: ""
     };
   }
-
-  haveDuplicates = event => {
-    if (this.state.items.includes(event.target.value)) {
-      return true;
-    }
-    return false;
-  };
 
   searchField = event => {
     this.setState({
@@ -40,52 +29,59 @@ class App extends React.Component {
     });
   };
 
+  createObjectSetState = () => {
+    const newObject = {
+      id: this.state.items.length + 1,
+      text: this.state.searchField
+    };
+
+    this.setState({
+      items: [...this.state.items, newObject],
+      searchField: ""
+    });
+  };
+
   handleKeyDown = event => {
     const enterCondition =
-      event.key === "Enter" &&
-      this.state.searchField !== "" &&
-      !this.haveDuplicates(event);
+      event.key === "Enter" && this.state.searchField !== "";
 
     if (enterCondition) {
-      this.setState({
-        items: [...this.state.items, this.state.searchField],
-        searchField: ""
-      });
+      this.createObjectSetState();
+
       // set input value empty string
       event.target.value = "";
     }
   };
 
   addItem = event => {
-    // console.log(event.currentTarget.previousSibling);
-
-    const enterCondition =
-      this.state.searchField !== "" && !this.haveDuplicates(event);
+    const enterCondition = this.state.searchField !== "";
 
     if (enterCondition) {
-      this.setState({
-        items: [...this.state.items, this.state.searchField],
-        searchField: ""
-      });
+      this.createObjectSetState();
+
       // set input value empty string
       event.currentTarget.previousSibling.value = "";
     }
   };
 
-  removeItem = event => {
-    // parent = div todo-item-content that contains span {item} and img cross
-    const textContent = event.target.parentNode.textContent;
+  removeItem = id => {
+    const { items } = this.state;
 
-    const items = [...this.state.items];
-    const index = items.indexOf(textContent);
-    items.splice(index, 1);
+    for (let x = 0; x < items.length; x++) {
+      if (id === items[x].id) {
+        const duplicateItems = [...items];
+        duplicateItems.splice(x, 1);
 
-    this.setState({
-      items
-    });
+        this.setState({
+          items: duplicateItems
+        });
+      }
+    }
   };
 
   render() {
+    console.log(this.state.items);
+
     return (
       <div className="todo">
         <DragDropContextProvider backend={HTML5Backend}>
