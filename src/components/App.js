@@ -30,31 +30,49 @@ class App extends React.Component {
           children: []
         }
       ],
-      searchField: ""
+      keyInItem: ""
     };
   }
 
-  searchField = event => {
+  keyInItemHandler = event => {
     this.setState({
-      searchField: event.target.value
+      keyInItem: event.target.value
     });
+  };
+
+  editItem = (event, id) => {
+    const editedValue = event.target.value;
+    const items = [...this.state.items];
+
+    if (editedValue !== "" && id.length === 1) {
+      for (let x = 0; x < items.length; x++) {
+        if (id === items[x].id) {
+          items[x].text = editedValue;
+        }
+      }
+    } else {
+      const splitId = id.split("-");
+      console.log(splitId);
+    }
+
+    this.setState({ items });
   };
 
   createObjectSetState = () => {
     const newObject = {
       id: this.state.items.length + 1,
-      text: this.state.searchField
+      text: this.state.keyInItem
     };
 
     this.setState({
       items: [...this.state.items, newObject],
-      searchField: ""
+      keyInItem: ""
     });
   };
 
+  // enter on input adds i tem
   handleKeyDown = event => {
-    const enterCondition =
-      event.key === "Enter" && this.state.searchField !== "";
+    const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
     if (enterCondition) {
       this.createObjectSetState();
@@ -64,9 +82,10 @@ class App extends React.Component {
     }
   };
 
+  // add item to parent list item
   addItem = event => {
     console.log(event.currentTarget);
-    const enterCondition = this.state.searchField !== "";
+    const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
       this.createObjectSetState();
@@ -76,6 +95,7 @@ class App extends React.Component {
     }
   };
 
+  // remove item from parent list item
   removeItem = id => {
     const { items } = this.state;
 
@@ -100,7 +120,7 @@ class App extends React.Component {
           <h1>My To-Do List</h1>
           <div className="todo-inputAndBtn">
             <Input
-              searchField={this.searchField}
+              keyInItemHandler={this.keyInItemHandler}
               handleKeyDown={this.handleKeyDown}
             />
             <Button addItem={this.addItem} />
@@ -109,6 +129,7 @@ class App extends React.Component {
             items={this.state.items}
             removeItem={this.removeItem}
             addItem={this.addItem}
+            editItem={this.editItem}
           />
         </DragDropContextProvider>
       </div>

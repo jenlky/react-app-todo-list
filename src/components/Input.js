@@ -1,12 +1,12 @@
 import React from "react";
 
-const Input = ({ searchField, handleKeyDown }) => {
+const Input = ({ keyInItemHandler, handleKeyDown }) => {
   return (
     <input
       type="text"
       placeholder="Enter your item"
       className="todo-input"
-      onChange={searchField}
+      onChange={keyInItemHandler}
       onKeyDown={handleKeyDown}
     />
   );

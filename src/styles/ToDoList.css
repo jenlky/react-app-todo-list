@@ -13,7 +13,7 @@
   .todo-input:focus {
     border-color: blue; }
 
-.todo-list {
+.todo-parent-list {
   padding: 0;
   list-style: none;
   margin: 10px 0px;
@@ -22,6 +22,11 @@
   width: -webkit-fill-available;
   width: fill-available;
   width: -moz-available; }
+
+.todo-child-list {
+  color: red;
+  padding-inline-start: 25px;
+  padding-inline-end: 25px; }
 
 .todo-item {
   display: flex;
@@ -36,8 +41,12 @@
     margin-left: 10px;
     font-size: 16px; }
   .todo-item-left-triangle {
-    margin-left: 8px;
+    border-radius: 4px;
+    padding: 0 4px;
+    margin-right: 4px;
     font-size: 16px; }
+    .todo-item-left-triangle:hover {
+      background-color: white; }
   .todo-item-right-content {
     display: flex;
     justify-content: space-between;
@@ -46,6 +55,11 @@
     width: -webkit-fill-available;
     width: fill-available;
     width: -moz-available; }
+  .todo-item-right-input {
+    border: 0;
+    height: 16px;
+    font-size: 14px;
+    width: inherit; }
   .todo-item-right-cross {
     font-size: 16px;
     margin: 0px 10px; }
