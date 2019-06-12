@@ -33,7 +33,8 @@
   align-items: center;
   margin: 4px 0;
   padding: 6px 0;
-  cursor: pointer; }
+  cursor: pointer;
+  width: 400px; }
   .todo-item-left-icons {
     display: flex;
     align-items: center; }

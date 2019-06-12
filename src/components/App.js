@@ -44,7 +44,7 @@ class App extends React.Component {
     const editedValue = event.target.value;
     const items = [...this.state.items];
 
-    if (editedValue !== "" && id.length === 1) {
+    if (id.length === 1) {
       for (let x = 0; x < items.length; x++) {
         if (id === items[x].id) {
           items[x].text = editedValue;
@@ -53,6 +53,17 @@ class App extends React.Component {
     } else {
       const splitId = id.split("-");
       console.log(splitId);
+
+      let layerIndex = 0;
+
+      while (layerIndex < splitId.length) {
+        for (let x = 0; x < items.length; x++) {
+          if (id[x] === items[x].id) {
+            items[x].text = editedValue;
+          }
+        }
+        layerIndex++;
+      }
     }
 
     this.setState({ items });
