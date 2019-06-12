@@ -58,8 +58,18 @@ class App extends React.Component {
 
       while (layerIndex < splitId.length) {
         for (let x = 0; x < items.length; x++) {
-          if (id[x] === items[x].id) {
-            items[x].text = editedValue;
+          if (splitId[layerIndex] === items[x].id) {
+            console.log("before loop: ", layerIndex);
+
+            for (let y = 0; y < items[x].children.length; y++) {
+              console.log("after loop: ", layerIndex);
+
+              // id is hardcoded, not a good idea
+              if (id === items[x].children[y].id) {
+                // console.log(splitId[layerIndex]);
+                items[x].children[y].text = editedValue;
+              }
+            }
           }
         }
         layerIndex++;
