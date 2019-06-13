@@ -72,7 +72,7 @@ class App extends React.Component {
     const splitId = id.split("-");
     const editedValue = event.target.value;
 
-    this.editItem(editedValue, splitId, []);
+    return this.editItem(editedValue, splitId, []);
   };
 
   findObject = id => {
@@ -85,32 +85,34 @@ class App extends React.Component {
     }
   };
 
-  traverseObj = (firstObj, index) => {
+  traverseObj = (firstObj, traverse) => {
     let currItem = null;
 
-    for (let address of index) {
+    for (let address of traverse) {
       currItem = firstObj.children[address];
     }
 
     return currItem;
   };
 
-  editItem = (editedValue, id, index) => {
+  editItem = (editedValue, id, traverse) => {
+    console.log(id);
+
     if (id.length === 1) {
-      index.push(this.findObject(id));
+      traverse.push(this.findObject(id[0]));
     } else {
-      index.push(this.findObject(id));
+      traverse.push(this.findObject(id[0]));
       id.shift();
-      this.editItem(editedValue, id, index);
+      this.editItem(editedValue, id, traverse);
     }
 
     // when I destructure the inner references are all the same, only the outermost reference is different
     const items = [...this.state.items];
 
-    if (index.length === 1) {
-      items[index[0]] = { text: editedValue };
+    if (traverse.length === 1) {
+      items[traverse[0]].text = editedValue;
     } else {
-      const found = this.traverseObj(items[index[0]], index);
+      const found = this.traverseObj(items[traverse[0]], traverse);
       found.text = editedValue;
     }
 
