@@ -2,6 +2,7 @@ import React from "react";
 import Input from "./Input";
 import Button from "./Button";
 import ToDoParentList from "./ToDoParentList";
+import getData from "../service/items-service";
 import "../styles/App.css";
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -11,55 +12,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [
-        {
-          id: "1",
-          text: "Week 1",
-          children: [
-            { id: "1-1", text: "Git bash", children: [] },
-            { id: "1-2", text: "Jest", children: [] }
-          ]
-        },
-        {
-          id: "2",
-          text: "Week 2",
-          children: [
-            { id: "2-1", text: "this, ES6, error handling", children: [] },
-            {
-              id: "2-2",
-              text: "Promise, async/await, testing with Jest",
-              children: []
-            }
-          ]
-        },
-        {
-          id: "3",
-          text: "Week 3",
-          children: [
-            {
-              id: "3-1",
-              text:
-                "What is React?, Single Page Apps, React.createElement(), JSX, function components, class components, ReactDOM.render(), Virtual DOM",
-              children: []
-            },
-            {
-              id: "3-2",
-              text: "Promise, async/await, testing with Jest",
-              children: []
-            }
-          ]
-        },
-        { id: "4", text: "Week 4", children: [] },
-        {
-          id: "5",
-          text: "A veryyyyy longgggggggggggggggggggg word testing123",
-          children: []
-        }
-      ],
-      keyInItem: ""
-      // title: "My To-Do List"
-    };
+    this.state = getData();
   }
 
   keyInItemHandler = event => {
@@ -68,7 +21,7 @@ class App extends React.Component {
     });
   };
 
-  findObject = id => {
+  findIndexOfItem = id => {
     const items = this.state.items;
 
     for (let x = 0; x < items.length; x++) {
@@ -78,42 +31,42 @@ class App extends React.Component {
     }
   };
 
-  traverseObj = (firstObj, traverse) => {
+  getChildItem = (parentItem, address) => {
     let currItem = null;
 
-    for (let address of traverse) {
-      currItem = firstObj.children[address];
+    for (let itemId of address) {
+      currItem = parentItem.children[itemId];
     }
 
     return currItem;
   };
 
-  editItem = (value, id, traverse) => {
-    console.log(id);
+  editItem = (newValue, itemId, address) => {
+    console.log(itemId);
 
-    if (id.length === 1) {
-      traverse.push(this.findObject(id[0]));
+    if (itemId.length === 1) {
+      address.push(this.findIndexOfItem(itemId[0]));
     } else {
-      traverse.push(this.findObject(id[0]));
-      id.shift();
-      this.editItem(value, id, traverse);
+      address.push(this.findIndexOfItem(itemId[0]));
+      itemId.shift();
+      this.editItem(newValue, itemId, address);
     }
 
     // when I destructure the inner references are all the same, only the outermost reference is different
     const items = [...this.state.items];
 
-    if (traverse.length === 1) {
-      items[traverse[0]].text = value;
+    if (address.length === 1) {
+      items[address[0]].text = newValue;
     } else {
-      const found = this.traverseObj(items[traverse[0]], traverse);
-      found.text = value;
+      const found = this.getChildItem(items[address[0]], address);
+      found.text = newValue;
     }
 
     // after I destructure and edit, I setState to trigger a reset
     this.setState({ items });
   };
 
-  createObjectSetState = () => {
+  insertNewItem = () => {
     const newObject = {
       id: this.state.items.length + 1,
       text: this.state.keyInItem
@@ -126,11 +79,11 @@ class App extends React.Component {
   };
 
   // enter on input adds item
-  handleKeyDown = event => {
+  handleEnter = event => {
     const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.createObjectSetState();
+      this.insertNewItem();
 
       // set input value empty string
       event.target.value = "";
@@ -143,7 +96,7 @@ class App extends React.Component {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.createObjectSetState();
+      this.insertNewItem();
 
       // set input value empty string
       event.currentTarget.previousSibling.value = "";
@@ -166,9 +119,9 @@ class App extends React.Component {
     console.log(id);
 
     if (id.length === 1) {
-      traverse.push(this.findObject(id[0]));
+      traverse.push(this.findIndexOfItem(id[0]));
     } else {
-      traverse.push(this.findObject(id[0]));
+      traverse.push(this.findIndexOfItem(id[0]));
       id.shift();
       this.addChildItem(id, traverse);
     }
@@ -231,7 +184,7 @@ class App extends React.Component {
           <div className="todo-inputAndBtn">
             <Input
               keyInItemHandler={this.keyInItemHandler}
-              handleKeyDown={this.handleKeyDown}
+              handleEnter={this.handleEnter}
             />
             <Button addParentItem={this.addParentItem} />
           </div>

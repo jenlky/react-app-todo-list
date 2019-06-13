@@ -1,13 +1,13 @@
 import React from "react";
 
-const Input = ({ keyInItemHandler, handleKeyDown }) => {
+const Input = ({ keyInItemHandler, handleEnter }) => {
   return (
     <input
       type="text"
       placeholder="Enter your item"
       className="todo-input"
       onChange={keyInItemHandler}
-      onKeyDown={handleKeyDown}
+      onKeyDown={handleEnter}
     />
   );
 };
