@@ -68,52 +68,53 @@ class App extends React.Component {
     });
   };
 
-  findObject = searchId => {
-    console.log(searchId);
+  splitId = (event, id) => {
+    const splitId = id.split("-");
+    const editedValue = event.target.value;
+
+    this.editItem(editedValue, splitId, []);
   };
 
-  editItem = (event, id) => {
-    const editedValue = event.target.value;
-    const items = [...this.state.items];
+  findObject = id => {
+    const items = this.state.items;
 
-    if (id.length === 1) {
-      this.findObject(id);
+    for (let x = 0; x < items.length; x++) {
+      if (id[0] === items[x].id) {
+        return x;
+      }
+    }
+  };
 
-      // for (let x = 0; x < items.length; x++) {
-      //   if (id === items[x].id) {
-      //     items[x].text = editedValue;
-      //   }
-      // }
-    } else {
-      const splitId = id.split("-");
-      console.log(splitId);
+  traverseObj = (firstObj, index) => {
+    let currItem = null;
 
-      const updatedItems = items.find(item => {
-        return this.findObject(item);
-      });
-
-      // let layerIndex = 0;
-
-      // while (layerIndex < splitId.length) {
-      //   for (let x = 0; x < items.length; x++) {
-      //     if (splitId[layerIndex] === items[x].id) {
-      //       console.log("before loop: ", layerIndex);
-
-      //       for (let y = 0; y < items[x].children.length; y++) {
-      //         console.log("after loop: ", layerIndex);
-
-      //         // id is hardcoded, not a good idea
-      //         if (id === items[x].children[y].id) {
-      //           // console.log(splitId[layerIndex]);
-      //           items[x].children[y].text = editedValue;
-      //         }
-      //       }
-      //     }
-      //   }
-      //   layerIndex++;
-      // }
+    for (let address of index) {
+      currItem = firstObj.children[address];
     }
 
+    return currItem;
+  };
+
+  editItem = (editedValue, id, index) => {
+    if (id.length === 1) {
+      index.push(this.findObject(id));
+    } else {
+      index.push(this.findObject(id));
+      id.shift();
+      this.editItem(editedValue, id, index);
+    }
+
+    // when I destructure the inner references are all the same, only the outermost reference is different
+    const items = [...this.state.items];
+
+    if (index.length === 1) {
+      items[index[0]] = { text: editedValue };
+    } else {
+      const found = this.traverseObj(items[index[0]], index);
+      found.text = editedValue;
+    }
+
+    // after I destructure and edit, I setState to trigger a reset
     this.setState({ items });
   };
 
@@ -129,7 +130,7 @@ class App extends React.Component {
     });
   };
 
-  // enter on input adds i tem
+  // enter on input adds item
   handleKeyDown = event => {
     const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
@@ -195,7 +196,7 @@ class App extends React.Component {
             items={this.state.items}
             removeItem={this.removeItem}
             addChildItem={this.addChildItem}
-            editItem={this.editItem}
+            splitId={this.splitId}
           />
         </DragDropContextProvider>
       </div>

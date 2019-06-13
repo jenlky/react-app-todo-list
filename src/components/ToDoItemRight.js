@@ -2,9 +2,9 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const ToDoItemRight = ({ item, removeItem, editItem }) => {
+const ToDoItemRight = ({ item, removeItem, splitId }) => {
   const passId = event => {
-    return editItem(event, item.id);
+    return splitId(event, item.id);
   };
 
   return (
