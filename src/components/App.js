@@ -68,13 +68,6 @@ class App extends React.Component {
     });
   };
 
-  splitId = (event, id) => {
-    const splitId = id.split("-");
-    const editedValue = event.target.value;
-
-    return this.editItem(editedValue, splitId, []);
-  };
-
   findObject = id => {
     const items = this.state.items;
 
@@ -95,7 +88,7 @@ class App extends React.Component {
     return currItem;
   };
 
-  editItem = (editedValue, id, traverse) => {
+  editItem = (value, id, traverse) => {
     console.log(id);
 
     if (id.length === 1) {
@@ -103,17 +96,17 @@ class App extends React.Component {
     } else {
       traverse.push(this.findObject(id[0]));
       id.shift();
-      this.editItem(editedValue, id, traverse);
+      this.editItem(value, id, traverse);
     }
 
     // when I destructure the inner references are all the same, only the outermost reference is different
     const items = [...this.state.items];
 
     if (traverse.length === 1) {
-      items[traverse[0]].text = editedValue;
+      items[traverse[0]].text = value;
     } else {
       const found = this.traverseObj(items[traverse[0]], traverse);
-      found.text = editedValue;
+      found.text = value;
     }
 
     // after I destructure and edit, I setState to trigger a reset
@@ -198,7 +191,7 @@ class App extends React.Component {
             items={this.state.items}
             removeItem={this.removeItem}
             addChildItem={this.addChildItem}
-            splitId={this.splitId}
+            editItem={this.editItem}
           />
         </DragDropContextProvider>
       </div>
