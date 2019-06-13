@@ -150,9 +150,57 @@ class App extends React.Component {
     }
   };
 
-  // recursively find the object and push it to the children array
-  addChildItem = id => {
+  findLength = (firstObj, traverse) => {
+    traverse.pop();
+    let currItem = null;
+
+    for (let address of traverse) {
+      currItem = firstObj.children[address];
+    }
+
+    return currItem;
+  };
+
+  // create a ToDoItem and push it in the children array
+  addChildItem = (id, traverse) => {
     console.log(id);
+
+    if (id.length === 1) {
+      traverse.push(this.findObject(id[0]));
+    } else {
+      traverse.push(this.findObject(id[0]));
+      id.shift();
+      this.addChildItem(id, traverse);
+    }
+
+    const items = [...this.state.items];
+    // console.log(traverse);
+
+    if (traverse.length === 1) {
+      // traverse that layer of items, find the last element id and +1
+      // how to traverse? index[0].children[1].children[length - 1] increment by 1
+      // to loop through, I have to find the length - 1
+      const length = items[traverse[0]].children.length;
+      const latestId = items[traverse[0]].children[length - 1].id;
+      const splitId = latestId.split("-");
+      const lastNum = splitId[splitId.length - 1];
+      let newId = Number(lastNum) + 1;
+      splitId[splitId.length - 1] = "" + newId;
+      const combinedId = splitId.join("-");
+
+      console.log(combinedId);
+
+      const newObj = { id: combinedId, text: "", children: [] };
+      items[traverse[0]].children.push(newObj);
+    } else {
+      const length = this.findLength(items[traverse[0]], traverse);
+      console.log(length);
+
+      // const found = this.traverseObj(items[traverse[0]], traverse);
+      // found.text = value;
+    }
+
+    this.setState({ items });
   };
 
   // currently only remove item from parent list item

@@ -3,8 +3,9 @@ import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
 const ToDoItemLeft = ({ id, addChildItem }) => {
-  const passId = () => {
-    return addChildItem(id);
+  const passIdToAdd = () => {
+    const splitId = id.split("-");
+    return addChildItem(splitId, []);
   };
 
   return (
@@ -15,7 +16,7 @@ const ToDoItemLeft = ({ id, addChildItem }) => {
         trigger="mouseenter"
         delay="100"
       >
-        <span className="todo-item-left-plus" onClick={passId}>
+        <span className="todo-item-left-plus" onClick={passIdToAdd}>
           &#xFF0B;
         </span>
       </Tooltip>
