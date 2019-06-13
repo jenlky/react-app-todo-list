@@ -3,13 +3,7 @@ import ToDoItemLeft from "./ToDoItemLeft";
 import ToDoItemRight from "./ToDoItemRight";
 // import { useDrag } from "react-dnd";
 
-const ToDoItem = ({
-  item,
-  addItem,
-  removeItem,
-  editFieldHandler,
-  editItem
-}) => {
+const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
   // const [{ isDragging }, drag] = useDrag({
   //   item: { type: "LIST_ITEMS" },
   //   collect: monitor => ({
@@ -25,7 +19,7 @@ const ToDoItem = ({
       className="todo-item break-word"
       key={item.id}
     >
-      <ToDoItemLeft addItem={addItem} />
+      <ToDoItemLeft id={item.id} addChildItem={addChildItem} />
       <ToDoItemRight item={item} removeItem={removeItem} editItem={editItem} />
     </li>
   );

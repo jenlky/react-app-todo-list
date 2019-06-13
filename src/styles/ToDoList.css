@@ -20,7 +20,7 @@
   text-align: left;
   width: 100%;
   width: -webkit-fill-available;
-  width: fill-available;
+  width: stretch;
   width: -moz-available; }
 
 .todo-child-list {
@@ -39,6 +39,7 @@
     display: flex;
     align-items: center; }
   .todo-item-left-plus {
+    visibility: hidden;
     margin-left: 10px;
     font-size: 16px; }
   .todo-item-left-triangle {
@@ -47,7 +48,7 @@
     margin-right: 4px;
     font-size: 16px; }
     .todo-item-left-triangle:hover {
-      background-color: white; }
+      background-color: rgba(0, 0, 0, 0.1); }
   .todo-item-right-content {
     display: flex;
     justify-content: space-between;
@@ -62,13 +63,14 @@
     font-size: 14px;
     width: inherit; }
   .todo-item-right-cross {
+    visibility: hidden;
     font-size: 16px;
     margin: 0px 10px; }
   .todo-item:hover {
     background-color: rgba(0, 0, 0, 0.1); }
-    .todo-item:hover .todo-item-plus {
+    .todo-item:hover .todo-item-left-plus {
       visibility: visible; }
-    .todo-item:hover .todo-item-cross {
+    .todo-item:hover .todo-item-right-cross {
       visibility: visible; }
 
 .dropdown-triangle {

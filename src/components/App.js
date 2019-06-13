@@ -58,6 +58,7 @@ class App extends React.Component {
         }
       ],
       keyInItem: ""
+      // title: "My To-Do List"
     };
   }
 
@@ -67,40 +68,50 @@ class App extends React.Component {
     });
   };
 
+  findObject = searchId => {
+    console.log(searchId);
+  };
+
   editItem = (event, id) => {
     const editedValue = event.target.value;
     const items = [...this.state.items];
 
     if (id.length === 1) {
-      for (let x = 0; x < items.length; x++) {
-        if (id === items[x].id) {
-          items[x].text = editedValue;
-        }
-      }
+      this.findObject(id);
+
+      // for (let x = 0; x < items.length; x++) {
+      //   if (id === items[x].id) {
+      //     items[x].text = editedValue;
+      //   }
+      // }
     } else {
       const splitId = id.split("-");
       console.log(splitId);
 
-      let layerIndex = 0;
+      const updatedItems = items.find(item => {
+        return this.findObject(item);
+      });
 
-      while (layerIndex < splitId.length) {
-        for (let x = 0; x < items.length; x++) {
-          if (splitId[layerIndex] === items[x].id) {
-            console.log("before loop: ", layerIndex);
+      // let layerIndex = 0;
 
-            for (let y = 0; y < items[x].children.length; y++) {
-              console.log("after loop: ", layerIndex);
+      // while (layerIndex < splitId.length) {
+      //   for (let x = 0; x < items.length; x++) {
+      //     if (splitId[layerIndex] === items[x].id) {
+      //       console.log("before loop: ", layerIndex);
 
-              // id is hardcoded, not a good idea
-              if (id === items[x].children[y].id) {
-                // console.log(splitId[layerIndex]);
-                items[x].children[y].text = editedValue;
-              }
-            }
-          }
-        }
-        layerIndex++;
-      }
+      //       for (let y = 0; y < items[x].children.length; y++) {
+      //         console.log("after loop: ", layerIndex);
+
+      //         // id is hardcoded, not a good idea
+      //         if (id === items[x].children[y].id) {
+      //           // console.log(splitId[layerIndex]);
+      //           items[x].children[y].text = editedValue;
+      //         }
+      //       }
+      //     }
+      //   }
+      //   layerIndex++;
+      // }
     }
 
     this.setState({ items });
@@ -131,7 +142,7 @@ class App extends React.Component {
   };
 
   // add item to parent list item
-  addItem = event => {
+  addParentItem = event => {
     console.log(event.currentTarget);
     const enterCondition = this.state.keyInItem !== "";
 
@@ -143,7 +154,14 @@ class App extends React.Component {
     }
   };
 
-  // remove item from parent list item
+  // recursively find the object and push it to the children array
+  addChildItem = id => {
+    console.log(id);
+  };
+
+  // currently only remove item from parent list item
+  // insert remove child item into removeItem logic
+  // recursively find the object and remove it from the array
   removeItem = id => {
     const { items } = this.state;
 
@@ -171,12 +189,12 @@ class App extends React.Component {
               keyInItemHandler={this.keyInItemHandler}
               handleKeyDown={this.handleKeyDown}
             />
-            <Button addItem={this.addItem} />
+            <Button addParentItem={this.addParentItem} />
           </div>
           <ToDoParentList
             items={this.state.items}
             removeItem={this.removeItem}
-            addItem={this.addItem}
+            addChildItem={this.addChildItem}
             editItem={this.editItem}
           />
         </DragDropContextProvider>

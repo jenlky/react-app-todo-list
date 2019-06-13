@@ -1,4 +1,6 @@
 import React from "react";
+import "react-tippy/dist/tippy.css";
+import { Tooltip } from "react-tippy";
 
 const ToDoItemRight = ({ item, removeItem, editItem }) => {
   const passId = event => {
@@ -13,14 +15,20 @@ const ToDoItemRight = ({ item, removeItem, editItem }) => {
         className="todo-item-right-input"
         onChange={passId}
       />
-      {/* <span>{item.text}</span> */}
-      <span
-        alt="Cancel"
-        className="todo-item-right-cross"
-        onClick={() => removeItem(item.id)}
+      <Tooltip
+        title="Remove parent and its children"
+        position="bottom"
+        trigger="mouseenter"
+        delay="100"
       >
-        &#x2573;
-      </span>
+        <span
+          alt="Cancel"
+          className="todo-item-right-cross"
+          onClick={() => removeItem(item.id)}
+        >
+          &#x2573;
+        </span>
+      </Tooltip>
     </div>
   );
 };
