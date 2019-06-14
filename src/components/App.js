@@ -54,14 +54,18 @@ class App extends React.Component {
 
   // Helper function for handleEnter and addParentItem
   insertNewItem = () => {
-    const newObject = {
-      id: this.state.items.length + 1,
-      text: this.state.keyInItem
-    };
-
-    this.setState({
-      items: [...this.state.items, newObject],
-      keyInItem: ""
+    this.setState(prev => {
+      return {
+        items: [
+          ...this.state.items,
+          {
+            id: (prev.items.length + 1).toString(),
+            text: prev.keyInItem,
+            children: []
+          }
+        ],
+        keyInItem: ""
+      };
     });
   };
 
