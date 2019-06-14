@@ -1,6 +1,5 @@
 import React from "react";
 import ToDoItem from "./ToDoItem";
-import "../styles/ToDoList.css";
 
 const ToDoChildList = ({ item, ...editItem }) => {
   return (

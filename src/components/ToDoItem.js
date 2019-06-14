@@ -4,20 +4,7 @@ import ToDoItemRight from "./ToDoItemRight";
 import ToDoChildList from "./ToDoChildList";
 
 const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
-  if (item.children === undefined || item.children.length === 0) {
-    return (
-      <React.Fragment>
-        <li className="todo-item break-word">
-          <ToDoItemLeft id={item.id} addChildItem={addChildItem} />
-          <ToDoItemRight
-            item={item}
-            removeItem={removeItem}
-            editItem={editItem}
-          />
-        </li>
-      </React.Fragment>
-    );
-  }
+  // if (item.children === undefined || item.children.length === 0)
 
   return (
     <React.Fragment>
@@ -29,12 +16,14 @@ const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
           editItem={editItem}
         />
       </li>
-      <ToDoChildList
-        item={item}
-        removeItem={removeItem}
-        addChildItem={addChildItem}
-        editItem={editItem}
-      />
+      {item.children.length > 0 && (
+        <ToDoChildList
+          item={item}
+          removeItem={removeItem}
+          addChildItem={addChildItem}
+          editItem={editItem}
+        />
+      )}
     </React.Fragment>
   );
 };

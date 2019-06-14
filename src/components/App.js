@@ -4,8 +4,6 @@ import Button from "./Button";
 import ToDoParentList from "./ToDoParentList";
 import getData from "../service/items-service";
 import "../styles/App.css";
-import { DragDropContextProvider } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 
 // Responsive(Bonus): No
 
