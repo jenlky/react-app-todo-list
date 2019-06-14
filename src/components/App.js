@@ -99,40 +99,40 @@ class App extends React.Component {
     return currItem;
   };
 
-  // Find length of child item
+  // Find length of child item array
   // To access the last element of the array and increment its index from (1-2) by 1 to (1-3)
-  findLength = (firstObj, traverse) => {
-    traverse.pop();
+  numOfChildren = (parentItem, address) => {
+    address.pop();
     let currItem = null;
 
-    for (let address of traverse) {
-      currItem = firstObj.children[address];
+    for (let itemId of address) {
+      currItem = parentItem.children[itemId];
     }
 
     return currItem;
   };
 
   // Create a ToDoItem and push it in the children array
-  addChildItem = (id, traverse) => {
-    console.log(id);
+  addChildItem = (itemId, address) => {
+    console.log(itemId);
 
-    if (id.length === 1) {
-      traverse.push(this.findIndexOfItem(id[0]));
+    if (itemId.length === 1) {
+      address.push(this.findIndexOfItem(itemId[0]));
     } else {
-      traverse.push(this.findIndexOfItem(id[0]));
-      id.shift();
-      this.addChildItem(id, traverse);
+      address.push(this.findIndexOfItem(itemId[0]));
+      itemId.shift();
+      this.addChildItem(itemId, address);
     }
 
     const items = [...this.state.items];
     // console.log(traverse);
 
-    if (traverse.length === 1) {
+    if (address.length === 1) {
       // traverse that layer of items, find the last element id and +1
       // how to traverse? index[0].children[1].children[length - 1] increment by 1
       // to loop through, I have to find the length - 1
-      const length = items[traverse[0]].children.length;
-      const latestId = items[traverse[0]].children[length - 1].id;
+      const length = items[address[0]].children.length;
+      const latestId = items[address[0]].children[length - 1].id;
       const splitId = latestId.split("-");
       const lastNum = splitId[splitId.length - 1];
       let newId = Number(lastNum) + 1;
@@ -142,12 +142,12 @@ class App extends React.Component {
       console.log(combinedId);
 
       const newObj = { id: combinedId, text: "", children: [] };
-      items[traverse[0]].children.push(newObj);
+      items[address[0]].children.push(newObj);
     } else {
-      const length = this.findLength(items[traverse[0]], traverse);
+      const length = this.findLength(items[address[0]], address);
       console.log(length);
 
-      // const found = this.traverseObj(items[traverse[0]], traverse);
+      // const found = this.traverseObj(items[address[0]], address);
       // found.text = value;
     }
 
@@ -156,11 +156,12 @@ class App extends React.Component {
 
   // Currently only remove parent item, does not remove child item
   // NEED to add remove child item logic
-  removeItem = id => {
+  // Angeline: why not use filter!!!
+  removeItem = itemId => {
     const { items } = this.state;
 
     for (let x = 0; x < items.length; x++) {
-      if (id === items[x].id) {
+      if (itemId === items[x].id) {
         const duplicateItems = [...items];
         duplicateItems.splice(x, 1);
 
