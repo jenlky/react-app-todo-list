@@ -15,57 +15,47 @@ class App extends React.Component {
     this.state = getData();
   }
 
+  /* 
+
+    onChange event handler: keyInItemHandler
+    keyDown event handler: handleEnter
+    onClick event handler: addParentItem
+    helper function for handleEnter and addParentItem: insertNewItem
+
+    onChange, keyDown and onClick event handler for adding parent item
+
+  */
+  // Handle onChange event on input field
   keyInItemHandler = event => {
     this.setState({
       keyInItem: event.target.value
     });
   };
 
-  findIndexOfItem = id => {
-    const items = this.state.items;
+  // Pressing the enter key on input field triggers this method and adds item
+  handleEnter = event => {
+    const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
-    for (let x = 0; x < items.length; x++) {
-      if (id[0] === items[x].id) {
-        return x;
-      }
+    if (enterCondition) {
+      this.insertNewItem();
+      // set input value empty string
+      event.target.value = "";
     }
   };
 
-  getChildItem = (parentItem, address) => {
-    let currItem = null;
+  // Add item to parent list item by clicking on the 'Add button'
+  addParentItem = event => {
+    // console.log(event.currentTarget);
+    const enterCondition = this.state.keyInItem !== "";
 
-    for (let itemId of address) {
-      currItem = parentItem.children[itemId];
+    if (enterCondition) {
+      this.insertNewItem();
+      // set input value empty string
+      event.currentTarget.previousSibling.value = "";
     }
-
-    return currItem;
   };
 
-  editItem = (newValue, itemId, address) => {
-    console.log(itemId);
-
-    if (itemId.length === 1) {
-      address.push(this.findIndexOfItem(itemId[0]));
-    } else {
-      address.push(this.findIndexOfItem(itemId[0]));
-      itemId.shift();
-      this.editItem(newValue, itemId, address);
-    }
-
-    // when I destructure the inner references are all the same, only the outermost reference is different
-    const items = [...this.state.items];
-
-    if (address.length === 1) {
-      items[address[0]].text = newValue;
-    } else {
-      const found = this.getChildItem(items[address[0]], address);
-      found.text = newValue;
-    }
-
-    // after I destructure and edit, I setState to trigger a reset
-    this.setState({ items });
-  };
-
+  // Helper function for handleEnter and addParentItem
   insertNewItem = () => {
     const newObject = {
       id: this.state.items.length + 1,
@@ -78,31 +68,39 @@ class App extends React.Component {
     });
   };
 
-  // enter on input adds item
-  handleEnter = event => {
-    const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
+  /* 
+  
+    Return value contains the address of item: findIndexOfItem
+    Traverse through array to find child item: getChildItem
+    Find length of child item: findLength
+    
+    addChildItem, removeItem, editItem
 
-    if (enterCondition) {
-      this.insertNewItem();
+  */
+  // Return value contains the address of item and is stored in an array
+  findIndexOfItem = id => {
+    const items = this.state.items;
 
-      // set input value empty string
-      event.target.value = "";
+    for (let x = 0; x < items.length; x++) {
+      if (id[0] === items[x].id) {
+        return x;
+      }
     }
   };
 
-  // add item to parent list item
-  addParentItem = event => {
-    console.log(event.currentTarget);
-    const enterCondition = this.state.keyInItem !== "";
+  // Traverse through the address array to get child item
+  getChildItem = (parentItem, address) => {
+    let currItem = null;
 
-    if (enterCondition) {
-      this.insertNewItem();
-
-      // set input value empty string
-      event.currentTarget.previousSibling.value = "";
+    for (let itemId of address) {
+      currItem = parentItem.children[itemId];
     }
+
+    return currItem;
   };
 
+  // Find length of child item
+  // To access the last element of the array and increment its index from (1-2) by 1 to (1-3)
   findLength = (firstObj, traverse) => {
     traverse.pop();
     let currItem = null;
@@ -114,7 +112,7 @@ class App extends React.Component {
     return currItem;
   };
 
-  // create a ToDoItem and push it in the children array
+  // Create a ToDoItem and push it in the children array
   addChildItem = (id, traverse) => {
     console.log(id);
 
@@ -156,9 +154,8 @@ class App extends React.Component {
     this.setState({ items });
   };
 
-  // currently only remove item from parent list item
-  // insert remove child item into removeItem logic
-  // recursively find the object and remove it from the array
+  // Currently only remove parent item, does not remove child item
+  // NEED to add remove child item logic
   removeItem = id => {
     const { items } = this.state;
 
@@ -172,6 +169,32 @@ class App extends React.Component {
         });
       }
     }
+  };
+
+  // Edit item method for all list items (parent and child)
+  editItem = (newValue, itemId, address) => {
+    console.log(itemId);
+
+    if (itemId.length === 1) {
+      address.push(this.findIndexOfItem(itemId[0]));
+    } else {
+      address.push(this.findIndexOfItem(itemId[0]));
+      itemId.shift();
+      this.editItem(newValue, itemId, address);
+    }
+
+    // when I destructure the inner references are all the same, only the outermost reference is different
+    const items = [...this.state.items];
+
+    if (address.length === 1) {
+      items[address[0]].text = newValue;
+    } else {
+      const found = this.getChildItem(items[address[0]], address);
+      found.text = newValue;
+    }
+
+    // after I destructure and edit, I setState to trigger a reset
+    this.setState({ items });
   };
 
   render() {
