@@ -4,13 +4,13 @@ import "../styles/ToDoList.css";
 
 const ToDoChildList = ({ item, ...editItem }) => {
   return (
-    <ul className="todo-child-list">
-      {item.children.map(childItem => {
-        // console.log(childItem.id);
-
-        return <ToDoItem item={childItem} {...editItem} />;
-      })}
-    </ul>
+    <React.Fragment>
+      <ul className="todo-child-list">
+        {item.children.map(childItem => {
+          return <ToDoItem item={childItem} {...editItem} />;
+        })}
+      </ul>
+    </React.Fragment>
   );
 };
 

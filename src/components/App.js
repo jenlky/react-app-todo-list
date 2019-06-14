@@ -203,22 +203,20 @@ class App extends React.Component {
 
     return (
       <div className="todo">
-        <DragDropContextProvider backend={HTML5Backend}>
-          <h1>My To-Do List</h1>
-          <div className="todo-inputAndBtn">
-            <Input
-              keyInItemHandler={this.keyInItemHandler}
-              handleEnter={this.handleEnter}
-            />
-            <Button addParentItem={this.addParentItem} />
-          </div>
-          <ToDoParentList
-            items={this.state.items}
-            removeItem={this.removeItem}
-            addChildItem={this.addChildItem}
-            editItem={this.editItem}
+        <h1>My To-Do List</h1>
+        <div className="todo-inputAndBtn">
+          <Input
+            keyInItemHandler={this.keyInItemHandler}
+            handleEnter={this.handleEnter}
           />
-        </DragDropContextProvider>
+          <Button addParentItem={this.addParentItem} />
+        </div>
+        <ToDoParentList
+          items={this.state.items}
+          addChildItem={this.addChildItem}
+          removeItem={this.removeItem}
+          editItem={this.editItem}
+        />
       </div>
     );
   }

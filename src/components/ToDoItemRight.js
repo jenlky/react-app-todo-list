@@ -4,11 +4,15 @@ import { Tooltip } from "react-tippy";
 
 const ToDoItemRight = ({ item, removeItem, editItem }) => {
   const passIdToEdit = event => {
-    const splitId = item.id.split("-");
-    const editedValue = event.target.value;
+    const itemId = item.id.split("-");
+    const newValue = event.target.value;
 
-    return editItem(editedValue, splitId, []);
+    // console.log("in passIdToEdit", editItem);
+    // console.log("item in passIdToEdit", item);
+    return editItem(newValue, itemId, []);
   };
+
+  // console.log("in ToDoItemRight", editItem);
 
   return (
     <div className="todo-item-right-content">
