@@ -7,7 +7,7 @@ const ToDoChildList = ({ item, ...editItem }) => {
     <React.Fragment>
       <ul className="todo-child-list">
         {item.children.map(childItem => {
-          return <ToDoItem item={childItem} {...editItem} />;
+          return <ToDoItem key={childItem.id} item={childItem} {...editItem} />;
         })}
       </ul>
     </React.Fragment>

@@ -8,6 +8,7 @@ const ToDoParentList = ({ items, removeItem, addChildItem, editItem }) => {
       {items.map(item => {
         return (
           <ToDoItem
+            key={item.id}
             item={item}
             removeItem={removeItem}
             addChildItem={addChildItem}
