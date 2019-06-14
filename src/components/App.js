@@ -14,7 +14,6 @@ class App extends React.Component {
   }
 
   /* 
-
     onChange event handler: keyInItemHandler
     keyDown event handler: handleEnter
     onClick event handler: addParentItem
@@ -67,7 +66,6 @@ class App extends React.Component {
   };
 
   /* 
-  
     Return value contains the address of item: findIndexOfItem
     Traverse through array to find child item: getChildItem
     Find length of child item: findLength
@@ -112,7 +110,7 @@ class App extends React.Component {
 
   // Create a ToDoItem and push it in the children array
   addChildItem = (itemId, address) => {
-    console.log(itemId);
+    // console.log(itemId);
 
     if (itemId.length === 1) {
       address.push(this.findIndexOfItem(itemId[0]));
@@ -123,26 +121,35 @@ class App extends React.Component {
     }
 
     const items = [...this.state.items];
-    // console.log(traverse);
 
+    // Add child to parent without child
+    // Add grandchild to child item by pressing on plus icon
     if (address.length === 1) {
       // traverse that layer of items, find the last element id and +1
-      // how to traverse? index[0].children[1].children[length - 1] increment by 1
-      // to loop through, I have to find the length - 1
+
       const length = items[address[0]].children.length;
-      const latestId = items[address[0]].children[length - 1].id;
-      const splitId = latestId.split("-");
-      const lastNum = splitId[splitId.length - 1];
-      let newId = Number(lastNum) + 1;
-      splitId[splitId.length - 1] = "" + newId;
-      const combinedId = splitId.join("-");
+      let newestId;
+      let combinedId;
+      let newObj;
 
-      console.log(combinedId);
+      if (length > 0) {
+        newestId = items[address[0]].children[length - 1].id;
 
-      const newObj = { id: combinedId, text: "", children: [] };
+        const itemId = newestId.split("-");
+        const lastNum = itemId[itemId.length - 1];
+
+        const newId = Number(lastNum) + 1;
+
+        itemId[itemId.length - 1] = "" + newId;
+        combinedId = itemId.join("-");
+      } else {
+        newestId = items[address[0]].id;
+        combinedId = newestId + "-1";
+      }
+      newObj = { id: combinedId, text: "", children: [] };
       items[address[0]].children.push(newObj);
     } else {
-      const length = this.findLength(items[address[0]], address);
+      const length = this.numOfChildren(items[address[0]], address);
       console.log(length);
 
       // const found = this.traverseObj(items[address[0]], address);
@@ -172,7 +179,7 @@ class App extends React.Component {
 
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId, address) => {
-    console.log(itemId);
+    // console.log(itemId);
 
     if (itemId.length === 1) {
       address.push(this.findIndexOfItem(itemId[0]));
@@ -197,7 +204,7 @@ class App extends React.Component {
   };
 
   render() {
-    // console.log(this.state.items);
+    console.log(this.state.items);
 
     return (
       <div className="todo">
