@@ -95,17 +95,29 @@ class App extends React.Component {
     return currItem;
   };
 
-  // Find length of child item array
-  // To access the last element of the array and increment its index from (1-2) by 1 to (1-3)
-  numOfChildren = (parentItem, address) => {
-    address.pop();
-    let currItem = null;
+  findParent = parentItem => {
+    const numOfChildren = parentItem.children.length;
+    let newestId;
+    let combinedId;
+    let newObj;
 
-    for (let itemId of address) {
-      currItem = parentItem.children[itemId];
+    if (numOfChildren > 0) {
+      newestId = parentItem.children[numOfChildren - 1].id;
+
+      const itemId = newestId.split("-");
+      const lastNum = itemId[itemId.length - 1];
+
+      const newId = Number(lastNum) + 1;
+
+      itemId[itemId.length - 1] = "" + newId;
+      combinedId = itemId.join("-");
+    } else {
+      newestId = parentItem.id;
+      combinedId = newestId + "-1";
     }
 
-    return currItem;
+    newObj = { id: combinedId, text: "", children: [] };
+    parentItem.children.push(newObj);
   };
 
   // Create a ToDoItem and push it in the children array
@@ -121,19 +133,21 @@ class App extends React.Component {
     }
 
     const items = [...this.state.items];
+    // console.log(address);
 
-    // Add child to parent without child
     // Add grandchild to child item by pressing on plus icon
     if (address.length === 1) {
-      // traverse that layer of items, find the last element id and +1
+      this.findParent(items[address[0]]);
+    } else {
+      const getChildItem = this.getChildItem(items[address[0]], address);
+      const numOfChildren = getChildItem.children.length;
 
-      const length = items[address[0]].children.length;
       let newestId;
       let combinedId;
       let newObj;
 
-      if (length > 0) {
-        newestId = items[address[0]].children[length - 1].id;
+      if (numOfChildren > 0) {
+        newestId = getChildItem.children[numOfChildren - 1].id;
 
         const itemId = newestId.split("-");
         const lastNum = itemId[itemId.length - 1];
@@ -143,17 +157,12 @@ class App extends React.Component {
         itemId[itemId.length - 1] = "" + newId;
         combinedId = itemId.join("-");
       } else {
-        newestId = items[address[0]].id;
+        newestId = getChildItem.id;
         combinedId = newestId + "-1";
       }
-      newObj = { id: combinedId, text: "", children: [] };
-      items[address[0]].children.push(newObj);
-    } else {
-      const length = this.numOfChildren(items[address[0]], address);
-      console.log(length);
 
-      // const found = this.traverseObj(items[address[0]], address);
-      // found.text = value;
+      newObj = { id: combinedId, text: "", children: [] };
+      getChildItem.children.push(newObj);
     }
 
     this.setState({ items });
