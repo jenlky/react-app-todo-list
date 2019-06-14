@@ -95,8 +95,10 @@ class App extends React.Component {
     return currItem;
   };
 
-  findParent = parentItem => {
+  addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
+    // console.log(numOfChildren);
+
     let newestId;
     let combinedId;
     let newObj;
@@ -137,32 +139,10 @@ class App extends React.Component {
 
     // Add grandchild to child item by pressing on plus icon
     if (address.length === 1) {
-      this.findParent(items[address[0]]);
+      this.addItemToParent(items[address[0]]);
     } else {
       const getChildItem = this.getChildItem(items[address[0]], address);
-      const numOfChildren = getChildItem.children.length;
-
-      let newestId;
-      let combinedId;
-      let newObj;
-
-      if (numOfChildren > 0) {
-        newestId = getChildItem.children[numOfChildren - 1].id;
-
-        const itemId = newestId.split("-");
-        const lastNum = itemId[itemId.length - 1];
-
-        const newId = Number(lastNum) + 1;
-
-        itemId[itemId.length - 1] = "" + newId;
-        combinedId = itemId.join("-");
-      } else {
-        newestId = getChildItem.id;
-        combinedId = newestId + "-1";
-      }
-
-      newObj = { id: combinedId, text: "", children: [] };
-      getChildItem.children.push(newObj);
+      this.addItemToParent(getChildItem);
     }
 
     this.setState({ items });
