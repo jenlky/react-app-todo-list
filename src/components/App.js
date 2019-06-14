@@ -10,7 +10,11 @@ import "../styles/App.css";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = getData();
+    this.state = {
+      items: getData(),
+      keyInItem: ""
+      // title: "My To-Do List"
+    };
   }
 
   /* 

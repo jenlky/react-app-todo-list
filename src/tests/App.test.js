@@ -8,18 +8,16 @@ import { fireEvent } from "@testing-library/react/dist";
 
 jest.mock("../service/items-service.js", () =>
   jest.fn(() => {
-    const sampleData = {
-      items: [
-        {
-          id: "1",
-          text: "Week 1",
-          children: [
-            { id: "1-1", text: "Git bash", children: [] },
-            { id: "1-2", text: "Jest", children: [] }
-          ]
-        }
-      ]
-    };
+    const sampleData = [
+      {
+        id: "1",
+        text: "Week 1",
+        children: [
+          { id: "1-1", text: "Git bash", children: [] },
+          { id: "1-2", text: "Jest", children: [] }
+        ]
+      }
+    ];
     return sampleData;
   })
 );
