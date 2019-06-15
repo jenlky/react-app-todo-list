@@ -3,16 +3,12 @@ import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
 const ToDoItemRight = ({ item, removeItem, editItem }) => {
+  // item.id '1-2-1' after split becomes ['1','2','1'] and passed to editItem
   const passIdToEdit = event => {
     const itemId = item.id.split("-");
     const newValue = event.target.value;
-
-    // console.log("in passIdToEdit", editItem);
-    // console.log("item in passIdToEdit", item);
     return editItem(newValue, itemId, []);
   };
-
-  // console.log("in ToDoItemRight", editItem);
 
   return (
     <div className="todo-item-right-content">

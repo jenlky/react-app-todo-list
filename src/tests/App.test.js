@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/react/cleanup-after-each";
 import "jest-dom/extend-expect";
 import { fireEvent } from "@testing-library/react/dist";
-// import getData from "../service/items-service.js";
+import getData from "../service/items-service.js";
 
 jest.mock("../service/items-service.js", () =>
   jest.fn(() => {
@@ -62,26 +62,32 @@ describe("Add parent item test", () => {
 describe("Remove parent item test", () => {
   it.only("should remove parent item with its children item if it has any", () => {
     // Angeline: mockImplementation might need reset or what
-    // getData.mockReturnValueOnce([
-    //   {
-    //     id: "1",
-    //     text: "test1"
-    //   },
-    //   {
-    //     id: "2",
-    //     text: "test2"
-    //   }
-    // ]);
+    getData.mockReturnValueOnce([
+      {
+        id: "1",
+        text: "Week 1",
+        children: []
+      },
+      {
+        id: "2",
+        text: "Week 2",
+        children: []
+      }
+    ]);
 
     const { container } = render(<App />);
     const crosses = container.querySelectorAll(".todo-item-right-cross");
     const firstCross = crosses[0];
     const inputs = container.querySelectorAll(".todo-item-right-input");
-    // const firstInput = inputs[0];
+    const secondInput = inputs[1];
 
     fireEvent.click(firstCross);
+
+    // const inputs = container.querySelectorAll(".todo-item-right-input");
+
     expect(inputs).toHaveLength(1);
     // first input textContent will be second input textContent
+    expect(inputs[0]).toEqual(secondInput);
   });
 });
 
@@ -91,6 +97,10 @@ describe("Add child item test", () => {
 
 describe("Remove child item test", () => {
   it("should ", () => {});
+});
+
+describe("Edit parent and child item", () => {
+  it("should ", () => { });
 });
 
 describe("Toggle children", () => {

@@ -20,7 +20,7 @@ class App extends React.Component {
   /* 
     onChange event handler: keyInItemHandler
     keyDown event handler: handleEnter
-    onClick event handler: addParentItem
+    onClick event handler: addParentItem, removeItem (to be changed to removeParentItem)
     helper function for handleEnter and addParentItem: insertNewItem
 
     onChange, keyDown and onClick event handler for adding parent item
@@ -73,6 +73,23 @@ class App extends React.Component {
     });
   };
 
+  // Remove parent item
+  // Angeline asked why not use filter!!!
+  removeItem = itemId => {
+    const { items } = this.state;
+
+    for (let x = 0; x < items.length; x++) {
+      if (itemId === items[x].id) {
+        const duplicateItems = [...items];
+        duplicateItems.splice(x, 1);
+
+        this.setState({
+          items: duplicateItems
+        });
+      }
+    }
+  };
+
   /* 
     Return value contains the address of item: findIndexOfItem
     Traverse through array to find child item: getChildItem
@@ -85,14 +102,16 @@ class App extends React.Component {
   findIndexOfItem = id => {
     const items = this.state.items;
 
+    // this receives an index value, not an array
     for (let x = 0; x < items.length; x++) {
-      if (id[0] === items[x].id) {
+      if (id === items[x].id) {
         return x;
       }
     }
   };
 
-  // Traverse through the address array to get child item
+  // parentItem is the outermost parent item or parent object
+  // Keep doing .children[itemId] until I get the child item
   getChildItem = (parentItem, address) => {
     let currItem = null;
 
@@ -156,43 +175,35 @@ class App extends React.Component {
     this.setState({ items });
   };
 
-  // Currently only remove parent item, does not remove child item
   // NEED to add remove child item logic
-  // Angeline: why not use filter!!!
-  removeItem = itemId => {
-    const { items } = this.state;
-
-    for (let x = 0; x < items.length; x++) {
-      if (itemId === items[x].id) {
-        const duplicateItems = [...items];
-        duplicateItems.splice(x, 1);
-
-        this.setState({
-          items: duplicateItems
-        });
-      }
-    }
-  };
+  removeChildItem = () => {};
 
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId, address) => {
     // console.log(itemId);
 
+    // itemId is [1, 2, 1], keep passing the first id to findIndexOfItem
+    // if itemId/child is more than 1 layer nested, remove first element of itemId
+    // recursively find the index of item and store it in address (an empty array)
+
+    // Need to use index 0 to access the outermost parent object before we can access .children
+    const firstId = itemId[0];
     if (itemId.length === 1) {
-      address.push(this.findIndexOfItem(itemId[0]));
+      address.push(this.findIndexOfItem(firstId));
     } else {
-      address.push(this.findIndexOfItem(itemId[0]));
+      address.push(this.findIndexOfItem(firstId));
       itemId.shift();
       this.editItem(newValue, itemId, address);
     }
 
-    // when I destructure the inner references are all the same, only the outermost reference is different
     const items = [...this.state.items];
 
+    // address is an array of indexes to access the child item
+    const firstAddress = address[0];
     if (address.length === 1) {
-      items[address[0]].text = newValue;
+      items[firstAddress].text = newValue;
     } else {
-      const found = this.getChildItem(items[address[0]], address);
+      const found = this.getChildItem(items[firstAddress], address);
       found.text = newValue;
     }
 
