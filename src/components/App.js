@@ -73,7 +73,7 @@ class App extends React.Component {
     });
   };
 
-  // Angeline asked why not use filter!!!
+  // ANGELINE ASKED why not use FILTER!!!
   removeParentItem = itemId => {
     const { items } = this.state;
 
@@ -113,6 +113,71 @@ class App extends React.Component {
     
   */
 
+  // Find parent index of item
+  findFirstIndexOfItem = id => {
+    const parentItem = [...this.state.items];
+
+    for (let x = 0; x < parentItem.length; x++) {
+      if (id === parentItem[x].id) {
+        return x;
+      }
+    }
+  };
+
+  // Find children index/indexes of item
+  findSubsequentIndexOfItem = (parentItem, id, address) => {
+    for (let x = 0; x < parentItem.children.length; x++) {
+      const parentItemId = parentItem.children[x].id.split("-");
+
+      // address.length + 1 because parentItem has already accessed parentIndex
+      if (id === parentItemId[address.length + 1]) {
+        address.push(x);
+        return parentItem.children[x];
+      }
+    }
+  };
+
+  // Find parent item with the help of findFirstIndexOfItem() and findSubsequentIndexOfItem()
+  findParentItem = itemId => {
+    const items = [...this.state.items];
+
+    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
+    let parentItem = items[parentAddress];
+    itemId.shift();
+
+    const childAddress = [];
+    // console.log("childAddress:", childAddress);
+
+    while (itemId.length > 0) {
+      parentItem = this.findSubsequentIndexOfItem(
+        parentItem,
+        itemId[0],
+        childAddress
+      );
+      itemId.shift();
+    }
+
+    return parentItem;
+  };
+
+  // Add child item to parent item
+  addChildItem = itemId => {
+    const items = [...this.state.items];
+    const parentItem = this.findParentItem(itemId);
+
+    this.addItemToParent(parentItem);
+    this.setState({ items });
+  };
+
+  /*
+    When I click on a parent item, I will first check if it has any child item.
+    If it doesn't have - create an object, extend the id by '-1' and push it to the parentItem.children.
+    If it has - find the last element, split the id,
+      convert the last element to number and increment it, convert it back to string,
+      create an object, use the string as id and push it to the parentItem.children.
+
+ */
+
   // Generate an object with the latest id and push it to parentItem.children
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
@@ -141,91 +206,15 @@ class App extends React.Component {
     parentItem.children.push(newObj);
   };
 
-  // Create a ToDoItem and push it in the children array
-
-  /* 
-    When I click on a parent item, I will first check if it has any child item.
-    If it doesn't have - create an object, extend the id by '-1' and push it to the parentItem.children.
-    If it has - find the last element, split the id, 
-      convert the last element to number and increment it, convert it back to string, 
-      create an object, use the string as id and push it to the parentItem.children.
-
-  */
-
-  addChildItem = itemId => {
-    const items = [...this.state.items];
-
-    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
-    let parentItem = items[parentAddress];
-    itemId.shift();
-
-    const childAddress = [];
-
-    while (itemId.length > 0) {
-      parentItem = this.findSubsequentIndexOfItem(
-        parentItem,
-        itemId[0],
-        childAddress
-      );
-      itemId.shift();
-    }
-
-    // console.log("childAddress:", childAddress);
-
-    this.addItemToParent(parentItem);
-    this.setState({ items });
-  };
-
   // Add remove child item logic
   removeChildItem = () => {};
-
-  findFirstIndexOfItem = id => {
-    const parentItem = [...this.state.items];
-
-    for (let x = 0; x < parentItem.length; x++) {
-      if (id === parentItem[x].id) {
-        return x;
-      }
-    }
-  };
-
-  findSubsequentIndexOfItem = (parentItem, id, address) => {
-    for (let x = 0; x < parentItem.children.length; x++) {
-      const parentItemId = parentItem.children[x].id.split("-");
-
-      // address.length + 1 because parentItem has already accessed parentIndex
-      if (id === parentItemId[address.length + 1]) {
-        address.push(x);
-        return parentItem.children[x];
-      }
-    }
-  };
 
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
+    const parentItem = this.findParentItem(itemId);
 
-    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
-    let parentItem = items[parentAddress];
-    itemId.shift();
-
-    console.log("childId", itemId);
-
-    const childAddress = [];
-
-    while (itemId.length > 0) {
-      parentItem = this.findSubsequentIndexOfItem(
-        parentItem,
-        itemId[0],
-        childAddress
-      );
-      itemId.shift();
-    }
-
-    console.log("childAddress:", childAddress);
     parentItem.text = newValue;
-
-    // after I destructure and edit, I setState to trigger a reset
     this.setState({ items });
   };
 
