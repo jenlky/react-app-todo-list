@@ -98,19 +98,24 @@ class App extends React.Component {
     addChildItem, removeItem, editItem
 
   */
-  // Return value contains the address of item and is stored in an array
-  findIndexOfItem = id => {
-    const items = this.state.items;
 
-    // this receives an index value, not an array
-    for (let x = 0; x < items.length; x++) {
-      if (id === items[x].id) {
-        return x;
-      }
-    }
-  };
+  /* 
+    For example, itemId is ['1', '2']
+
+    Separate accessing parent object from accessing children object. 
+    1. findFirstIndexOfItem: compare firstId === items[x].id, if same return x.
+    2. Use items[x] to access first parent object. 
+    3. findSubsequentIndexOfItem: use parent object to find child indexes, 
+        by looping through .children[] to find child item and store it in address array.
+    4. Access child item with getChildItem using the address
+    5. Do things to it
+    
+    Method for splitting index
+    
+  */
 
   // parentItem is the outermost parent item or parent object
+  // Using address, the child item index/indexes
   // Keep doing .children[itemId] until I get the child item
   getChildItem = (parentItem, address) => {
     let currItem = null;
@@ -153,10 +158,11 @@ class App extends React.Component {
   addChildItem = (itemId, address) => {
     // console.log(itemId);
 
+    const firstId = itemId[0];
     if (itemId.length === 1) {
-      address.push(this.findIndexOfItem(itemId[0]));
+      address.push(this.findSubsequentIndexOfItem(firstId));
     } else {
-      address.push(this.findIndexOfItem(itemId[0]));
+      address.push(this.findSubsequentIndexOfItem(firstId));
       itemId.shift();
       this.addChildItem(itemId, address);
     }
@@ -175,35 +181,58 @@ class App extends React.Component {
     this.setState({ items });
   };
 
-  // NEED to add remove child item logic
+  // Add remove child item logic
   removeChildItem = () => {};
 
-  // Edit item method for all list items (parent and child)
-  editItem = (newValue, itemId, address) => {
-    // console.log(itemId);
+  // itemId [1, 2]
+  // id '1' === parentItem[x] id '1'
+  findFirstIndexOfItem = id => {
+    const parentItem = [...this.state.items];
 
-    // itemId is [1, 2, 1], keep passing the first id to findIndexOfItem
-    // if itemId/child is more than 1 layer nested, remove first element of itemId
-    // recursively find the index of item and store it in address (an empty array)
-
-    // Need to use index 0 to access the outermost parent object before we can access .children
-    const firstId = itemId[0];
-    if (itemId.length === 1) {
-      address.push(this.findIndexOfItem(firstId));
-    } else {
-      address.push(this.findIndexOfItem(firstId));
-      itemId.shift();
-      this.editItem(newValue, itemId, address);
+    for (let x = 0; x < parentItem.length; x++) {
+      if (id === parentItem[x].id) {
+        return x;
+      }
     }
+  };
 
+  // id '2', parentItem.children[x].id '1-2'
+  // I need to split parentItem.children[x].id and pick the appropiate element ['1', '2']
+  findSubsequentIndexOfItem = (parentItem, id, address) => {
+    for (let x = 0; x < parentItem.children.length; x++) {
+      const parentItemId = parentItem.children[x].id.split("-");
+
+      // address.length + 1 because parentItem has already accessed parentIndex
+      if (id === parentItemId[address.length + 1]) {
+        address.push(x);
+        return;
+      }
+    }
+  };
+
+  // Edit item method for all list items (parent and child)
+  editItem = (newValue, itemId) => {
     const items = [...this.state.items];
 
-    // address is an array of indexes to access the child item
-    const firstAddress = address[0];
-    if (address.length === 1) {
-      items[firstAddress].text = newValue;
+    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
+    const parentItem = items[parentAddress];
+    itemId.shift();
+
+    // later remove editItem address parameter from ToDoItemRight
+    const childAddress = [];
+
+    while (itemId.length > 0) {
+      this.findSubsequentIndexOfItem(parentItem, itemId[0], childAddress);
+      itemId.shift();
+    }
+
+    console.log("childAddress:", childAddress);
+
+    //address is an array of indexes to access the child item
+    if (childAddress.length === 0) {
+      parentItem.text = newValue;
     } else {
-      const found = this.getChildItem(items[firstAddress], address);
+      const found = this.getChildItem(parentItem, childAddress);
       found.text = newValue;
     }
 
