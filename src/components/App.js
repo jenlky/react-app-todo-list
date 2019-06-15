@@ -155,27 +155,37 @@ class App extends React.Component {
   };
 
   // Create a ToDoItem and push it in the children array
-  addChildItem = (itemId, address) => {
-    // console.log(itemId);
 
-    const firstId = itemId[0];
-    if (itemId.length === 1) {
-      address.push(this.findSubsequentIndexOfItem(firstId));
-    } else {
-      address.push(this.findSubsequentIndexOfItem(firstId));
+  /* 
+    When I click on a parent item, I will first check if it has any child item.
+    If it doesn't have - create an object, extend the id by '-1' and push it to the parentItem.children.
+    If it has - find the last element, split the id, 
+      convert the last element to number and increment it, convert it back to string, 
+      create an object, use the string as id and push it to the parentItem.children.
+
+  */
+
+  addChildItem = itemId => {
+    const items = [...this.state.items];
+
+    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
+    const parentItem = items[parentAddress];
+    itemId.shift();
+
+    const childAddress = [];
+
+    while (itemId.length > 0) {
+      this.findSubsequentIndexOfItem(parentItem, itemId[0], childAddress);
       itemId.shift();
-      this.addChildItem(itemId, address);
     }
 
-    const items = [...this.state.items];
-    // console.log(address);
+    // console.log("childAddress:", childAddress);
 
-    // Add grandchild to child item by pressing on plus icon
-    if (address.length === 1) {
-      this.addItemToParent(items[address[0]]);
+    if (childAddress.length === 0) {
+      this.addItemToParent(parentItem);
     } else {
-      const getChildItem = this.getChildItem(items[address[0]], address);
-      this.addItemToParent(getChildItem);
+      const found = this.getChildItem(parentItem, childAddress);
+      this.addItemToParent(found);
     }
 
     this.setState({ items });
@@ -218,7 +228,6 @@ class App extends React.Component {
     const parentItem = items[parentAddress];
     itemId.shift();
 
-    // later remove editItem address parameter from ToDoItemRight
     const childAddress = [];
 
     while (itemId.length > 0) {
@@ -226,9 +235,8 @@ class App extends React.Component {
       itemId.shift();
     }
 
-    console.log("childAddress:", childAddress);
+    // console.log("childAddress:", childAddress);
 
-    //address is an array of indexes to access the child item
     if (childAddress.length === 0) {
       parentItem.text = newValue;
     } else {

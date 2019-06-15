@@ -6,7 +6,7 @@ const ToDoItemLeft = ({ id, addChildItem }) => {
   // item.id '1-2' after split becomes ['1','2'] and passed to addChildItem
   const passIdToAdd = () => {
     const splitId = id.split("-");
-    return addChildItem(splitId, []);
+    return addChildItem(splitId);
   };
 
   return (
