@@ -120,7 +120,7 @@ class App extends React.Component {
   };
 
   // Find parent item with the help of findFirstIndexOfItem() and findSubsequentIndexOfItem()
-  findParentItem = itemId => {
+  findItem = (itemId, findItemParent) => {
     const items = [...this.state.items];
 
     const parentAddress = this.findFirstIndexOfItem(itemId[0]);
@@ -136,10 +136,11 @@ class App extends React.Component {
         itemId[0],
         childAddress
       );
+
       itemId.shift();
     }
 
-    // console.log({ parentItem, childAddress });
+    console.log("findItem:", { parentItem, childAddress });
 
     return { parentItem, childAddress };
   };
@@ -147,7 +148,7 @@ class App extends React.Component {
   // Add child item to parent item
   addChildItem = itemId => {
     const items = [...this.state.items];
-    const { parentItem } = this.findParentItem(itemId);
+    const { parentItem } = this.findItem(itemId, false);
 
     this.addItemToParent(parentItem);
     this.setState({ items });
@@ -207,17 +208,23 @@ class App extends React.Component {
         }
       }
     } else {
-      const parentItem = this.findParentItem(itemId);
+      const { parentItem, childAddress } = this.findItem(itemId, true);
 
       console.log("parentItem", parentItem);
-      // this.addItemToParent(parentItem);
+      console.log("childAddress", childAddress);
+
+      // get parent item ancestor and childAddress
+      // ancestor.splice(childAddress[0], 1) then this.setState
+
+      // while (itemId.length > 0) returns the clicked obj and an index for childAddress
+      // while (itemId.length > 1) returns the clicked parent obj and [] for childAddress
     }
   };
 
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
-    const { parentItem } = this.findParentItem(itemId);
+    const { parentItem } = this.findItem(itemId, false);
 
     parentItem.text = newValue;
     this.setState({ items });
