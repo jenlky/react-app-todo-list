@@ -4,11 +4,7 @@ import { Tooltip } from "react-tippy";
 
 const ToDoItemRight = ({ item, removeItem, editItem }) => {
   // item.id '1-2' after split becomes ['1','2'] and passed to editItem
-  const passIdToEdit = event => {
-    const itemId = item.id.split("-");
-    const newValue = event.target.value;
-    return editItem(newValue, itemId);
-  };
+  const itemId = item.id.split("-");
 
   return (
     <div className="todo-item-right-content">
@@ -16,7 +12,7 @@ const ToDoItemRight = ({ item, removeItem, editItem }) => {
         type="text"
         value={item.text}
         className="todo-item-right-input"
-        onChange={passIdToEdit}
+        onChange={event => editItem(event.target.value, itemId)}
       />
       <Tooltip
         title="Remove parent and its children"
@@ -27,7 +23,7 @@ const ToDoItemRight = ({ item, removeItem, editItem }) => {
         <span
           alt="Cancel"
           className="todo-item-right-cross"
-          onClick={() => removeItem(item.id)}
+          onClick={() => removeItem(itemId)}
         >
           &#x2573;
         </span>

@@ -5,8 +5,6 @@ import ToDoParentList from "./ToDoParentList";
 import getData from "../service/items-service";
 import "../styles/App.css";
 
-// Responsive(Bonus): No
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -190,13 +188,14 @@ class App extends React.Component {
   };
 
   // ANGELINE ASKED why not use FILTER!!!
-  // Add remove child item logic
+  // Remove both parent and children, or only child item
   removeItem = itemId => {
     const items = [...this.state.items];
+    console.log("removeItem", itemId);
 
     if (itemId.length === 1) {
       for (let x = 0; x < items.length; x++) {
-        if (itemId === items[x].id) {
+        if (itemId[0] === items[x].id) {
           const duplicateItems = [...items];
           duplicateItems.splice(x, 1);
 
@@ -205,14 +204,12 @@ class App extends React.Component {
           });
         }
       }
+    } else {
+      const parentItem = this.findParentItem(itemId);
+
+      console.log("parentItem", parentItem);
+      // this.addItemToParent(parentItem);
     }
-
-    console.log("removeChildItem", itemId);
-    // const items = [...this.state.items];
-    // const parentItem = this.findParentItem(itemId);
-
-    // this.addItemToParent(parentItem);
-    // this.setState({ items });
   };
 
   // Edit item method for all list items (parent and child)
