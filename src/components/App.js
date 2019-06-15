@@ -139,13 +139,15 @@ class App extends React.Component {
       itemId.shift();
     }
 
-    return parentItem;
+    // console.log({ parentItem, childAddress });
+
+    return { parentItem, childAddress };
   };
 
   // Add child item to parent item
   addChildItem = itemId => {
     const items = [...this.state.items];
-    const parentItem = this.findParentItem(itemId);
+    const { parentItem } = this.findParentItem(itemId);
 
     this.addItemToParent(parentItem);
     this.setState({ items });
@@ -215,7 +217,7 @@ class App extends React.Component {
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
-    const parentItem = this.findParentItem(itemId);
+    const { parentItem } = this.findParentItem(itemId);
 
     parentItem.text = newValue;
     this.setState({ items });
