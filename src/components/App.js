@@ -73,22 +73,6 @@ class App extends React.Component {
     });
   };
 
-  // ANGELINE ASKED why not use FILTER!!!
-  removeParentItem = itemId => {
-    const { items } = this.state;
-
-    for (let x = 0; x < items.length; x++) {
-      if (itemId === items[x].id) {
-        const duplicateItems = [...items];
-        duplicateItems.splice(x, 1);
-
-        this.setState({
-          items: duplicateItems
-        });
-      }
-    }
-  };
-
   /* 
     Return value contains the address of item: findIndexOfItem
     Traverse through array to find child item: getChildItem
@@ -177,7 +161,6 @@ class App extends React.Component {
       create an object, use the string as id and push it to the parentItem.children.
 
  */
-
   // Generate an object with the latest id and push it to parentItem.children
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
@@ -206,8 +189,31 @@ class App extends React.Component {
     parentItem.children.push(newObj);
   };
 
+  // ANGELINE ASKED why not use FILTER!!!
   // Add remove child item logic
-  removeChildItem = () => {};
+  removeItem = itemId => {
+    const items = [...this.state.items];
+
+    if (itemId.length === 1) {
+      for (let x = 0; x < items.length; x++) {
+        if (itemId === items[x].id) {
+          const duplicateItems = [...items];
+          duplicateItems.splice(x, 1);
+
+          this.setState({
+            items: duplicateItems
+          });
+        }
+      }
+    }
+
+    console.log("removeChildItem", itemId);
+    // const items = [...this.state.items];
+    // const parentItem = this.findParentItem(itemId);
+
+    // this.addItemToParent(parentItem);
+    // this.setState({ items });
+  };
 
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
@@ -234,7 +240,7 @@ class App extends React.Component {
         <ToDoParentList
           items={this.state.items}
           addChildItem={this.addChildItem}
-          removeParentItem={this.removeParentItem}
+          removeItem={this.removeItem}
           editItem={this.editItem}
         />
       </div>
