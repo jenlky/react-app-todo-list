@@ -112,27 +112,6 @@ class App extends React.Component {
     Method for splitting index
     
   */
-  findFirstIndexOfItem = id => {
-    const parentItem = [...this.state.items];
-
-    for (let x = 0; x < parentItem.length; x++) {
-      if (id === parentItem[x].id) {
-        return x;
-      }
-    }
-  };
-
-  findSubsequentIndexOfItem = (parentItem, id, address) => {
-    for (let x = 0; x < parentItem.children.length; x++) {
-      const parentItemId = parentItem.children[x].id.split("-");
-
-      // address.length + 1 because parentItem has already accessed parentIndex
-      if (id === parentItemId[address.length + 1]) {
-        address.push(x);
-        return;
-      }
-    }
-  };
 
   // Keep doing .children[itemId] until I get the child item
   getChildItem = (parentItem, childAddress) => {
@@ -145,6 +124,7 @@ class App extends React.Component {
     return currItem;
   };
 
+  // why doesn't it add more than 3 layers of item? the code is stuck at adding third layer only
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
     // console.log(numOfChildren);
@@ -212,30 +192,60 @@ class App extends React.Component {
   // Add remove child item logic
   removeChildItem = () => {};
 
+  findFirstIndexOfItem = id => {
+    const parentItem = [...this.state.items];
+
+    for (let x = 0; x < parentItem.length; x++) {
+      if (id === parentItem[x].id) {
+        return x;
+      }
+    }
+  };
+
+  findSubsequentIndexOfItem = (parentItem, id, address) => {
+    for (let x = 0; x < parentItem.children.length; x++) {
+      const parentItemId = parentItem.children[x].id.split("-");
+
+      // address.length + 1 because parentItem has already accessed parentIndex
+      if (id === parentItemId[address.length + 1]) {
+        address.push(x);
+        return parentItem.children[x];
+      }
+    }
+  };
+
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
 
     const parentAddress = this.findFirstIndexOfItem(itemId[0]);
-    const parentItem = items[parentAddress];
+    let parentItem = items[parentAddress];
     itemId.shift();
+
+    console.log("childId", itemId);
 
     const childAddress = [];
 
     while (itemId.length > 0) {
-      this.findSubsequentIndexOfItem(parentItem, itemId[0], childAddress);
+      parentItem = this.findSubsequentIndexOfItem(
+        parentItem,
+        itemId[0],
+        childAddress
+      );
       itemId.shift();
     }
 
-    // console.log("childAddress:", childAddress);
+    console.log("childAddress:", childAddress);
 
-    if (childAddress.length === 0) {
-      parentItem.text = newValue;
-    } else {
-      const found = this.getChildItem(parentItem, childAddress);
-      console.log(found);
-      found.text = newValue;
-    }
+    // if (childAddress.length === 0) {
+    //   parentItem.text = newValue;
+    // } else {
+    //   const found = this.getChildItem(parentItem, childAddress);
+    //   // console.log("getChildItem:", found);
+    //   found.text = newValue;
+    // }
+
+    parentItem.text = newValue;
 
     // after I destructure and edit, I setState to trigger a reset
     this.setState({ items });
