@@ -73,9 +73,8 @@ class App extends React.Component {
     });
   };
 
-  // Remove parent item
   // Angeline asked why not use filter!!!
-  removeItem = itemId => {
+  removeParentItem = itemId => {
     const { items } = this.state;
 
     for (let x = 0; x < items.length; x++) {
@@ -113,14 +112,33 @@ class App extends React.Component {
     Method for splitting index
     
   */
+  findFirstIndexOfItem = id => {
+    const parentItem = [...this.state.items];
 
-  // parentItem is the outermost parent item or parent object
-  // Using address, the child item index/indexes
+    for (let x = 0; x < parentItem.length; x++) {
+      if (id === parentItem[x].id) {
+        return x;
+      }
+    }
+  };
+
+  findSubsequentIndexOfItem = (parentItem, id, address) => {
+    for (let x = 0; x < parentItem.children.length; x++) {
+      const parentItemId = parentItem.children[x].id.split("-");
+
+      // address.length + 1 because parentItem has already accessed parentIndex
+      if (id === parentItemId[address.length + 1]) {
+        address.push(x);
+        return;
+      }
+    }
+  };
+
   // Keep doing .children[itemId] until I get the child item
-  getChildItem = (parentItem, address) => {
+  getChildItem = (parentItem, childAddress) => {
     let currItem = null;
 
-    for (let itemId of address) {
+    for (let itemId of childAddress) {
       currItem = parentItem.children[itemId];
     }
 
@@ -194,32 +212,6 @@ class App extends React.Component {
   // Add remove child item logic
   removeChildItem = () => {};
 
-  // itemId [1, 2]
-  // id '1' === parentItem[x] id '1'
-  findFirstIndexOfItem = id => {
-    const parentItem = [...this.state.items];
-
-    for (let x = 0; x < parentItem.length; x++) {
-      if (id === parentItem[x].id) {
-        return x;
-      }
-    }
-  };
-
-  // id '2', parentItem.children[x].id '1-2'
-  // I need to split parentItem.children[x].id and pick the appropiate element ['1', '2']
-  findSubsequentIndexOfItem = (parentItem, id, address) => {
-    for (let x = 0; x < parentItem.children.length; x++) {
-      const parentItemId = parentItem.children[x].id.split("-");
-
-      // address.length + 1 because parentItem has already accessed parentIndex
-      if (id === parentItemId[address.length + 1]) {
-        address.push(x);
-        return;
-      }
-    }
-  };
-
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
@@ -241,6 +233,7 @@ class App extends React.Component {
       parentItem.text = newValue;
     } else {
       const found = this.getChildItem(parentItem, childAddress);
+      console.log(found);
       found.text = newValue;
     }
 
@@ -264,7 +257,7 @@ class App extends React.Component {
         <ToDoParentList
           items={this.state.items}
           addChildItem={this.addChildItem}
-          removeItem={this.removeItem}
+          removeParentItem={this.removeParentItem}
           editItem={this.editItem}
         />
       </div>

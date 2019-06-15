@@ -3,7 +3,7 @@ import ToDoItemLeft from "./ToDoItemLeft";
 import ToDoItemRight from "./ToDoItemRight";
 import ToDoChildList from "./ToDoChildList";
 
-const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
+const ToDoItem = ({ item, addChildItem, removeParentItem, editItem }) => {
   // if (item.children === undefined || item.children.length === 0)
   // console.log(item);
 
@@ -13,14 +13,14 @@ const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
         <ToDoItemLeft id={item.id} addChildItem={addChildItem} />
         <ToDoItemRight
           item={item}
-          removeItem={removeItem}
+          removeParentItem={removeParentItem}
           editItem={editItem}
         />
       </li>
       {(item.children !== undefined || item.children.length > 0) && (
         <ToDoChildList
           item={item}
-          removeItem={removeItem}
+          removeParentItem={removeParentItem}
           addChildItem={addChildItem}
           editItem={editItem}
         />

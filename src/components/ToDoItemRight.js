@@ -2,7 +2,7 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const ToDoItemRight = ({ item, removeItem, editItem }) => {
+const ToDoItemRight = ({ item, removeParentItem, editItem }) => {
   // item.id '1-2' after split becomes ['1','2'] and passed to editItem
   const passIdToEdit = event => {
     const itemId = item.id.split("-");
@@ -27,7 +27,7 @@ const ToDoItemRight = ({ item, removeItem, editItem }) => {
         <span
           alt="Cancel"
           className="todo-item-right-cross"
-          onClick={() => removeItem(item.id)}
+          onClick={() => removeParentItem(item.id)}
         >
           &#x2573;
         </span>
