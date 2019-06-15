@@ -113,18 +113,7 @@ class App extends React.Component {
     
   */
 
-  // Keep doing .children[itemId] until I get the child item
-  getChildItem = (parentItem, childAddress) => {
-    let currItem = null;
-
-    for (let itemId of childAddress) {
-      currItem = parentItem.children[itemId];
-    }
-
-    return currItem;
-  };
-
-  // why doesn't it add more than 3 layers of item? the code is stuck at adding third layer only
+  // Generate an object with the latest id and push it to parentItem.children
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
     // console.log(numOfChildren);
@@ -167,25 +156,23 @@ class App extends React.Component {
     const items = [...this.state.items];
 
     const parentAddress = this.findFirstIndexOfItem(itemId[0]);
-    const parentItem = items[parentAddress];
+    let parentItem = items[parentAddress];
     itemId.shift();
 
     const childAddress = [];
 
     while (itemId.length > 0) {
-      this.findSubsequentIndexOfItem(parentItem, itemId[0], childAddress);
+      parentItem = this.findSubsequentIndexOfItem(
+        parentItem,
+        itemId[0],
+        childAddress
+      );
       itemId.shift();
     }
 
     // console.log("childAddress:", childAddress);
 
-    if (childAddress.length === 0) {
-      this.addItemToParent(parentItem);
-    } else {
-      const found = this.getChildItem(parentItem, childAddress);
-      this.addItemToParent(found);
-    }
-
+    this.addItemToParent(parentItem);
     this.setState({ items });
   };
 
@@ -236,15 +223,6 @@ class App extends React.Component {
     }
 
     console.log("childAddress:", childAddress);
-
-    // if (childAddress.length === 0) {
-    //   parentItem.text = newValue;
-    // } else {
-    //   const found = this.getChildItem(parentItem, childAddress);
-    //   // console.log("getChildItem:", found);
-    //   found.text = newValue;
-    // }
-
     parentItem.text = newValue;
 
     // after I destructure and edit, I setState to trigger a reset
