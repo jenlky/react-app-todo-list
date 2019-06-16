@@ -12,6 +12,13 @@ body {
   margin: 0 auto;
   min-height: 100vh; }
 
+.title {
+  border: 0;
+  font-size: 32px;
+  margin-bottom: 50px;
+  text-align: center;
+  outline: 0; }
+
 .todo {
   display: flex;
   flex-flow: column;

@@ -10,8 +10,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       items: getData(),
-      keyInItem: ""
-      // title: "My To-Do List"
+      keyInItem: "",
+      title: "My To-Do List"
     };
   }
 
@@ -28,6 +28,12 @@ class App extends React.Component {
   keyInItemHandler = event => {
     this.setState({
       keyInItem: event.target.value
+    });
+  };
+
+  titleHandler = event => {
+    this.setState({
+      title: event.target.value
     });
   };
 
@@ -250,14 +256,20 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state.items);
+    console.log(this.state);
 
     return (
       <div className="todo">
-        <h1>My To-Do List</h1>
+        <Input
+          className="title"
+          onChangeHandler={this.titleHandler}
+          value={this.state.title}
+        />
         <div className="todo-inputAndBtn">
           <Input
-            keyInItemHandler={this.keyInItemHandler}
+            className="todo-input"
+            placeholder="Enter your item"
+            onChangeHandler={this.keyInItemHandler}
             handleEnter={this.handleEnter}
           />
           <Button addParentItem={this.addParentItem} />

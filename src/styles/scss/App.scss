@@ -25,6 +25,14 @@ body {
   // }
 }
 
+.title {
+  border: 0;
+  font-size: 32px;
+  margin-bottom: 50px;
+  text-align: center;
+  outline: 0;
+}
+
 .todo {
   // I suspect min-height increases the height and makes it scrollable
   // min-height: 100vh;
@@ -43,11 +51,4 @@ body {
   &-inputAndBtn {
     // max-width: 425px - 2 * $todo-with-margin;
   }
-}
-
-// works without this
-.break-word {
-  // width: 450px;
-  // word-break: break-word;
-  // word-wrap: break-word;
 }
