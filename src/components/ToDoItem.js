@@ -6,6 +6,9 @@ import ToDoChildList from "./ToDoChildList";
 const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
   // if (item.children === undefined || item.children.length === 0)
   // console.log(item);
+  const displayChildCondition =
+    (item.children !== undefined || item.children.length > 0) &&
+    item.display === true;
 
   return (
     <React.Fragment>
@@ -17,7 +20,7 @@ const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
           editItem={editItem}
         />
       </li>
-      {(item.children !== undefined || item.children.length > 0) && (
+      {displayChildCondition && (
         <ToDoChildList
           item={item}
           removeItem={removeItem}
