@@ -15,10 +15,16 @@ $dropdown-triangle-size: 16px;
     outline: 0;
     font-size: 18px;
     line-height: 24px;
+    background-color: #dfe1e6;
+    color: black;
     // width: 320px;
 
-    &:focus {
-      border-color: blue;
+    // &:focus {
+    //   border-color: blue;
+    // }
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.6);
     }
   }
 
@@ -42,10 +48,12 @@ $dropdown-triangle-size: 16px;
   &-item {
     display: flex;
     align-items: center;
-    margin: 4px 0;
+    margin-bottom: 8px;
     padding: 6px 0;
     cursor: pointer;
     width: 400px;
+    background-color: white;
+    border-radius: 3px;
 
     &-left {
       &-icons {
@@ -113,7 +121,7 @@ $dropdown-triangle-size: 16px;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: #f4f5f7;
 
       .todo-item-left-plus {
         visibility: visible;

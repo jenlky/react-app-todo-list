@@ -9,9 +9,11 @@
   border-color: black;
   outline: 0;
   font-size: 18px;
-  line-height: 24px; }
-  .todo-input:focus {
-    border-color: blue; }
+  line-height: 24px;
+  background-color: #dfe1e6;
+  color: black; }
+  .todo-input::placeholder {
+    color: rgba(0, 0, 0, 0.6); }
 
 .todo-parent-list {
   padding: 0;
@@ -31,10 +33,12 @@
 .todo-item {
   display: flex;
   align-items: center;
-  margin: 4px 0;
+  margin-bottom: 8px;
   padding: 6px 0;
   cursor: pointer;
-  width: 400px; }
+  width: 400px;
+  background-color: white;
+  border-radius: 3px; }
   .todo-item-left-icons {
     display: flex;
     align-items: center; }
@@ -67,7 +71,7 @@
     font-size: 16px;
     margin: 0px 10px; }
   .todo-item:hover {
-    background-color: rgba(0, 0, 0, 0.1); }
+    background-color: #f4f5f7; }
     .todo-item:hover .todo-item-left-plus {
       visibility: visible; }
     .todo-item:hover .todo-item-right-cross {

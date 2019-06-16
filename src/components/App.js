@@ -265,7 +265,7 @@ class App extends React.Component {
           onChangeHandler={this.titleHandler}
           value={this.state.title}
         />
-        <div className="todo-inputAndBtn">
+        <div>
           <Input
             className="todo-input"
             placeholder="Enter your item"
