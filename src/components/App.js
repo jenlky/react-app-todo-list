@@ -143,14 +143,29 @@ class App extends React.Component {
     return { parentItem, childAddress };
   };
 
-  // Add child item to parent item
+  // Add child item to parent item and display its child items
   addChildItem = itemId => {
     const items = [...this.state.items];
     const { parentItem } = this.findItem(items, itemId, false);
 
     this.addItemToParent(parentItem);
-    //this.toggleDisplay(itemId);
+    parentItem.display = true;
+
     this.setState({ items });
+  };
+
+  // Toggle display of parentItem using prevState
+  toggleDisplay = itemId => {
+    const items = [...this.state.items];
+
+    this.setState(prev => {
+      const { parentItem } = this.findItem(prev.items, itemId, false);
+      parentItem.display = !parentItem.display;
+
+      return {
+        items
+      };
+    });
   };
 
   /*
@@ -228,21 +243,6 @@ class App extends React.Component {
 
     parentItem.text = newValue;
     this.setState({ items });
-  };
-
-  toggleDisplay = itemId => {
-    this.setState(prev => {
-      const items = [...this.state.items];
-
-      const { parentItem } = this.findItem(prev.items, itemId, false);
-      // console.log("parentItem:", parentItem);
-
-      parentItem.display = !parentItem.display;
-
-      return {
-        items
-      };
-    });
   };
 
   render() {
