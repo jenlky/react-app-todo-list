@@ -2,9 +2,9 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const ToDoItemLeft = ({ id, addChildItem, toggleDisplay }) => {
+const ToDoItemLeft = ({ item, addChildItem, toggleDisplay }) => {
   // item.id '1-2' after split becomes ['1','2'] and passed to addChildItem
-  const itemId = id.split("-");
+  const itemId = item.id.split("-");
 
   return (
     <div className="todo-item-left-icons">
@@ -22,7 +22,11 @@ const ToDoItemLeft = ({ id, addChildItem, toggleDisplay }) => {
         </span>
       </Tooltip>
       <span
-        className="todo-item-left-triangle"
+        className={
+          item.display
+            ? "todo-item-left-triangle toggled-triangle"
+            : "todo-item-left-triangle"
+        }
         onClick={() => toggleDisplay(itemId)}
       >
         &#x25b6;

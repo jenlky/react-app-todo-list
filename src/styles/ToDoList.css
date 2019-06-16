@@ -73,6 +73,16 @@
     .todo-item:hover .todo-item-right-cross {
       visibility: visible; }
 
-.dropdown-triangle {
-  margin-left: 8px;
-  font-size: 16px; }
+.toggled-triangle {
+  animation: toggle 0.5s linear; }
+
+@keyframes toggle {
+  0% {
+    transform: rotate(0deg);
+    /* CSS3 */ }
+  50% {
+    transform: rotate(45deg);
+    /* CSS3 */ }
+  100% {
+    transform: rotate(90deg);
+    /* CSS3 */ } }

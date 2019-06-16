@@ -71,6 +71,20 @@ $dropdown-triangle-size: 16px;
           background-color: rgba(0, 0, 0, 0.1);
         }
       }
+
+      // &-toggled-triangle {
+      //   transform: rotate(90deg);
+      //   border-radius: 4px;
+      //   padding: 0 4px;
+      //   margin-right: 4px;
+
+      //   // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
+      //   font-size: $dropdown-triangle-size;
+
+      //   &:hover {
+      //     background-color: rgba(0, 0, 0, 0.1);
+      //   }
+      // }
     }
 
     &-right {
@@ -112,9 +126,20 @@ $dropdown-triangle-size: 16px;
   }
 }
 
-.dropdown-triangle {
-  margin-left: 8px;
-  // width: 18px;
-  // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
-  font-size: $dropdown-triangle-size;
+.toggled-triangle {
+  animation: toggle 0.5s linear;
+
+  @keyframes toggle {
+    0% {
+      transform: rotate(0deg); /* CSS3 */
+    }
+
+    50% {
+      transform: rotate(45deg); /* CSS3 */
+    }
+
+    100% {
+      transform: rotate(90deg); /* CSS3 */
+    }
+  }
 }

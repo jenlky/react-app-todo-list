@@ -20,7 +20,7 @@ const ToDoItem = ({
     <React.Fragment>
       <li className="todo-item break-word">
         <ToDoItemLeft
-          id={item.id}
+          item={item}
           addChildItem={addChildItem}
           toggleDisplay={toggleDisplay}
         />
