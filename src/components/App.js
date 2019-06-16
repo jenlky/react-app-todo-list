@@ -151,21 +151,25 @@ class App extends React.Component {
     this.addItemToParent(parentItem);
     parentItem.display = true;
 
-    this.setState({ items });
+    setTimeout(() => {
+      this.setState({ items });
+    }, 150);
   };
 
   // Toggle display of parentItem using prevState
   toggleDisplay = itemId => {
     const items = [...this.state.items];
 
-    this.setState(prev => {
-      const { parentItem } = this.findItem(prev.items, itemId, false);
-      parentItem.display = !parentItem.display;
+    setTimeout(() => {
+      this.setState(prev => {
+        const { parentItem } = this.findItem(prev.items, itemId, false);
+        parentItem.display = !parentItem.display;
 
-      return {
-        items
-      };
-    });
+        return {
+          items
+        };
+      });
+    }, 150);
   };
 
   /*
