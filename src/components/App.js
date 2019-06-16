@@ -18,7 +18,7 @@ class App extends React.Component {
   /* 
     onChange event handler: keyInItemHandler
     keyDown event handler: handleEnter
-    onClick event handler: addParentItem, removeItem (to be changed to removeParentItem)
+    onClick event handler: addParentItem
     helper function for handleEnter and addParentItem: insertNewItem
 
     onChange, keyDown and onClick event handler for adding parent item
@@ -120,9 +120,7 @@ class App extends React.Component {
   };
 
   // Find parent item with the help of findFirstIndexOfItem() and findSubsequentIndexOfItem()
-  findItem = (itemId, findItemParent) => {
-    const items = [...this.state.items];
-
+  findItem = (items, itemId, findItsParent) => {
     const parentAddress = this.findFirstIndexOfItem(itemId[0]);
     let parentItem = items[parentAddress];
     itemId.shift();
@@ -130,7 +128,7 @@ class App extends React.Component {
     const childAddress = [];
     // console.log("childAddress:", childAddress);
 
-    while (findItemParent ? itemId.length > 1 : itemId.length > 0) {
+    while (findItsParent ? itemId.length > 1 : itemId.length > 0) {
       parentItem = this.findSubsequentIndexOfItem(
         parentItem,
         itemId[0],
@@ -148,9 +146,10 @@ class App extends React.Component {
   // Add child item to parent item
   addChildItem = itemId => {
     const items = [...this.state.items];
-    const { parentItem } = this.findItem(itemId, false);
+    const { parentItem } = this.findItem(items, itemId, false);
 
     this.addItemToParent(parentItem);
+    //this.toggleDisplay(itemId);
     this.setState({ items });
   };
 
@@ -203,7 +202,7 @@ class App extends React.Component {
       }
     } else {
       // Find clicked item's parent
-      const { parentItem } = this.findItem(itemId, true);
+      const { parentItem } = this.findItem(items, itemId, true);
       const childAddress = [];
 
       // childAddress is pushed the child index in findSubsequentIndexOfItem
@@ -225,10 +224,25 @@ class App extends React.Component {
   // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
     const items = [...this.state.items];
-    const { parentItem } = this.findItem(itemId, false);
+    const { parentItem } = this.findItem(items, itemId, false);
 
     parentItem.text = newValue;
     this.setState({ items });
+  };
+
+  toggleDisplay = itemId => {
+    this.setState(prev => {
+      const items = [...this.state.items];
+
+      const { parentItem } = this.findItem(prev.items, itemId, false);
+      // console.log("parentItem:", parentItem);
+
+      parentItem.display = !parentItem.display;
+
+      return {
+        items
+      };
+    });
   };
 
   render() {
@@ -249,6 +263,7 @@ class App extends React.Component {
           addChildItem={this.addChildItem}
           removeItem={this.removeItem}
           editItem={this.editItem}
+          toggleDisplay={this.toggleDisplay}
         />
       </div>
     );

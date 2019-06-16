@@ -2,7 +2,13 @@ import React from "react";
 import ToDoItem from "./ToDoItem";
 import "../styles/ToDoList.css";
 
-const ToDoParentList = ({ items, addChildItem, removeItem, editItem }) => {
+const ToDoParentList = ({
+  items,
+  addChildItem,
+  removeItem,
+  editItem,
+  toggleDisplay
+}) => {
   return (
     <ul className="todo-parent-list">
       {items.map(item => {
@@ -10,9 +16,10 @@ const ToDoParentList = ({ items, addChildItem, removeItem, editItem }) => {
           <ToDoItem
             key={item.id}
             item={item}
-            removeItem={removeItem}
             addChildItem={addChildItem}
+            removeItem={removeItem}
             editItem={editItem}
+            toggleDisplay={toggleDisplay}
           />
         );
       })}

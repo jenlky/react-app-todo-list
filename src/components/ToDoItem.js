@@ -3,7 +3,13 @@ import ToDoItemLeft from "./ToDoItemLeft";
 import ToDoItemRight from "./ToDoItemRight";
 import ToDoChildList from "./ToDoChildList";
 
-const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
+const ToDoItem = ({
+  item,
+  addChildItem,
+  removeItem,
+  editItem,
+  toggleDisplay
+}) => {
   // if (item.children === undefined || item.children.length === 0)
   // console.log(item);
   const displayChildCondition =
@@ -13,7 +19,11 @@ const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
   return (
     <React.Fragment>
       <li className="todo-item break-word">
-        <ToDoItemLeft id={item.id} addChildItem={addChildItem} />
+        <ToDoItemLeft
+          id={item.id}
+          addChildItem={addChildItem}
+          toggleDisplay={toggleDisplay}
+        />
         <ToDoItemRight
           item={item}
           removeItem={removeItem}
@@ -23,9 +33,10 @@ const ToDoItem = ({ item, addChildItem, removeItem, editItem }) => {
       {displayChildCondition && (
         <ToDoChildList
           item={item}
-          removeItem={removeItem}
           addChildItem={addChildItem}
+          removeItem={removeItem}
           editItem={editItem}
+          toggleDisplay={toggleDisplay}
         />
       )}
     </React.Fragment>
