@@ -130,7 +130,7 @@ class App extends React.Component {
     const childAddress = [];
     // console.log("childAddress:", childAddress);
 
-    while (itemId.length > 0) {
+    while (findItemParent ? itemId.length > 1 : itemId.length > 0) {
       parentItem = this.findSubsequentIndexOfItem(
         parentItem,
         itemId[0],
@@ -190,7 +190,6 @@ class App extends React.Component {
     parentItem.children.push(newObj);
   };
 
-  // ANGELINE ASKED why not use FILTER!!!
   // Remove both parent and children, or only child item
   removeItem = itemId => {
     const items = [...this.state.items];
@@ -199,26 +198,28 @@ class App extends React.Component {
     if (itemId.length === 1) {
       for (let x = 0; x < items.length; x++) {
         if (itemId[0] === items[x].id) {
-          const duplicateItems = [...items];
-          duplicateItems.splice(x, 1);
-
-          this.setState({
-            items: duplicateItems
-          });
+          items.splice(x, 1);
         }
       }
     } else {
-      const { parentItem, childAddress } = this.findItem(itemId, true);
+      // Find clicked item's parent
+      const { parentItem } = this.findItem(itemId, true);
+      const childAddress = [];
 
-      console.log("parentItem", parentItem);
-      console.log("childAddress", childAddress);
+      // childAddress is pushed the child index in findSubsequentIndexOfItem
+      this.findSubsequentIndexOfItem(
+        parentItem,
+        itemId[itemId.length - 1],
+        childAddress
+      );
 
-      // get parent item ancestor and childAddress
-      // ancestor.splice(childAddress[0], 1) then this.setState
-
-      // while (itemId.length > 0) returns the clicked obj and an index for childAddress
-      // while (itemId.length > 1) returns the clicked parent obj and [] for childAddress
+      const childIndex = childAddress[0];
+      parentItem.children.splice(childIndex, 1);
     }
+
+    this.setState({
+      items
+    });
   };
 
   // Edit item method for all list items (parent and child)
