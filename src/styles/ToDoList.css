@@ -26,9 +26,7 @@
   width: -moz-available; }
 
 .todo-child-list {
-  color: red;
-  padding-inline-start: 25px;
-  padding-inline-end: 25px; }
+  color: black; }
 
 .todo-item {
   display: flex;

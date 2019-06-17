@@ -5,6 +5,14 @@ $devices: (
   large-desktop: 1200px
 );
 
+@mixin min-device($device: map-get($devices, "phone")) {
+  @if map-has-key($devices, $device) {
+    @media screen and (min-width: map-get($devices, $device)) {
+      @content;
+    }
+  }
+}
+
 @mixin min-device($device: map-get($devices, "tablet")) {
   @if map-has-key($devices, $device) {
     @media screen and (min-width: map-get($devices, $device)) {
