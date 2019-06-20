@@ -77,28 +77,13 @@ class App extends React.Component {
     });
   };
 
-  /* 
-    Return value contains the address of item: findIndexOfItem
-    Traverse through array to find child item: getChildItem
-    Find length of child item: findLength
-    
-    addChildItem, removeItem, editItem
+  /*
+    Return value contains the address of item: findFirstIndexOfItem, findSubsequentIndexOfItem
+    Traverse through array to find parent/child item: findItem
+    Helper function for addChildItem: addItemToParent
 
-  */
+    addChildItem, removeItem, editItem, toggleDisplay
 
-  /* 
-    For example, itemId is ['1', '2']
-
-    Separate accessing parent object from accessing children object. 
-    1. findFirstIndexOfItem: compare firstId === items[x].id, if same return x.
-    2. Use items[x] to access first parent object. 
-    3. findSubsequentIndexOfItem: use parent object to find child indexes, 
-        by looping through .children[] to find child item and store it in address array.
-    4. Access child item with getChildItem using the address
-    5. Do things to it
-    
-    Method for splitting index
-    
   */
 
   // Find parent index of item
@@ -178,14 +163,6 @@ class App extends React.Component {
     }, 150);
   };
 
-  /*
-    When I click on a parent item, I will first check if it has any child item.
-    If it doesn't have - create an object, extend the id by '-1' and push it to the parentItem.children.
-    If it has - find the last element, split the id,
-      convert the last element to number and increment it, convert it back to string,
-      create an object, use the string as id and push it to the parentItem.children.
-
- */
   // Generate an object with the latest id and push it to parentItem.children
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;

@@ -131,7 +131,7 @@ const data = [
   { id: "4", text: "Week 4", children: [], display: false },
   {
     id: "5",
-    text: "A veryyyyy longgggggggggggggggggggg word testing123",
+    text: "Week 5",
     children: [],
     display: false
   }
