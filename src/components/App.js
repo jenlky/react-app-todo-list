@@ -11,7 +11,8 @@ class App extends React.Component {
     this.state = {
       items: getData(),
       keyInItem: "",
-      title: "My To-Do List"
+      title: "My To-Do List",
+      delay: 150
     };
   }
 
@@ -144,7 +145,7 @@ class App extends React.Component {
 
     setTimeout(() => {
       this.setState({ items });
-    }, 150);
+    }, this.state.delay);
   };
 
   // Toggle display of parentItem using prevState
@@ -160,7 +161,7 @@ class App extends React.Component {
           items
         };
       });
-    }, 150);
+    }, this.state.delay);
   };
 
   // Generate an object with the latest id and push it to parentItem.children

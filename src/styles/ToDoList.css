@@ -23,7 +23,10 @@
   width: 100%;
   width: -webkit-fill-available;
   width: stretch;
-  width: -moz-available; }
+  width: -moz-available;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 400px; }
 
 .todo-child-list {
   color: black; }

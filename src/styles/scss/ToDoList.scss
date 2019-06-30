@@ -37,6 +37,11 @@ $dropdown-triangle-size: 16px;
     width: -webkit-fill-available;
     width: stretch;
     width: -moz-available;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 400px;
+    // min-height: 0;
+    // z-index: 1;
   }
 
   &-child-list {
