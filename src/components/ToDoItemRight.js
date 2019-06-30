@@ -1,6 +1,5 @@
 import React from "react";
-import "react-tippy/dist/tippy.css";
-import { Tooltip } from "react-tippy";
+import Cross from "./Cross";
 
 const ToDoItemRight = ({ item, removeItem, editItem }) => {
   // item.id '1-2' after split becomes ['1','2'] and passed to editItem
@@ -14,20 +13,7 @@ const ToDoItemRight = ({ item, removeItem, editItem }) => {
         className="todo-item-right-input"
         onChange={event => editItem(event.target.value, itemId)}
       />
-      <Tooltip
-        title="Remove parent and its children"
-        position="bottom"
-        trigger="mouseenter"
-        delay="100"
-      >
-        <span
-          alt="Cancel"
-          className="todo-item-right-cross"
-          onClick={() => removeItem(itemId)}
-        >
-          &#x2573;
-        </span>
-      </Tooltip>
+      <Cross id={itemId} removeItem={removeItem} />
     </div>
   );
 };
