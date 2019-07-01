@@ -1,7 +1,5 @@
 import React from "react";
-import Input from "./Input";
-import Button from "./Button";
-import ToDoParentList from "./ToDoParentList";
+import List from "./List";
 import getData from "../service/items-service";
 import "../styles/App.css";
 
@@ -237,29 +235,37 @@ class App extends React.Component {
     console.log(this.state);
 
     return (
-      <div className="todo">
-        <Input
-          className="title"
-          onChangeHandler={this.titleHandler}
-          value={this.state.title}
-        />
-        <div>
-          <Input
-            className="todo-input"
-            placeholder="Enter your item"
-            onChangeHandler={this.keyInItemHandler}
+      <React.Fragment>
+        <nav>
+          <button>Sign up</button>
+        </nav>
+        <div className="app">
+          <List
+            titleHandler={this.titleHandler}
+            title={this.state.title}
+            keyInItemHandler={this.keyInItemHandler}
             handleEnter={this.handleEnter}
+            addParentItem={this.addParentItem}
+            items={this.state.items}
+            addChildItem={this.addChildItem}
+            removeItem={this.removeItem}
+            editItem={this.editItem}
+            toggleDisplay={this.toggleDisplay}
           />
-          <Button addParentItem={this.addParentItem} />
+          <List
+            titleHandler={this.titleHandler}
+            title={this.state.title}
+            keyInItemHandler={this.keyInItemHandler}
+            handleEnter={this.handleEnter}
+            addParentItem={this.addParentItem}
+            items={this.state.items}
+            addChildItem={this.addChildItem}
+            removeItem={this.removeItem}
+            editItem={this.editItem}
+            toggleDisplay={this.toggleDisplay}
+          />
         </div>
-        <ToDoParentList
-          items={this.state.items}
-          addChildItem={this.addChildItem}
-          removeItem={this.removeItem}
-          editItem={this.editItem}
-          toggleDisplay={this.toggleDisplay}
-        />
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -5,10 +5,6 @@
 }
 
 body {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -24,6 +20,16 @@ body {
   // }
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  // max-width: 700px;
+}
+
 .title {
   border: 0;
   font-size: 32px;
@@ -33,32 +39,13 @@ body {
   background-color: #dfe1e6;
 }
 
-.todo {
+.app {
   // I suspect min-height increases the height and makes it scrollable on mobile
   // min-height: 100vh;
   display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #dfe1e6;
-  border-radius: 3px;
-  padding: 20px 20px 0px;
-  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
-
-  @include min-device("phone") {
-    padding: 20px 30px;
-  }
-
-  @include min-device("tablet") {
-    padding: 20px 40px;
-  }
+  flex-flow: row nowrap;
 
   h1 {
     margin-top: 10px;
-  }
-
-  // Mobile L on Chrome - 425px
-  &-inputAndBtn {
-    // max-width: 425px - 2 * $todo-with-margin;
   }
 }

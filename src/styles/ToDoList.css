@@ -1,3 +1,17 @@
+.todo-list {
+  display: block;
+  text-align: center;
+  padding: 20px 20px 0px;
+  margin-right: 20px;
+  border-radius: 3px;
+  background-color: #dfe1e6; }
+  @media screen and (min-width: 480px) {
+    .todo-list {
+      padding: 10px 15px; } }
+  @media screen and (min-width: 768px) {
+    .todo-list {
+      padding: 20px 20px; } }
+
 .todo-btn {
   margin-left: 5px;
   padding: 2px 10px;
@@ -26,7 +40,7 @@
   width: -moz-available;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 400px; }
+  height: 300px; }
 
 .todo-child-list {
   color: black; }
