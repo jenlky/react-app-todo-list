@@ -43,7 +43,6 @@ class App extends React.Component {
   submit = (e, isSignUp) => {
     e.stopPropagation();
     e.preventDefault();
-    console.log(isSignUp);
 
     if (isSignUp) {
       if (
