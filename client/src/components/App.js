@@ -1,6 +1,8 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import List from "./List";
 import Navbar from "./Navbar";
+import SignUpOrLogin from "./SignUpOrLogin";
 import getData from "../service/items-service";
 import "../styles/App.css";
 
@@ -11,7 +13,11 @@ class App extends React.Component {
       items: getData(),
       keyInItem: "",
       title: "My To-Do List",
-      delay: 150
+      delay: 150,
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: ""
     };
   }
 
@@ -236,23 +242,45 @@ class App extends React.Component {
     console.log(this.state);
 
     return (
-      <React.Fragment>
-        <Navbar />
-        <div className="app">
-          <List
-            titleHandler={this.titleHandler}
-            title={this.state.title}
-            keyInItemHandler={this.keyInItemHandler}
-            handleEnter={this.handleEnter}
-            addParentItem={this.addParentItem}
-            items={this.state.items}
-            addChildItem={this.addChildItem}
-            removeItem={this.removeItem}
-            editItem={this.editItem}
-            toggleDisplay={this.toggleDisplay}
+      <Router>
+        <Switch>
+          <Route
+            exact={true}
+            path="/"
+            render={props => {
+              return (
+                <React.Fragment>
+                  <Navbar />
+                  <div className="app">
+                    <List
+                      titleHandler={this.titleHandler}
+                      title={this.state.title}
+                      keyInItemHandler={this.keyInItemHandler}
+                      handleEnter={this.handleEnter}
+                      addParentItem={this.addParentItem}
+                      items={this.state.items}
+                      addChildItem={this.addChildItem}
+                      removeItem={this.removeItem}
+                      editItem={this.editItem}
+                      toggleDisplay={this.toggleDisplay}
+                    />
+                  </div>
+                </React.Fragment>
+              );
+            }}
           />
-        </div>
-      </React.Fragment>
+          <Route
+            exact={true}
+            path="/signup"
+            render={() => <SignUpOrLogin name="Sign up" />}
+          />
+          <Route
+            exact={true}
+            path="/login"
+            render={() => <SignUpOrLogin name="Log in" />}
+          />
+        </Switch>
+      </Router>
     );
   }
 }
