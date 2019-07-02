@@ -1,0 +1,32 @@
+:root {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #0079bf; }
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box; }
+
+.title {
+  border: 0;
+  font-size: 32px;
+  margin-bottom: 50px;
+  text-align: center;
+  outline: 0;
+  background-color: #dfe1e6; }
+
+.app {
+  display: flex;
+  flex-flow: row nowrap; }
+  .app h1 {
+    margin-top: 10px; }

@@ -1,0 +1,107 @@
+.todo-list {
+  display: block;
+  text-align: center;
+  padding: 20px 20px 0px;
+  margin-right: 20px;
+  border-radius: 3px;
+  background-color: #dfe1e6; }
+  @media screen and (min-width: 480px) {
+    .todo-list {
+      padding: 10px 15px; } }
+  @media screen and (min-width: 768px) {
+    .todo-list {
+      padding: 20px 20px; } }
+
+.todo-btn {
+  margin-left: 5px;
+  padding: 2px 10px;
+  font-size: 16px; }
+
+.todo-input {
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+  border-color: black;
+  outline: 0;
+  font-size: 18px;
+  line-height: 24px;
+  background-color: #dfe1e6;
+  color: black; }
+  .todo-input::placeholder {
+    color: rgba(0, 0, 0, 0.6); }
+
+.todo-parent-list {
+  padding: 0;
+  list-style: none;
+  margin: 10px 0px;
+  text-align: left;
+  width: 100%;
+  width: -webkit-fill-available;
+  width: stretch;
+  width: -moz-available;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 300px; }
+
+.todo-child-list {
+  color: black; }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 6px 0;
+  cursor: pointer;
+  width: 400px;
+  background-color: white;
+  border-radius: 3px; }
+  .todo-item-left-icons {
+    display: flex;
+    align-items: center; }
+  .todo-item-left-plus {
+    visibility: hidden;
+    margin-left: 10px;
+    font-size: 16px; }
+  .todo-item-left-triangle {
+    border-radius: 4px;
+    padding: 0 4px;
+    margin-right: 4px;
+    font-size: 16px; }
+    .todo-item-left-triangle:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
+  .todo-item-right-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    width: -webkit-fill-available;
+    width: fill-available;
+    width: -moz-available; }
+  .todo-item-right-input {
+    border: 0;
+    height: 16px;
+    font-size: 14px;
+    width: inherit; }
+  .todo-item-right-cross {
+    visibility: hidden;
+    font-size: 16px;
+    margin: 0px 10px; }
+  .todo-item:hover {
+    background-color: #f4f5f7; }
+    .todo-item:hover .todo-item-left-plus {
+      visibility: visible; }
+    .todo-item:hover .todo-item-right-cross {
+      visibility: visible; }
+
+.toggled-triangle {
+  animation: toggle 0.5s linear; }
+
+@keyframes toggle {
+  0% {
+    transform: rotate(0deg);
+    /* CSS3 */ }
+  50% {
+    transform: rotate(45deg);
+    /* CSS3 */ }
+  100% {
+    transform: rotate(90deg);
+    /* CSS3 */ } }

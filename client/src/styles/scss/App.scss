@@ -1,0 +1,51 @@
+@import "media-queries";
+
+:root {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  margin: 0 auto;
+  // max-width: 700px;
+  min-height: 100vh;
+  background-color: #0079bf;
+
+  // trello - chrome cannot scroll up and down
+  // @include min-device("tablet") {
+  //   padding: 40px;
+  // }
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  // max-width: 700px;
+}
+
+.title {
+  border: 0;
+  font-size: 32px;
+  margin-bottom: 50px;
+  text-align: center;
+  outline: 0;
+  background-color: #dfe1e6;
+}
+
+.app {
+  // I suspect min-height increases the height and makes it scrollable on mobile
+  // min-height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+
+  h1 {
+    margin-top: 10px;
+  }
+}
