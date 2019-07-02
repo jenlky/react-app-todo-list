@@ -1,10 +1,16 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
 const itemRouter = require("./routes/item.route");
 
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
 app.use("/item", itemRouter);
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+app.use((err, res, req, next) => {
+  console.log("error", err);
+  res.sendStatus(500);
 });
+
+module.exports = app;
