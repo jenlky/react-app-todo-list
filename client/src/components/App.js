@@ -1,5 +1,6 @@
 import React from "react";
 import List from "./List";
+import Navbar from "./Navbar";
 import getData from "../service/items-service";
 import "../styles/App.css";
 
@@ -236,22 +237,8 @@ class App extends React.Component {
 
     return (
       <React.Fragment>
-        <nav>
-          <button>Sign up</button>
-        </nav>
+        <Navbar />
         <div className="app">
-          <List
-            titleHandler={this.titleHandler}
-            title={this.state.title}
-            keyInItemHandler={this.keyInItemHandler}
-            handleEnter={this.handleEnter}
-            addParentItem={this.addParentItem}
-            items={this.state.items}
-            addChildItem={this.addChildItem}
-            removeItem={this.removeItem}
-            editItem={this.editItem}
-            toggleDisplay={this.toggleDisplay}
-          />
           <List
             titleHandler={this.titleHandler}
             title={this.state.title}
