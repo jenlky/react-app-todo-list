@@ -21,6 +21,44 @@ class App extends React.Component {
     };
   }
 
+  updateUserState = e => {
+    switch (e.target.id) {
+      case "firstName":
+        this.setState({ firstName: e.target.value });
+        break;
+      case "lastName":
+        this.setState({ lastName: e.target.value });
+        break;
+      case "email":
+        this.setState({ email: e.target.value });
+        break;
+      case "password":
+        this.setState({ password: e.target.value });
+        break;
+      default:
+        console.log("No user state was updated");
+    }
+  };
+
+  submit = (e, isSignUp) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log(isSignUp);
+
+    if (isSignUp) {
+      if (
+        this.state.firstName &&
+        this.state.lastName &&
+        this.state.email &&
+        this.state.password
+      ) {
+      }
+    } else {
+      if (this.state.email && this.state.password) {
+      }
+    }
+  };
+
   /* 
     onChange event handler: keyInItemHandler
     keyDown event handler: handleEnter
@@ -272,12 +310,24 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/signup"
-            render={() => <SignUpOrLogin name="Sign up" />}
+            render={() => (
+              <SignUpOrLogin
+                name="Sign up"
+                updateUserState={this.updateUserState}
+                submit={this.submit}
+              />
+            )}
           />
           <Route
             exact={true}
             path="/login"
-            render={() => <SignUpOrLogin name="Log in" />}
+            render={() => (
+              <SignUpOrLogin
+                name="Log in"
+                updateUserState={this.updateUserState}
+                submit={this.submit}
+              />
+            )}
           />
         </Switch>
       </Router>

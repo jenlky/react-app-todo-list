@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Form() {
+export default function SignUpForm({ updateUserState, submit }) {
   const classes = useStyles();
 
   return (
@@ -33,6 +33,7 @@ export default function Form() {
             id="firstName"
             label="First Name"
             autoFocus
+            onChange={updateUserState}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -44,6 +45,7 @@ export default function Form() {
             label="Last Name"
             name="lastName"
             autoComplete="lname"
+            onChange={updateUserState}
           />
         </Grid>
         <Grid item xs={12}>
@@ -55,6 +57,7 @@ export default function Form() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={updateUserState}
           />
         </Grid>
         <Grid item xs={12}>
@@ -67,6 +70,7 @@ export default function Form() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={updateUserState}
           />
         </Grid>
       </Grid>
@@ -76,6 +80,7 @@ export default function Form() {
         variant="contained"
         color="primary"
         className={classes.submit}
+        onClick={e => submit(e, true)}
       >
         Sign Up
       </Button>

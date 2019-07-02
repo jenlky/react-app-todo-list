@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import SignUpForm from "./SignUpForm";
+import LoginForm from "./LoginForm";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp({ name }) {
+export default function SignUp({ name, updateUserState, submit }) {
   const classes = useStyles();
 
   return (
@@ -45,7 +46,11 @@ export default function SignUp({ name }) {
         <Typography component="h1" variant="h5">
           {name}
         </Typography>
-        <SignUpForm />
+        {name === "Sign up" ? (
+          <SignUpForm updateUserState={updateUserState} submit={submit} />
+        ) : (
+          <LoginForm updateUserState={updateUserState} submit={submit} />
+        )}
       </div>
     </Container>
   );
