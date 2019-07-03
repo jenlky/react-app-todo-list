@@ -10,12 +10,14 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        items: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: [{ id: "1", text: "Week 1", children: [] }]
       },
       {
         id: "2",
         name: "SUSS",
-        items: [{ id: "2", text: "Object Oriented Programming", children: [] }]
+        listItems: [
+          { id: "2", text: "Object Oriented Programming", children: [] }
+        ]
       }
     ]
   },
@@ -30,7 +32,7 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        items: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: [{ id: "1", text: "Week 1", children: [] }]
       }
     ]
   },
@@ -45,7 +47,7 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        items: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: []
       }
     ]
   },
@@ -60,12 +62,13 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        items: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: []
       }
     ]
   }
 ];
 
+// itemData previously from React state
 const itemData = [
   {
     id: "1",

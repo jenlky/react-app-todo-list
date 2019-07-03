@@ -32,22 +32,22 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  xdescribe("/users/:id", () => {
+  describe("/users/:id", () => {
     it("GET / should return all of the user's lists", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
       const userId = "1";
-      const userLists = [
+      const lists = [
         {
           id: "1",
           name: "JumpStart",
-          items: [{ id: "1", text: "Week 1", children: [] }]
+          listItems: [{ id: "1", text: "Week 1", children: [] }]
         },
         {
           id: "2",
           name: "SUSS",
-          items: [
+          listItems: [
             { id: "2", text: "Object Oriented Programming", children: [] }
           ]
         }
@@ -55,7 +55,7 @@ describe("User", () => {
 
       const response = await request(app).get(`/users/${userId}`);
       expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(userLists);
+      expect(response.body).toMatchObject(lists);
     });
 
     it("POST / should create a new user's list", async () => {
@@ -63,55 +63,57 @@ describe("User", () => {
       await users.insertMany(userData);
 
       const userId = "2";
-      const userLists = [
+      // Insert lists[1] and expect lists
+      const lists = [
         {
           id: "1",
           name: "JumpStart",
-          items: [{ id: "1", text: "Week 1", children: [] }]
+          listItems: [{ id: "1", text: "Week 1", children: [] }]
         },
         {
           id: "2",
           name: "",
-          items: [{ id: "1", text: "", children: [] }]
+          listItems: []
         }
       ];
 
-      // seeded userData has userLists[0], post userLists[1] to test
       const response = await request(app)
         .post(`/users/${userId}`)
-        .send(userLists[1]);
+        .send(lists[1]);
       expect(response.status).toEqual(201);
-      expect(response.body).toMatchObject(userLists);
+      expect(response.body).toMatchObject(lists);
     });
   });
 
-  xdescribe("/users/:userId/lists/:listId", () => {
+  describe("/users/:userId/lists/:listId", () => {
     it("PUT / should update a user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
       const userId = "1";
       const listId = "2";
-      const userLists = [
+
+      // Update lists[1].name and expect lists
+      const lists = [
         {
           id: "1",
           name: "JumpStart",
-          items: [{ id: "1", text: "Week 1", children: [] }]
+          listItems: [{ id: "1", text: "Week 1", children: [] }]
         },
         {
           id: "2",
           name: "PUT you in your place",
-          items: [
+          listItems: [
             { id: "2", text: "Object Oriented Programming", children: [] }
           ]
         }
       ];
 
       const response = await request(app).put(
-        `/users/${userId}/lists/${listId}?name=${userLists[1].name}`
+        `/users/${userId}/lists/${listId}?name=${lists[1].name}`
       );
       expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(userLists);
+      expect(response.body).toMatchObject(lists);
     });
 
     // is this the correct behaviour? Should I expect {}?
@@ -131,7 +133,34 @@ describe("User", () => {
   });
 
   describe("/users/:userId/lists/:listId/items/", async () => {
-    it.only("POST / should create a new parent list item in the user's list", async () => {
+    it("POST / should create first child item in the user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
+
+      const userId = "3";
+      const listId = "1";
+      // I may not need itemId because I don't really use it
+      const itemId = undefined;
+
+      // Insert lists[0].children and expect lists
+      const lists = [
+        {
+          id: "1",
+          name: "JumpStart",
+          listItems: [{ id: "1-1", text: "", children: [] }]
+        }
+      ];
+
+      const response = await request(app).post(
+        `/users/${userId}/lists/${listId}/items?id=${itemId}`
+      );
+      // console.log("response.body", response.body);
+
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject(lists);
+    });
+
+    xit("POST / should create subsequent child item in the user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
@@ -139,40 +168,29 @@ describe("User", () => {
       const listId = "1";
       const itemId = undefined;
 
-      const listItems = [
+      // Insert lists[0].children[1] and expect lists
+      const lists = [
         {
           id: "1",
           text: "Week 1",
-          children: []
-        },
-        {
-          id: "2",
-          text: "",
-          children: []
+          children: [
+            { id: "1-1", text: "", children: [] },
+            { id: "1-2", text: "", children: [] }
+          ]
         }
       ];
 
       const response = await request(app).post(
         `/users/${userId}/lists/${listId}/items?id=${itemId}`
       );
-      console.log("response.body", response.body);
+      // console.log("response.body", response.body);
 
       expect(response.status).toEqual(201);
-      expect(response.body).toMatchObject(listItems);
+      expect(response.body).toMatchObject(lists);
     });
 
-    it("POST / should create a new child list item in the user's list", async () => {
-      // const listItems = [
-      //   {
-      //     id: "1",
-      //     text: "Week 1",
-      //     children: [{ id: "1-1", text: "", children: [] }]
-      //   }
-      // ];
-    });
+    xit("PUT / should update a list item in the user's list", async () => {});
 
-    it("PUT / should update a list item in the user's list", async () => {});
-
-    it("DELETE / should remove a list item in the user's list", async () => {});
+    xit("DELETE / should remove a list item in the user's list", async () => {});
   });
 });
