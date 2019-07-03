@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const app = require("../app");
-const { userData, itemData } = require('../utils/seed')
+const { userData } = require("../utils/seed");
 
 describe("User", () => {
   let connection;
@@ -9,7 +9,6 @@ describe("User", () => {
 
   beforeAll(async () => {
     const mongoURI = global.__MONGO_URI__;
-    console.log(mongoURI);
     connection = await MongoClient.connect(mongoURI, {
       useNewUrlParser: true
     });
@@ -33,19 +32,24 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  describe.only("/users/:id", () => {
-    it.only("GET / should return all of the user's lists", () => {
-      const users = db.collection("users")
-      const items = db.collection("items");
+  describe("/users/:id", () => {
+    it.only("GET / should return all of the user's lists", async () => {
+      const users = db.collection("users");
       await users.insertMany(userData);
-      await items.insertMany(itemData);
 
-      const user = { id: "2" };
+      const userId = { id: "1" };
+      const userLists = [
+        { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
+        { id: "2", items: [{ id: "2", text: "Week 2", children: [] }] }
+      ];
 
-      const response = await request(app).get("/pokemon");
+      const response = await request(app).get(`/users/1`);
+      // console.log("response", response.status);
       expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(pokemonData);
+      expect(response.body.lists).toMatchObject(userLists);
     });
+
+    // const userItem = [{ id: "1", text: "Week 1", children: [] }];
 
     // xit("/PUT should modify a pokemon from database", async () => {
     //   const collection = db.collection("pokemons");
@@ -69,13 +73,12 @@ describe("User", () => {
     // });
   });
 
-
   xdescribe("/users/:id/lists/:id", () => {
     it("POST / should create a new user's list", () => {});
 
     it("PUT / should update a user's list", () => {});
 
-    it("DELETE / should remove a user's list", () => {})
+    it("DELETE / should remove a user's list", () => {});
   });
 
   xdescribe("/users/:id/lists/:id/items/", () => {
@@ -83,6 +86,6 @@ describe("User", () => {
 
     it("PUT / should update a list item in the user's list", () => {});
 
-    it("DELETE / should remove a list item in the user's list", () => {})
+    it("DELETE / should remove a list item in the user's list", () => {});
   });
 });

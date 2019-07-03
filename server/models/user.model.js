@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  id: { type: Number, require: true },
-  name: { type: String, require: true },
-  username: { type: String, require: true, unique: true },
-  email: { type: String, require: true, unique: true },
-  password: { type: String, require: true },
+  id: { type: String, required: true },
+  name: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   lists: [
     {
-      id: String,
+      id: { type: String, required: true, unique: true },
+      name: { type: String },
       items: [
         {
-          id: { type: String, require: true, unique: true },
+          id: { type: String, required: true, unique: true },
           text: { type: String },
           children: { type: [Array] }
         }
@@ -20,5 +21,4 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+mongoose.model("User", userSchema);
