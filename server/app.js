@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
-const itemRouter = require("./routes/item.route");
+const userRouter = require("./routes/user.route");
 
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
-app.use("/item", itemRouter);
+app.use("/item", userRouter);
 
 app.use((err, res, req, next) => {
   console.log("error", err);
