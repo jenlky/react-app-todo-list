@@ -40,7 +40,14 @@ const userData = [
     username: "ahbeng1994",
     email: "ahbeng@hotmail.com",
     password:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFoIEJlbmciLCJpYXQiOjE1MTYyMzkwMjJ9.Y1xwhoTjC_apC4VuKFIBJNh7uAsaPxCNnUnCZPv4s7E"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFoIEJlbmciLCJpYXQiOjE1MTYyMzkwMjJ9.Y1xwhoTjC_apC4VuKFIBJNh7uAsaPxCNnUnCZPv4s7E",
+    lists: [
+      {
+        id: "1",
+        name: "JumpStart",
+        items: [{ id: "1", text: "Week 1", children: [] }]
+      }
+    ]
   },
   {
     id: "4",
@@ -48,7 +55,14 @@ const userData = [
     username: "ahlian1994",
     email: "ahlian@hotmail.com",
     password:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFoIExpYW4iLCJpYXQiOjE1MTYyMzkwMjJ9.Pq7HUnRuaL4uudEW7Nhm-rKearwLuww8OBdc7hFUVv8"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFoIExpYW4iLCJpYXQiOjE1MTYyMzkwMjJ9.Pq7HUnRuaL4uudEW7Nhm-rKearwLuww8OBdc7hFUVv8",
+    lists: [
+      {
+        id: "1",
+        name: "JumpStart",
+        items: [{ id: "1", text: "Week 1", children: [] }]
+      }
+    ]
   }
 ];
 

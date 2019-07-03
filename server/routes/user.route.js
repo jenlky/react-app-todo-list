@@ -10,10 +10,10 @@ userRouter.get("/:id", async (req, res, next) => {
 });
 
 userRouter.post("/:id", async (req, res, next) => {
-  const postOneList = await controller
+  const createOneList = await controller
     .createOneList(req.params.id)
     .catch(err => next(err));
-  res.status(201).send(postOneList);
+  res.status(201).send(createOneList);
 });
 
 userRouter.put("/:userId/lists/:listId", async (req, res, next) => {
@@ -29,5 +29,16 @@ userRouter.delete("/:userId/lists/:listId", async (req, res, next) => {
     .catch(err => next(err));
   res.status(200).send(deleteOneList);
 });
+
+userRouter.post("/:userId/lists/:listId/items", async (req, res, next) => {
+  const createOneListItem = await controller
+    .createOneListItem(req.params.userId, req.params.listId, req.query.itemId)
+    .catch(err => next(err));
+  res.status(201).send(createOneListItem);
+});
+
+userRouter.put("/:userId/lists/:listId/items", async (req, res, next) => {});
+
+userRouter.delete("/:userId/lists/:listId/items", async (req, res, next) => {});
 
 module.exports = userRouter;

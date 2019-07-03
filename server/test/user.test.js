@@ -85,7 +85,7 @@ describe("User", () => {
     });
   });
 
-  describe("/users/:userId/lists/:listId", () => {
+  xdescribe("/users/:userId/lists/:listId", () => {
     it("PUT / should update a user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
@@ -114,6 +114,7 @@ describe("User", () => {
       expect(response.body).toMatchObject(userLists);
     });
 
+    // is this the correct behaviour? Should I expect {}?
     it("DELETE / should remove a user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
@@ -129,11 +130,49 @@ describe("User", () => {
     });
   });
 
-  xdescribe("/users/:id/lists/:id/items/", () => {
-    it("POST / should create a new list item in the user's list", () => {});
+  describe("/users/:userId/lists/:listId/items/", async () => {
+    it.only("POST / should create a new parent list item in the user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
 
-    it("PUT / should update a list item in the user's list", () => {});
+      const userId = "2";
+      const listId = "1";
+      const itemId = undefined;
 
-    it("DELETE / should remove a list item in the user's list", () => {});
+      const listItems = [
+        {
+          id: "1",
+          text: "Week 1",
+          children: []
+        },
+        {
+          id: "2",
+          text: "",
+          children: []
+        }
+      ];
+
+      const response = await request(app).post(
+        `/users/${userId}/lists/${listId}/items?id=${itemId}`
+      );
+      console.log("response.body", response.body);
+
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject(listItems);
+    });
+
+    it("POST / should create a new child list item in the user's list", async () => {
+      // const listItems = [
+      //   {
+      //     id: "1",
+      //     text: "Week 1",
+      //     children: [{ id: "1-1", text: "", children: [] }]
+      //   }
+      // ];
+    });
+
+    it("PUT / should update a list item in the user's list", async () => {});
+
+    it("DELETE / should remove a list item in the user's list", async () => {});
   });
 });

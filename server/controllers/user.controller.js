@@ -51,9 +51,33 @@ const deleteOneList = async (userId, listId) => {
   return user.lists;
 };
 
+const createOneListItem = async (userId, listId, itemId) => {
+  if (itemId === undefined) {
+    let user = await User.findOne({ id: userId });
+
+    const newListId = Number(user.lists[user.lists.length - 1].id) + 1 + "";
+    user.lists.push({
+      id: `${newListId}`,
+      text: "",
+      children: []
+    });
+    await user.save();
+
+    user = await User.findOne({ id: userId });
+    return user.lists;
+  }
+};
+
+const updateOneListItem = async (userId, listId, name) => {};
+
+const deleteOneListItem = async (userId, listId) => {};
+
 module.exports = {
   findAllLists,
   createOneList,
   updateOneList,
-  deleteOneList
+  deleteOneList,
+  createOneListItem,
+  updateOneListItem,
+  deleteOneListItem
 };
