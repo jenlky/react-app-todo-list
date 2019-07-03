@@ -35,7 +35,6 @@
   margin: 10px 0px;
   text-align: left;
   width: 100%;
-  width: -webkit-fill-available;
   width: stretch;
   width: -moz-available;
   overflow-y: auto;
@@ -73,8 +72,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    width: -webkit-fill-available;
-    width: fill-available;
+    width: stretch;
     width: -moz-available; }
   .todo-item-right-input {
     border: 0;

@@ -72,13 +72,13 @@ const data = [
             display: false
           },
           {
-            id: "1-4-2",
+            id: "1-4-3",
             text: "What are the CSS Pseudo-classes?",
             children: [],
             display: false
           },
           {
-            id: "1-4-3",
+            id: "1-4-4",
             text: "What are the CSS Pseudo-elements?",
             children: [],
             display: false

@@ -52,7 +52,6 @@ $dropdown-triangle-size: 16px;
     margin: 10px 0px;
     text-align: left;
     width: 100%;
-    width: -webkit-fill-available;
     width: stretch;
     width: -moz-available;
     overflow-y: auto;
@@ -124,8 +123,8 @@ $dropdown-triangle-size: 16px;
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        width: -webkit-fill-available;
-        width: fill-available;
+        // width: -webkit-fill-available;
+        width: stretch;
         width: -moz-available;
       }
 
