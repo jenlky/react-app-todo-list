@@ -11,8 +11,13 @@ const findAllLists = async id => {
 const createOneList = async id => {
   let user = await User.findOne({ id });
 
-  const list = [{ id: "2", items: [{ id: "1", text: "", children: [] }] }];
-  user.lists.push(list[0]);
+  const listId = user.lists.length + 1 + "";
+  const newList = {
+    id: `${listId}`,
+    name: "",
+    items: [{ id: "1", text: "", children: [] }]
+  };
+  user.lists.push(newList);
   await user.save();
 
   user = await User.findOne({ id });

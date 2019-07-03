@@ -39,8 +39,18 @@ describe("User", () => {
 
       const userId = "1";
       const userLists = [
-        { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
-        { id: "2", items: [{ id: "2", text: "Week 2", children: [] }] }
+        {
+          id: "1",
+          name: "JumpStart",
+          items: [{ id: "1", text: "Week 1", children: [] }]
+        },
+        {
+          id: "2",
+          name: "SUSS",
+          items: [
+            { id: "2", text: "Object Oriented Programming", children: [] }
+          ]
+        }
       ];
 
       const response = await request(app).get(`/users/${userId}`);
@@ -54,8 +64,16 @@ describe("User", () => {
 
       const userId = "2";
       const userLists = [
-        { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
-        { id: "2", items: [{ id: "1", text: "", children: [] }] }
+        {
+          id: "1",
+          name: "JumpStart",
+          items: [{ id: "1", text: "Week 1", children: [] }]
+        },
+        {
+          id: "2",
+          name: "",
+          items: [{ id: "1", text: "", children: [] }]
+        }
       ];
 
       // seeded userData has userLists[0], post userLists[1] to test
@@ -67,8 +85,20 @@ describe("User", () => {
     });
   });
 
-  describe.only("/users/:id/lists/:id", () => {
-    it.only("PUT / should update a user's list", () => {});
+  describe("/users/:id/lists/:id", () => {
+    it("PUT / should update a user's list", async () => {
+      // const users = db.collection("users");
+      // await users.insertMany(userData);
+      // const userId = "1";
+      // const userLists = [
+      //   { id: "1", items: [{ id: "1", text: "Testing1", children: [] }] }
+      // ];
+      // const response = await request(app)
+      //   .post(`/users/${userId}`)
+      //   .send(userLists[1]);
+      // expect(response.status).toEqual(201);
+      // expect(response.body).toMatchObject(userLists);
+    });
 
     it("DELETE / should remove a user's list", () => {});
   });

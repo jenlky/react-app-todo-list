@@ -7,8 +7,16 @@ const userData = [
     password:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkVkZGllIiwiaWF0IjoxNTE2MjM5MDIyfQ.asXPUk5p2SILfRyDKv0W2otcBwV6xh_MqumaeSVQ97A",
     lists: [
-      { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
-      { id: "2", items: [{ id: "2", text: "Week 2", children: [] }] }
+      {
+        id: "1",
+        name: "JumpStart",
+        items: [{ id: "1", text: "Week 1", children: [] }]
+      },
+      {
+        id: "2",
+        name: "SUSS",
+        items: [{ id: "2", text: "Object Oriented Programming", children: [] }]
+      }
     ]
   },
   {
@@ -17,7 +25,14 @@ const userData = [
     username: "jenlky",
     email: "jenssen.lee@gmail.com",
     password:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkplbnNzZW4iLCJpYXQiOjE1MTYyMzkwMjJ9._CVqv3hjS6wsB3xo2Db6wvXvuOH_AffAM24npH_8FS4"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkplbnNzZW4iLCJpYXQiOjE1MTYyMzkwMjJ9._CVqv3hjS6wsB3xo2Db6wvXvuOH_AffAM24npH_8FS4",
+    lists: [
+      {
+        id: "1",
+        name: "JumpStart",
+        items: [{ id: "1", text: "Week 1", children: [] }]
+      }
+    ]
   },
   {
     id: "3",
