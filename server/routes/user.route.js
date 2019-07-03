@@ -9,10 +9,17 @@ userRouter.get("/:id", async (req, res, next) => {
   res.status(200).send(getAllLists);
 });
 
-userRouter.post("/", () => {});
+userRouter.post("/:id", async (req, res, next) => {
+  const postOneList = await controller
+    .createOneList(req.params.id)
+    .catch(err => next(err));
+  res.status(201).send(postOneList);
+});
 
-userRouter.put("/", () => {}); // query strings for one item
+// userRouter.use("/:id/lists");
 
-userRouter.delete("/", () => {}); // query strings for one item
+userRouter.put("/:id/lists/:id", async (req, res, next) => {}); // query strings for one item
+
+userRouter.delete("/:id/lists/:id", async (req, res, next) => {}); // query strings for one item
 
 module.exports = userRouter;

@@ -33,53 +33,66 @@ describe("User", () => {
   });
 
   describe("/users/:id", () => {
-    it.only("GET / should return all of the user's lists", async () => {
+    it("GET / should return all of the user's lists", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = { id: "1" };
+      const userId = "1";
       const userLists = [
         { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
         { id: "2", items: [{ id: "2", text: "Week 2", children: [] }] }
       ];
 
-      const response = await request(app).get(`/users/1`);
-      // console.log("response", response.status);
+      const response = await request(app).get(`/users/${userId}`);
       expect(response.status).toEqual(200);
-      expect(response.body.lists).toMatchObject(userLists);
+      expect(response.body).toMatchObject(userLists);
     });
 
-    // const userItem = [{ id: "1", text: "Week 1", children: [] }];
+    it("POST / should create a new user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
 
-    // xit("/PUT should modify a pokemon from database", async () => {
-    //   const collection = db.collection("pokemons");
-    //   await collection.insertMany(pokemonData);
-    //   const response = await request(app)
-    //     .put(`/pokemon/${id}`)
-    //     .send({ "base.HP": 1 });
+      const userId = "2";
+      const userLists = [
+        { id: "1", items: [{ id: "1", text: "Week 1", children: [] }] },
+        { id: "2", items: [{ id: "1", text: "", children: [] }] }
+      ];
 
-    //   expect(response.status).toEqual(200);
-    //   expect(response.body.name.english).toEqual("Pikachu");
-    //   expect(response.body.base.HP).toEqual(1);
-    // });
-
-    // xit("/DELETE should remove a pokemon from database", async () => {
-    //   const collection = db.collection("pokemons");
-    //   await collection.insertMany(pokemonData);
-    //   const response = await request(app).delete(`/pokemon/${id}`);
-
-    //   expect(response.status).toEqual(200);
-    //   expect(response.body.name.english).toEqual("Pikachu");
-    // });
+      // seeded userData has userLists[0], post userLists[1] to test
+      const response = await request(app)
+        .post(`/users/${userId}`)
+        .send(userLists[1]);
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject(userLists);
+    });
   });
 
-  xdescribe("/users/:id/lists/:id", () => {
-    it("POST / should create a new user's list", () => {});
-
-    it("PUT / should update a user's list", () => {});
+  describe.only("/users/:id/lists/:id", () => {
+    it.only("PUT / should update a user's list", () => {});
 
     it("DELETE / should remove a user's list", () => {});
   });
+
+  // xit("/PUT should modify a pokemon from database", async () => {
+  //   const collection = db.collection("pokemons");
+  //   await collection.insertMany(pokemonData);
+  //   const response = await request(app)
+  //     .put(`/pokemon/${id}`)
+  //     .send({ "base.HP": 1 });
+
+  //   expect(response.status).toEqual(200);
+  //   expect(response.body.name.english).toEqual("Pikachu");
+  //   expect(response.body.base.HP).toEqual(1);
+  // });
+
+  // xit("/DELETE should remove a pokemon from database", async () => {
+  //   const collection = db.collection("pokemons");
+  //   await collection.insertMany(pokemonData);
+  //   const response = await request(app).delete(`/pokemon/${id}`);
+
+  //   expect(response.status).toEqual(200);
+  //   expect(response.body.name.english).toEqual("Pikachu");
+  // });
 
   xdescribe("/users/:id/lists/:id/items/", () => {
     it("POST / should create a new list item in the user's list", () => {});

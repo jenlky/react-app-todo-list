@@ -4,21 +4,28 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
 const findAllLists = async id => {
-  console.log("findAllLists", id);
-  const user = await User.findOne({ id }).catch(e => console.log(e));
-  console.log(user);
-  return user;
+  const user = await User.findOne({ id });
+  return user.lists;
 };
 
-// const insertOne = async pokemon => {};
+const createOneList = async id => {
+  let user = await User.findOne({ id });
 
-// const updateOne = async (id, payload) => {};
+  const list = [{ id: "2", items: [{ id: "1", text: "", children: [] }] }];
+  user.lists.push(list[0]);
+  await user.save();
 
-// const deleteOne = async id => {};
+  user = await User.findOne({ id });
+  return user.lists;
+};
+
+const updateOneList = async (id, payload) => {};
+
+const deleteOneList = async id => {};
 
 module.exports = {
-  findAllLists
-  // insertOne,
-  // updateOne,
-  // deleteOne
+  findAllLists,
+  createOneList,
+  updateOneList,
+  deleteOneList
 };
