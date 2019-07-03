@@ -16,10 +16,18 @@ userRouter.post("/:id", async (req, res, next) => {
   res.status(201).send(postOneList);
 });
 
-// userRouter.use("/:id/lists");
+userRouter.put("/:userId/lists/:listId", async (req, res, next) => {
+  const updateOneList = await controller
+    .updateOneList(req.params.userId, req.params.listId, req.query.name)
+    .catch(err => next(err));
+  res.status(200).send(updateOneList);
+});
 
-userRouter.put("/:id/lists/:id", async (req, res, next) => {}); // query strings for one item
-
-userRouter.delete("/:id/lists/:id", async (req, res, next) => {}); // query strings for one item
+userRouter.delete("/:userId/lists/:listId", async (req, res, next) => {
+  const deleteOneList = await controller
+    .deleteOneList(req.params.userId, req.params.listId)
+    .catch(err => next(err));
+  res.status(200).send(deleteOneList);
+});
 
 module.exports = userRouter;

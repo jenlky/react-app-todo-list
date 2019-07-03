@@ -24,9 +24,32 @@ const createOneList = async id => {
   return user.lists;
 };
 
-const updateOneList = async (id, payload) => {};
+// update one list's name
+const updateOneList = async (userId, listId, name) => {
+  let user = await User.findOne({ id: userId });
 
-const deleteOneList = async id => {};
+  const list = user.lists.find(list => list.id === listId);
+  list.name = name;
+  await user.save();
+
+  user = await User.findOne({ id: userId });
+  return user.lists;
+};
+
+const deleteOneList = async (userId, listId) => {
+  let user = await User.findOne({ id: userId });
+
+  const index = user.lists.find((list, index) => {
+    if (list.id === listId) {
+      return index;
+    }
+  });
+  user.lists.splice(index, 1);
+  await user.save();
+
+  user = await User.findOne({ id: userId });
+  return user.lists;
+};
 
 module.exports = {
   findAllLists,
