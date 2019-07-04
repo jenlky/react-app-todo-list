@@ -37,8 +37,33 @@ userRouter.delete("/:userId/lists/:listId", async (req, res, next) => {
   res.status(200).send(deleteOneList);
 });
 
-userRouter.put("/:userId/lists/:listId/items", async (req, res, next) => {});
+userRouter.put(
+  "/:userId/lists/:listId/items/:itemId",
+  async (req, res, next) => {
+    const updateOneListItem = await controller
+      .updateOneListItem(
+        req.params.userId,
+        req.params.listId,
+        req.params.itemId,
+        req.query.text
+      )
+      .catch(err => next(err));
+    res.status(200).send(updateOneListItem);
+  }
+);
 
-userRouter.delete("/:userId/lists/:listId/items", async (req, res, next) => {});
+userRouter.delete(
+  "/:userId/lists/:listId/items/:itemId",
+  async (req, res, next) => {
+    const deleteOneListItem = await controller
+      .deleteOneListItem(
+        req.params.userId,
+        req.params.listId,
+        req.params.itemId
+      )
+      .catch(err => next(err));
+    res.status(200).send(deleteOneListItem);
+  }
+);
 
 module.exports = userRouter;

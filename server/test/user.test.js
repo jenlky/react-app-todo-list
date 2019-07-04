@@ -48,7 +48,7 @@ describe("User", () => {
           id: "2",
           name: "SUSS",
           listItems: [
-            { id: "2", text: "Object Oriented Programming", children: [] }
+            { id: "1", text: "Object Oriented Programming", children: [] }
           ]
         }
       ];
@@ -112,7 +112,7 @@ describe("User", () => {
       expect(response.body).toMatchObject(lists);
     });
 
-    it("PUT / should update a user's list", async () => {
+    it("PUT / should update user's list name", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
@@ -128,9 +128,9 @@ describe("User", () => {
         },
         {
           id: "2",
-          name: "PUT you in your place",
+          name: "PUT updates list name",
           listItems: [
-            { id: "2", text: "Object Oriented Programming", children: [] }
+            { id: "1", text: "Object Oriented Programming", children: [] }
           ]
         }
       ];
@@ -158,9 +158,67 @@ describe("User", () => {
     });
   });
 
-  describe("/users/:userId/lists/:listId/items/", () => {
-    it.only("PUT / should update a list item in the user's list", async () => {});
+  describe("/users/:userId/lists/:listId/items/:itemId", () => {
+    it("PUT / should update a listItem's text in the user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
 
-    it("DELETE / should remove a list item in the user's list", async () => {});
+      const userId = "1";
+      const listId = "2";
+      const itemId = "1";
+
+      // Update lists[1].name and expect lists
+      const lists = [
+        {
+          id: "1",
+          name: "JumpStart",
+          listItems: [{ id: "1", text: "Week 1", children: [] }]
+        },
+        {
+          id: "2",
+          name: "SUSS",
+          listItems: [
+            { id: "1", text: "PUT updates listItems text", children: [] }
+          ]
+        }
+      ];
+
+      const response = await request(app).put(
+        `/users/${userId}/lists/${listId}/items/${itemId}?text=${
+          lists[1].listItems[0].text
+        }`
+      );
+      expect(response.status).toEqual(200);
+      expect(response.body).toMatchObject(lists);
+    });
+
+    it.only("DELETE / should remove a list item in the user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
+
+      const userId = "1";
+      const listId = "2";
+      const itemId = "1";
+
+      const lists = [
+        {
+          id: "1",
+          name: "JumpStart",
+          listItems: [{ id: "1", text: "Week 1", children: [] }]
+        },
+        {
+          id: "2",
+          name: "SUSS",
+          listItems: []
+        }
+      ];
+
+      const response = await request(app).delete(
+        `/users/${userId}/lists/${listId}/items/${itemId}`
+      );
+      // console.log(response);
+      expect(response.status).toEqual(200);
+      expect(response.body).toMatchObject(lists);
+    });
   });
 });
