@@ -1,5 +1,4 @@
 require("../models/user.model");
-
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
@@ -60,13 +59,8 @@ const deleteOneList = async (userId, listId) => {
 const createOneListItem = async (userId, listId) => {
   let user = await User.findOne({ id: userId });
   const index = findListIndex(user, listId);
-  let newItemId;
 
-  if (user.lists[index].listItems.length === 0) {
-    newItemId = user.lists[user.lists.length - 1].id + "-1";
-  } else {
-  }
-
+  const newItemId = Number(user.lists[user.lists.length - 1].id) + 1 + "";
   user.lists[index].listItems.push({
     id: `${newItemId}`,
     text: "",

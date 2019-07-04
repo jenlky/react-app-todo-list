@@ -86,6 +86,32 @@ describe("User", () => {
   });
 
   describe("/users/:userId/lists/:listId", () => {
+    it("POST / should create listItem in the user's list", async () => {
+      const users = db.collection("users");
+      await users.insertMany(userData);
+
+      const userId = "2";
+      const listId = "1";
+
+      // Insert lists[0].children and expect lists
+      const lists = [
+        {
+          id: "1",
+          name: "JumpStart",
+          listItems: [
+            { id: "1", text: "Week 1", children: [] },
+            { id: "2", text: "", children: [] }
+          ]
+        }
+      ];
+
+      const response = await request(app).post(
+        `/users/${userId}/lists/${listId}`
+      );
+      expect(response.status).toEqual(201);
+      expect(response.body).toMatchObject(lists);
+    });
+
     it("PUT / should update a user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
@@ -130,59 +156,10 @@ describe("User", () => {
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject({});
     });
-
-    it("POST / should create first child item in the user's list", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
-
-      const userId = "3";
-      const listId = "1";
-
-      // Insert lists[0].children and expect lists
-      const lists = [
-        {
-          id: "1",
-          name: "JumpStart",
-          listItems: [{ id: "1-1", text: "", children: [] }]
-        }
-      ];
-
-      const response = await request(app).post(
-        `/users/${userId}/lists/${listId}`
-      );
-      expect(response.status).toEqual(201);
-      expect(response.body).toMatchObject(lists);
-    });
-
-    it.only("POST / should create subsequent child item in the user's list", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
-
-      const userId = "2";
-      const listId = "1";
-
-      // Insert lists[0].children[1] and expect lists
-      const lists = [
-        {
-          id: "1",
-          text: "Week 1",
-          children: [
-            { id: "1-1", text: "", children: [] },
-            { id: "1-2", text: "", children: [] }
-          ]
-        }
-      ];
-
-      const response = await request(app).post(
-        `/users/${userId}/lists/${listId}`
-      );
-      expect(response.status).toEqual(201);
-      expect(response.body).toMatchObject(lists);
-    });
   });
 
-  xdescribe("/users/:userId/lists/:listId/items/", () => {
-    it("PUT / should update a list item in the user's list", async () => {});
+  describe("/users/:userId/lists/:listId/items/", () => {
+    it.only("PUT / should update a list item in the user's list", async () => {});
 
     it("DELETE / should remove a list item in the user's list", async () => {});
   });
