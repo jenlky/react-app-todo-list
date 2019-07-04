@@ -30,9 +30,9 @@ userRouter.delete("/:userId/lists/:listId", async (req, res, next) => {
   res.status(200).send(deleteOneList);
 });
 
-userRouter.post("/:userId/lists/:listId/items", async (req, res, next) => {
+userRouter.post("/:userId/lists/:listId", async (req, res, next) => {
   const createOneListItem = await controller
-    .createOneListItem(req.params.userId, req.params.listId, req.query.itemId)
+    .createOneListItem(req.params.userId, req.params.listId)
     .catch(err => next(err));
   res.status(201).send(createOneListItem);
 });

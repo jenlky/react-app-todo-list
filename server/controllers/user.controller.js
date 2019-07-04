@@ -57,25 +57,25 @@ const deleteOneList = async (userId, listId) => {
   return user.lists;
 };
 
-const createOneListItem = async (userId, listId, itemId) => {
-  if (itemId === undefined) {
-    let user = await User.findOne({ id: userId });
-    const index = findListIndex(user, listId);
-    // console.log("index", index);
+const createOneListItem = async (userId, listId) => {
+  let user = await User.findOne({ id: userId });
+  const index = findListIndex(user, listId);
+  let newItemId;
 
-    const newItemId = user.lists[user.lists.length - 1].id + "-1";
-    // console.log("newItemId", newItemId);
-
-    user.lists[index].listItems.push({
-      id: `${newItemId}`,
-      text: "",
-      children: []
-    });
-    await user.save();
-
-    user = await User.findOne({ id: userId });
-    return user.lists;
+  if (user.lists[index].listItems.length === 0) {
+    newItemId = user.lists[user.lists.length - 1].id + "-1";
+  } else {
   }
+
+  user.lists[index].listItems.push({
+    id: `${newItemId}`,
+    text: "",
+    children: []
+  });
+  await user.save();
+
+  user = await User.findOne({ id: userId });
+  return user.lists;
 };
 
 const updateOneListItem = async (userId, listId, name) => {};
