@@ -32,8 +32,8 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  xdescribe("POST /signup and POST /login", () => {
-    it("users can signup with validated name, username, email address and password", async () => {
+  describe.only("POST /signup and POST /login", () => {
+    it.only("users can signup with validated name, username, email address and password", async () => {
       const users = db.collection("users");
       // await users.insertMany(userData[0]); // Eddie
 
@@ -54,18 +54,20 @@ describe("User", () => {
     it("users can login with validated username/email address and password", async () => {});
   });
 
-  describe.only("/users/:username", () => {
-    it.only("GET / should return all of the user's lists", async () => {
+  describe("/users/:username", () => {
+    it("GET / should return all of the user's lists", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
       const username = "EdsonElson";
       const lists = [
         {
+          id: 1,
           name: "JumpStart",
           listItems: [{ text: "Week 1", children: [] }]
         },
         {
+          id: 2,
           name: "SUSS",
           listItems: [{ text: "Object Oriented Programming", children: [] }]
         }
@@ -80,83 +82,82 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = "2";
+      const username = "jenlky";
       // Insert lists[1] and expect lists
       const lists = [
         {
-          id: "1",
+          id: 1,
           name: "JumpStart",
           listItems: [{ text: "Week 1", children: [] }]
         },
         {
-          id: "2",
+          id: 2,
           name: "",
           listItems: []
         }
       ];
 
       const response = await request(app)
-        .post(`/users/${userId}`)
+        .post(`/users/${username}`)
         .send(lists[1]);
       expect(response.status).toEqual(201);
       expect(response.body).toMatchObject(lists);
     });
   });
 
-  describe("/users/:userId/lists/:listId", () => {
+  describe("/users/:username/lists/:id", () => {
     it("PUT / should update user's list name", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = "1";
-      const listId = "2";
+      const username = "EdsonElson";
+      const id = 2;
 
       // Update lists[1].name and expect lists
       const lists = [
         {
-          id: "1",
+          id: 1,
           name: "JumpStart",
           listItems: [{ text: "Week 1", children: [] }]
         },
         {
-          id: "2",
+          id: 2,
           name: "PUT updates list name",
           listItems: [{ text: "Object Oriented Programming", children: [] }]
         }
       ];
 
-      const response = await request(app).put(
-        `/users/${userId}/lists/${listId}?name=${lists[1].name}`
-      );
+      const response = await request(app)
+        .put(`/users/${username}/lists/${id}`)
+        .send({ name: lists[1].name });
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(lists);
     });
 
-    // is this the correct behaviour? Should I expect {}?
     it("DELETE / should remove a user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = "2";
-      const listId = "1";
+      const username = "jenlky";
+      const listId = 1;
 
       const response = await request(app).delete(
-        `/users/${userId}/lists/${listId}`
+        `/users/${username}/lists/${listId}`
       );
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject({});
     });
   });
 
-  describe("/users/:userId/lists/:listId/items", () => {
+  describe("/users/:username/lists/:id/items", () => {
     it("PUT / should overwrite all the items in user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = "1";
-      const listId = "1";
+      const username = "EdsonElson";
+      const id = 1;
       const list = {
-        id: "1",
+        id: 1,
         name: "JumpStart",
         listItems: [
           {
@@ -178,12 +179,10 @@ describe("User", () => {
       };
 
       const response = await request(app)
-        .put(`/users/${userId}/lists/${listId}/items`)
+        .put(`/users/${username}/lists/${id}/items`)
         .send(list);
-      console.log(response.body);
-
       expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(list);
+      expect(response.body).toMatchObject(list.listItems);
     });
   });
 });

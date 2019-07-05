@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 app.use(userRouter);
 
 app.use((err, res, req, next) => {
-  console.log("error", err);
+  console.log(err);
   res.sendStatus(500);
 });
 

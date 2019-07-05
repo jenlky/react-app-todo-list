@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   lists: [
     {
+      id: { type: Number, required: true, unique: true },
       name: { type: String },
       listItems: [
         {

@@ -6,10 +6,12 @@ const userData = [
     password: "selamatdatang",
     lists: [
       {
+        id: 1,
         name: "JumpStart",
         listItems: [{ text: "Week 1", children: [] }]
       },
       {
+        id: 2,
         name: "SUSS",
         listItems: [{ text: "Object Oriented Programming", children: [] }]
       }
@@ -22,6 +24,7 @@ const userData = [
     password: "jumpstart",
     lists: [
       {
+        id: 1,
         name: "JumpStart",
         listItems: [{ text: "Week 1", children: [] }]
       }
@@ -34,6 +37,7 @@ const userData = [
     password: "chinesematrep",
     lists: [
       {
+        id: 1,
         name: "JumpStart",
         listItems: []
       }
@@ -46,6 +50,7 @@ const userData = [
     password: "chineseminah",
     lists: [
       {
+        id: 1,
         name: "JumpStart",
         listItems: []
       }
