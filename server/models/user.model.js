@@ -12,9 +12,8 @@ const userSchema = new mongoose.Schema({
       name: { type: String },
       listItems: [
         {
-          id: { type: String, required: true, unique: true },
           text: { type: String },
-          children: { type: [Array] }
+          children: { type: [Object] }
         }
       ]
     }

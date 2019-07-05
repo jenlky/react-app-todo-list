@@ -10,14 +10,12 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        listItems: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: [{ text: "Week 1", children: [] }]
       },
       {
         id: "2",
         name: "SUSS",
-        listItems: [
-          { id: "1", text: "Object Oriented Programming", children: [] }
-        ]
+        listItems: [{ text: "Object Oriented Programming", children: [] }]
       }
     ]
   },
@@ -32,7 +30,7 @@ const userData = [
       {
         id: "1",
         name: "JumpStart",
-        listItems: [{ id: "1", text: "Week 1", children: [] }]
+        listItems: [{ text: "Week 1", children: [] }]
       }
     ]
   },
