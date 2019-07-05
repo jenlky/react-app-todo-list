@@ -24,11 +24,11 @@ class App extends React.Component {
 
   updateUserState = e => {
     switch (e.target.id) {
-      case "firstName":
-        this.setState({ firstName: e.target.value });
+      case "name":
+        this.setState({ name: e.target.value });
         break;
-      case "lastName":
-        this.setState({ lastName: e.target.value });
+      case "username":
+        this.setState({ username: e.target.value });
         break;
       case "email":
         this.setState({ email: e.target.value });

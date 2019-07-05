@@ -40,7 +40,7 @@ export default function LoginForm({ updateUserState, login }) {
         margin="normal"
         required
         fullWidth
-        id="c"
+        id="username"
         label="Username or Email Address"
         name="userOrEmail"
         autoComplete="userOrEmail"
