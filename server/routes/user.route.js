@@ -2,24 +2,20 @@ const express = require("express");
 const userRouter = express.Router();
 const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
+const { signupSchema, loginSchema } = require("../models/userValidation");
+const jwt = require("jsonwebtoken");
 
-const signupSchema = Joi.object().keys({
-  name: Joi.string().required(),
-  username: Joi.string()
-    .alphanum()
-    .min(4)
-    .max(20)
-    .required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2 })
-    .required(),
-  password: Joi.string()
-    .alphanum()
-    .regex(/[a-zA-Z0-9~!@#$%^&*()]{8,30}$/)
-    .required()
-});
-
-const loginSchema = Joi.object().keys({});
+const generateToken = user => {
+  return jwt.sign(
+    {
+      sub: user._id,
+      iat: new Date().getTime(),
+      user: user.username
+    },
+    process.env.jwtSecret,
+    { expiresIn: "1h" }
+  );
+};
 
 userRouter.post("/signup", async (req, res, next) => {
   const { name, username, email, password } = req.body;
@@ -30,17 +26,20 @@ userRouter.post("/signup", async (req, res, next) => {
       signupSchema,
       (err, value) => {
         if (err) {
-          throw new Error(err);
+          throw new Error(err.message);
         }
       }
     );
 
-    const createdUser = await controller.createOneUser(req.body);
-    res.status(201).send(createdUser); // send jwt token instead of user
+    const user = await controller.createOneUser(req.body);
+    const token = generateToken(user);
+    res.status(201).send(token);
   } catch (err) {
     next(err);
   }
 });
+
+userRouter.post("/login", async (req, res, next) => {});
 
 userRouter.get("/users/:username", async (req, res, next) => {
   const getAllLists = await controller

@@ -1,14 +1,17 @@
 require("../models/user.model");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const bcrypt = require("bcrypt");
 
 const createOneUser = async body => {
   const { name, username, email, password } = body;
 
-  // find id create new id
+  const saltRound = 10;
+  const hash = await bcrypt.hash(password, saltRound);
+  const user = new User({ name, username, email, password: hash });
 
-  const user = new User({ name, username, email, password });
   await user.save();
+  return { _id: user._id, username: user.username };
 };
 
 const findAllLists = async username => {

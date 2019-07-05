@@ -2,6 +2,7 @@ const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const app = require("../app");
 const { userData } = require("../utils/seed");
+const jwt = require("jsonwebtoken");
 
 describe("User", () => {
   let connection;
@@ -32,11 +33,12 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
+  const verifyToken = token => {
+    return jwt.verify(token, process.env.jwtSecret);
+  };
+
   describe.only("POST /signup and POST /login", () => {
     it.only("users can signup with validated name, username, email address and password", async () => {
-      const users = db.collection("users");
-      // await users.insertMany(userData[0]); // Eddie
-
       const user = {
         name: "Eddie",
         username: "EdsonElson",
@@ -45,10 +47,12 @@ describe("User", () => {
       };
 
       const response = await request(app)
-        .post(`/signup`)
+        .post("/signup")
         .send(user);
+
+      const payload = verifyToken(response.text);
       expect(response.status).toEqual(201);
-      // expect(response.body).toMatchObject(lists);
+      expect(payload.user).toEqual(user.username);
     });
 
     it("users can login with validated username/email address and password", async () => {});
