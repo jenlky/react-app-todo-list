@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUpForm({ updateUserState, submit }) {
+export default function SignUpForm({ updateUserState, signup }) {
   const classes = useStyles();
 
   return (
@@ -80,7 +80,7 @@ export default function SignUpForm({ updateUserState, submit }) {
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={e => submit(e, true)}
+        onClick={e => signup(e)}
       >
         Sign Up
       </Button>

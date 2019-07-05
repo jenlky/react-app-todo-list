@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import List from "./List";
 import Navbar from "./Navbar";
+import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignUpOrLogin";
 import getData from "../service/items-service";
 import "../styles/App.css";
@@ -14,8 +15,8 @@ class App extends React.Component {
       keyInItem: "",
       title: "My To-Do List",
       delay: 150,
-      firstName: "",
-      lastName: "",
+      name: "",
+      username: "",
       email: "",
       password: ""
     };
@@ -40,21 +41,29 @@ class App extends React.Component {
     }
   };
 
-  submit = (e, isSignUp) => {
+  signup = e => {
     e.stopPropagation();
     e.preventDefault();
+    console.log(e);
 
-    if (isSignUp) {
-      if (
-        this.state.firstName &&
-        this.state.lastName &&
-        this.state.email &&
-        this.state.password
-      ) {
-      }
-    } else {
-      if (this.state.email && this.state.password) {
-      }
+    if (
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.email &&
+      this.state.password
+    ) {
+    }
+  };
+
+  login = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log(e);
+
+    if (
+      (this.state.user && this.state.password) ||
+      (this.state.email && this.state.password)
+    ) {
     }
   };
 
@@ -281,9 +290,23 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
+          {/* if user isAuthenticated he can access List */}
+          {/* guard the route for both frontend and backend */}
           <Route
             exact={true}
             path="/"
+            render={() => {
+              return (
+                <React.Fragment>
+                  <Navbar />
+                  <Homepage />
+                </React.Fragment>
+              );
+            }}
+          />
+          <Route
+            exact={true}
+            path="/users"
             render={props => {
               return (
                 <React.Fragment>
@@ -313,7 +336,8 @@ class App extends React.Component {
               <SignUpOrLogin
                 name="Sign up"
                 updateUserState={this.updateUserState}
-                submit={this.submit}
+                signup={this.signup}
+                login={this.login}
               />
             )}
           />
@@ -324,7 +348,8 @@ class App extends React.Component {
               <SignUpOrLogin
                 name="Log in"
                 updateUserState={this.updateUserState}
-                submit={this.submit}
+                signup={this.signup}
+                login={this.login}
               />
             )}
           />

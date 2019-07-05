@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LoginForm({ updateUserState, submit }) {
+export default function LoginForm({ updateUserState, login }) {
   const classes = useStyles();
 
   return (
@@ -40,10 +40,10 @@ export default function LoginForm({ updateUserState, submit }) {
         margin="normal"
         required
         fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
+        id="c"
+        label="Username or Email Address"
+        name="userOrEmail"
+        autoComplete="userOrEmail"
         autoFocus
         onChange={updateUserState}
       />
@@ -66,9 +66,9 @@ export default function LoginForm({ updateUserState, submit }) {
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={e => submit(e, false)}
+        onClick={e => login(e)}
       >
-        Sign In
+        Log In
       </Button>
       <Grid container>
         <Grid item xs>

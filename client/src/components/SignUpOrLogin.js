@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp({ name, updateUserState, submit }) {
+export default function SignUp({ name, updateUserState, signup, login }) {
   const classes = useStyles();
 
   return (
@@ -47,9 +47,9 @@ export default function SignUp({ name, updateUserState, submit }) {
           {name}
         </Typography>
         {name === "Sign up" ? (
-          <SignUpForm updateUserState={updateUserState} submit={submit} />
+          <SignUpForm updateUserState={updateUserState} signup={signup} />
         ) : (
-          <LoginForm updateUserState={updateUserState} submit={submit} />
+          <LoginForm updateUserState={updateUserState} login={login} />
         )}
       </div>
     </Container>
