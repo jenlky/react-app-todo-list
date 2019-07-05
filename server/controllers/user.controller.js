@@ -2,13 +2,22 @@ require("../models/user.model");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
-const findAllLists = async id => {
-  const user = await User.findOne({ id });
+const createOneUser = async body => {
+  const { name, username, email, password } = body;
+
+  // find id create new id
+
+  const user = new User({ name, username, email, password });
+  await user.save();
+};
+
+const findAllLists = async username => {
+  const user = await User.findOne({ username });
   return user.lists;
 };
 
-const createOneList = async id => {
-  let user = await User.findOne({ id });
+const createOneList = async username => {
+  let user = await User.findOne({ username });
 
   const listId = user.lists.length + 1 + "";
   const newList = {
@@ -73,6 +82,7 @@ const overwriteListItems = async (userId, listId, newList) => {
 };
 
 module.exports = {
+  createOneUser,
   findAllLists,
   createOneList,
   updateOneList,

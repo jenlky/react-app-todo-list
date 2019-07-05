@@ -32,26 +32,46 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  describe("/users/:id", () => {
-    it("GET / should return all of the user's lists", async () => {
+  xdescribe("POST /signup and POST /login", () => {
+    it("users can signup with validated name, username, email address and password", async () => {
+      const users = db.collection("users");
+      // await users.insertMany(userData[0]); // Eddie
+
+      const user = {
+        name: "Eddie",
+        username: "EdsonElson",
+        email: "eddie@gmail.com",
+        password: "selamatdatang"
+      };
+
+      const response = await request(app)
+        .post(`/signup`)
+        .send(user);
+      expect(response.status).toEqual(201);
+      // expect(response.body).toMatchObject(lists);
+    });
+
+    it("users can login with validated username/email address and password", async () => {});
+  });
+
+  describe.only("/users/:username", () => {
+    it.only("GET / should return all of the user's lists", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const userId = "1";
+      const username = "EdsonElson";
       const lists = [
         {
-          id: "1",
           name: "JumpStart",
           listItems: [{ text: "Week 1", children: [] }]
         },
         {
-          id: "2",
           name: "SUSS",
           listItems: [{ text: "Object Oriented Programming", children: [] }]
         }
       ];
 
-      const response = await request(app).get(`/users/${userId}`);
+      const response = await request(app).get(`/users/${username}`);
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(lists);
     });

@@ -8,7 +8,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
-app.use("/users", userRouter);
+app.use(userRouter);
 
 app.use((err, res, req, next) => {
   console.log("error", err);
