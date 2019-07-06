@@ -38,7 +38,7 @@ describe("User", () => {
   };
 
   describe.only("POST /signup and POST /login", () => {
-    it.only("users can signup with validated name, username, email address and password", async () => {
+    it("users can signup with validated name, username, email address and password", async () => {
       const user = {
         name: "Eddie",
         username: "EdsonElson",
@@ -49,13 +49,38 @@ describe("User", () => {
       const response = await request(app)
         .post("/signup")
         .send(user);
+      const token = response.text;
+      // I get back the token, on client side I'm supposed to set it in authorization header
+      // ONLY when I interact with the endpoints/server, when I do CRUD
 
-      const payload = verifyToken(response.text);
+      const payload = verifyToken(token);
       expect(response.status).toEqual(201);
       expect(payload.user).toEqual(user.username);
     });
 
-    it("users can login with validated username/email address and password", async () => {});
+    it("users can login with validated username and password", async () => {
+      const user = {
+        name: "Eddie",
+        username: "EdsonElson",
+        email: "eddie@gmail.com",
+        password: "selamatdatang"
+      };
+
+      await request(app)
+        .post("/signup")
+        .send(user);
+
+      const response = await request(app)
+        .post("/login")
+        .send({ username: user.username, password: user.password });
+      const token = response.text;
+
+      const payload = verifyToken(token);
+      expect(response.status).toEqual(201);
+      expect(payload.user).toEqual(user.username);
+    });
+
+    xit("users can login with validated email address and password", async () => {});
   });
 
   describe("/users/:username", () => {

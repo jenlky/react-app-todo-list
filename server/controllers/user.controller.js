@@ -3,15 +3,26 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const bcrypt = require("bcrypt");
 
-const createOneUser = async body => {
-  const { name, username, email, password } = body;
+const createOneUser = async user => {
+  const { name, username, email, password } = user;
 
   const saltRound = 10;
   const hash = await bcrypt.hash(password, saltRound);
-  const user = new User({ name, username, email, password: hash });
+  const newUser = new User({ name, username, email, password: hash });
 
-  await user.save();
-  return { _id: user._id, username: user.username };
+  await newUser.save();
+  return { _id: newUser._id, username: newUser.username };
+};
+
+const findOneUser = async user => {
+  const foundUser = await User.findOne({ username: user.username });
+  const isUser = await bcrypt.compare(user.password, foundUser.password);
+
+  if (isUser) {
+    return { username: user.username };
+  } else {
+    throw new Error("User not found");
+  }
 };
 
 const findAllLists = async username => {
@@ -71,6 +82,7 @@ const overwriteListItems = async (username, id, newList) => {
 
 module.exports = {
   createOneUser,
+  findOneUser,
   findAllLists,
   createOneList,
   updateOneList,

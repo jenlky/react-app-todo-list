@@ -39,7 +39,15 @@ userRouter.post("/signup", async (req, res, next) => {
   }
 });
 
-userRouter.post("/login", async (req, res, next) => {});
+userRouter.post("/login", async (req, res, next) => {
+  try {
+    const user = await controller.findOneUser(req.body);
+    const token = generateToken(user);
+    res.status(201).send(token);
+  } catch (err) {
+    res.status(401).send(err.message);
+  }
+});
 
 userRouter.get("/users/:username", async (req, res, next) => {
   const getAllLists = await controller
