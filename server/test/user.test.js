@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const app = require("../app");
 const { userData } = require("../utils/seed");
-const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../utils/token");
 
 describe("User", () => {
   let connection;
@@ -32,10 +32,6 @@ describe("User", () => {
     const response = await request(app).get("/");
     expect(response.text).toEqual("Hello world");
   });
-
-  const verifyToken = token => {
-    return jwt.verify(token, process.env.jwtSecret);
-  };
 
   describe.only("POST /signup and POST /login", () => {
     it("users can signup with validated name, username, email address and password", async () => {

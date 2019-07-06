@@ -3,19 +3,7 @@ const userRouter = express.Router();
 const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
 const { signupSchema, loginSchema } = require("../models/userValidation");
-const jwt = require("jsonwebtoken");
-
-const generateToken = user => {
-  return jwt.sign(
-    {
-      sub: user._id,
-      iat: new Date().getTime(),
-      user: user.username
-    },
-    process.env.jwtSecret,
-    { expiresIn: "1h" }
-  );
-};
+const { generateToken } = require("../utils/token");
 
 userRouter.post("/signup", async (req, res, next) => {
   const { name, username, email, password } = req.body;
