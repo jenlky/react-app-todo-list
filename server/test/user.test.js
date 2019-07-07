@@ -33,8 +33,8 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  describe.only("POST /signup and POST /login", () => {
-    it("users can signup with validated name, username, email address and password", async () => {
+  describe.only("POST /signup, POST /login and GET /secure", () => {
+    it("users can POST /signup with validated name, username, email address and password", async () => {
       const user = {
         name: "Eddie",
         username: "EdsonElson",
@@ -42,19 +42,16 @@ describe("User", () => {
         password: "selamatdatang"
       };
 
+      // I get back the token, on client side I'm supposed to set it in authorization header
+      // ONLY when I interact with the endpoints/server, when I do CRUD
       const response = await request(app)
         .post("/signup")
         .send(user);
-      const token = response.text;
-      // I get back the token, on client side I'm supposed to set it in authorization header
-      // ONLY when I interact with the endpoints/server, when I do CRUD
-
-      const payload = verifyToken(token);
       expect(response.status).toEqual(201);
-      expect(payload.user).toEqual(user.username);
+      expect(response.body.username).toEqual(user.username);
     });
 
-    it("users can login with validated username and password", async () => {
+    it("users can POST /login with validated username and password", async () => {
       const user = {
         name: "Eddie",
         username: "EdsonElson",
@@ -69,14 +66,30 @@ describe("User", () => {
       const response = await request(app)
         .post("/login")
         .send({ username: user.username, password: user.password });
-      const token = response.text;
-
-      const payload = verifyToken(token);
       expect(response.status).toEqual(201);
-      expect(payload.user).toEqual(user.username);
+      expect(response.body.username).toEqual(user.username);
     });
 
-    xit("users can login with validated email address and password", async () => {});
+    xit("GET /secure checks if users have valid token before giving them access", async () => {
+      // doesn't work because nodeJS does not have sessionStorage
+      //   const user = {
+      //     name: "Eddie",
+      //     username: "EdsonElson",
+      //     email: "eddie@gmail.com",
+      //     password: "selamatdatang"
+      //   };
+      //   const signupResponse = await request(app)
+      //     .post("/signup")
+      //     .send(user);
+      //   const jwt = signupResponse.body.jwt;
+      //   if (jwt) {
+      //     sessionStorage.setItem("jwt", jwt);
+      //     headers.Authorization = "Bearer " + jwt;
+      //   }
+      //   const response = await request(app).get("/secure");
+      //   console.log(response.body.username);
+      //   expect(response.body.username).toEqual(user.username);
+    });
   });
 
   describe("/users/:username", () => {

@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
 const { signupSchema, loginSchema } = require("../models/userValidation");
-const { generateToken } = require("../utils/token");
+const { generateToken, verifyToken } = require("../utils/token");
 
 userRouter.post("/signup", async (req, res, next) => {
   const { name, username, email, password } = req.body;
@@ -21,19 +21,65 @@ userRouter.post("/signup", async (req, res, next) => {
 
     const user = await controller.createOneUser(req.body);
     const token = generateToken(user);
-    res.status(201).send(token);
+    res.status(201).send({
+      username: user.username,
+      jwt: token
+    });
   } catch (err) {
+    // maybe I can specify how to deal with different errors
     next(err);
   }
 });
 
 userRouter.post("/login", async (req, res, next) => {
+  const { username, password } = req.body;
+
   try {
+    Joi.validate({ username, password }, loginSchema, (err, value) => {
+      if (err) {
+        throw new Error(err.message);
+      }
+    });
+
     const user = await controller.findOneUser(req.body);
+    if (!user) {
+      res.sendStatus(401);
+    }
+
     const token = generateToken(user);
-    res.status(201).send(token);
+    res.status(201).send({
+      username: user.username,
+      jwt: token
+    });
   } catch (err) {
-    res.status(401).send(err.message);
+    next(err);
+  }
+});
+
+userRouter.get("/secure", async (req, res, next) => {
+  try {
+    const authorization = req.headers.authorization;
+    console.log(authorization);
+
+    if (!authorization) {
+      return res.sendStatus(401);
+    }
+    const token = authorization.split(" ")[1];
+    let payload;
+    let foundUser;
+
+    if (token) {
+      payload = verifyToken(token);
+      foundUser = await controller.checkPayload({ username: payload.username });
+    }
+
+    if (foundUser) {
+      return res.json({ username: foundUser.username });
+    } else {
+      throw new Error("User cannot be found");
+    }
+  } catch (err) {
+    next(err);
   }
 });
 

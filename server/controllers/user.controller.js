@@ -25,6 +25,10 @@ const findOneUser = async user => {
   }
 };
 
+const checkPayload = async username => {
+  return await User.findOne({ username });
+};
+
 const findAllLists = async username => {
   const user = await User.findOne({ username });
   return user.lists;
@@ -83,6 +87,7 @@ const overwriteListItems = async (username, id, newList) => {
 module.exports = {
   createOneUser,
   findOneUser,
+  checkPayload,
   findAllLists,
   createOneList,
   updateOneList,

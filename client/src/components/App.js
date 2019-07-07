@@ -6,20 +6,32 @@ import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignUpOrLogin";
 import getData from "../service/items-service";
 import "../styles/App.css";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      lists: "",
       items: getData(),
       keyInItem: "",
       title: "My To-Do List",
-      delay: 150,
+      loggedInUser: "",
+      isLoggedIn: false,
       name: "",
       username: "",
       email: "",
-      password: ""
+      password: "",
+      delay: 150
     };
+  }
+
+  async componentDidMount() {
+    // try {
+    //   axios.get("http://localhost:3001/").then(res => console.log(res.data));
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   updateUserState = e => {
@@ -41,29 +53,71 @@ class App extends React.Component {
     }
   };
 
-  signup = e => {
-    e.stopPropagation();
+  signup = async e => {
     e.preventDefault();
-    console.log(e);
+    const server = "http://localhost:3001";
+    const { name, username, email, password } = this.state;
 
-    if (
-      this.state.firstName &&
-      this.state.lastName &&
-      this.state.email &&
-      this.state.password
-    ) {
+    if (name && username && email && password) {
+      // doesn't distinguish what kind of error
+      // whether user already exists in db, or form failed validation
+      const res = await axios
+        .post(`${server}/signup`, {
+          name,
+          username,
+          email,
+          password
+        })
+        .catch(err => console.log(err.message));
+
+      if (res.data.jwt) {
+        sessionStorage.setItem("jwt", res.data.jwt);
+        this.setState(prev => {
+          return {
+            name: "",
+            email: "",
+            password: "",
+            username: res.data.username,
+            isLoggedIn: !prev.isLoggedIn
+          };
+        });
+      }
+      // after this I'll need 1) React conditional rendering to guard the routes
+      // 2) express middleware GET /secure
     }
   };
 
-  login = e => {
-    e.stopPropagation();
+  // when I login or do CRUD then put the token in the request
+  login = async e => {
     e.preventDefault();
-    console.log(e);
+    const server = "http://localhost:3001";
+    let res;
 
-    if (
-      (this.state.user && this.state.password) ||
-      (this.state.email && this.state.password)
-    ) {
+    const jwt = sessionStorage.getItem("jwt");
+    const { username, password } = this.state;
+    console.log("does browser have jwt:", jwt);
+
+    if (jwt) {
+      const headers = {
+        authorization: "Bearer " + jwt
+      };
+      res = await axios.get(`${server}/secure`, {
+        headers
+      });
+    } else if (username && password) {
+      res = await axios.post(`${server}/login`, {
+        username,
+        password
+      });
+      sessionStorage.setItem("jwt", res.data.jwt);
+    }
+
+    if (jwt || res.data.jwt) {
+      this.setState({
+        username: res.data.username,
+        password: "",
+        isLoggedIn: true
+      });
     }
   };
 
@@ -290,7 +344,7 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          {/* if user isAuthenticated he can access List */}
+          {/* if user isLoggedIn he can access List */}
           {/* guard the route for both frontend and backend */}
           <Route
             exact={true}
@@ -305,8 +359,9 @@ class App extends React.Component {
             }}
           />
           <Route
-            exact={true}
+            // exact={true}
             path="/users"
+            // path={`/users/${this.state.username}`}
             render={props => {
               return (
                 <React.Fragment>
