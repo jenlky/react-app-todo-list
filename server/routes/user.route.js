@@ -14,17 +14,16 @@ const isAuthenticated = async (req, res, next) => {
       return res.sendStatus(401);
     }
     const token = authorization.split(" ")[1];
-    let payload;
-    let foundUser;
 
     if (token) {
-      payload = verifyToken(token);
-      foundUser = await controller.checkPayload({ username: payload.username });
-    }
+      const payload = verifyToken(token);
+      const foundUser = await controller.checkPayload({
+        username: payload.username
+      });
 
-    if (foundUser) {
-      return res.json({ username: foundUser.username });
-    } else {
+      if (foundUser) {
+        return true;
+      }
       throw new Error("User cannot be found");
     }
   } catch (err) {
