@@ -87,24 +87,23 @@ class App extends React.Component {
     }
   };
 
+  insertJWT = () => {
+    const jwt = sessionStorage.getItem("jwt");
+    const headers = {
+      authorization: "Bearer " + jwt
+    };
+
+    return headers;
+  };
+
   // when I login or do CRUD then put the token in the request
   login = async e => {
     e.preventDefault();
     const server = "http://localhost:3001";
     let res;
 
-    const jwt = sessionStorage.getItem("jwt");
     const { username, password } = this.state;
-    console.log("does browser have jwt:", jwt);
-
-    if (jwt) {
-      const headers = {
-        authorization: "Bearer " + jwt
-      };
-      res = await axios.get(`${server}/secure`, {
-        headers
-      });
-    } else if (username && password) {
+    if (username && password) {
       res = await axios.post(`${server}/login`, {
         username,
         password
@@ -112,7 +111,7 @@ class App extends React.Component {
       sessionStorage.setItem("jwt", res.data.jwt);
     }
 
-    if (jwt || res.data.jwt) {
+    if (res.data.jwt) {
       this.setState({
         username: res.data.username,
         password: "",
