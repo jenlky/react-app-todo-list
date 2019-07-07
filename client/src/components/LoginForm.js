@@ -41,9 +41,9 @@ export default function LoginForm({ updateUserState, login }) {
         required
         fullWidth
         id="username"
-        label="Username or Email Address"
-        name="userOrEmail"
-        autoComplete="userOrEmail"
+        label="Username"
+        name="username"
+        autoComplete="current-username"
         autoFocus
         onChange={updateUserState}
       />
