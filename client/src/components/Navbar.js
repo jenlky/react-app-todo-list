@@ -5,6 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import "../styles/App.css";
+import SignUp from "./SignUp";
+import Login from "./Login";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,16 +32,8 @@ function Navbar() {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
-          <Button className={classes.button} color="inherit">
-            <Link to="/signup" className="navbar-link">
-              Sign up
-            </Link>
-          </Button>
-          <Button className={classes.button} color="inherit">
-            <Link to="/login" className="navbar-link">
-              Log in
-            </Link>
-          </Button>
+          <SignUp className={classes.button} />
+          <Login className={classes.button} />
         </Toolbar>
       </AppBar>
     </div>

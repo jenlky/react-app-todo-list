@@ -87,6 +87,7 @@ class App extends React.Component {
     }
   };
 
+  // when I login or do CRUD then put the token in the request
   insertJWT = () => {
     const jwt = sessionStorage.getItem("jwt");
     const headers = {
@@ -96,7 +97,6 @@ class App extends React.Component {
     return headers;
   };
 
-  // when I login or do CRUD then put the token in the request
   login = async e => {
     e.preventDefault();
     const server = "http://localhost:3001";
