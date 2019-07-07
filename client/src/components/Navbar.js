@@ -2,11 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 import "../styles/App.css";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import Username from "./Username";
+import Logout from "./Logout";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,15 +25,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Navbar() {
+function Navbar({ username, isLoggedIn, logout }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
-          <SignUp className={classes.button} />
-          <Login className={classes.button} />
+          {isLoggedIn && username !== "" ? (
+            <React.Fragment>
+              <Username className={classes.button} username={username} />
+              <Logout className={classes.button} logout={logout} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <SignUp className={classes.button} />
+              <Login className={classes.button} />
+            </React.Fragment>
+          )}
         </Toolbar>
       </AppBar>
     </div>

@@ -70,7 +70,7 @@ export default function LoginForm({ updateUserState, login }) {
       >
         Log In
       </Button>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs>
           <Link href="#" variant="body2">
             Forgot password?
@@ -81,7 +81,7 @@ export default function LoginForm({ updateUserState, login }) {
             {"Don't have an account? Sign Up"}
           </Link>
         </Grid>
-      </Grid>
+      </Grid> */}
     </form>
   );
 }

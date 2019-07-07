@@ -16,7 +16,6 @@ class App extends React.Component {
       items: getData(),
       keyInItem: "",
       title: "My To-Do List",
-      loggedInUser: "",
       isLoggedIn: false,
       name: "",
       username: "",
@@ -90,35 +89,34 @@ class App extends React.Component {
   // when I login or do CRUD then put the token in the request
   insertJWT = () => {
     const jwt = sessionStorage.getItem("jwt");
-    const headers = {
+    return {
       authorization: "Bearer " + jwt
     };
-
-    return headers;
   };
 
   login = async e => {
     e.preventDefault();
     const server = "http://localhost:3001";
-    let res;
 
     const { username, password } = this.state;
     if (username && password) {
-      res = await axios.post(`${server}/login`, {
+      const res = await axios.post(`${server}/login`, {
         username,
         password
       });
-      sessionStorage.setItem("jwt", res.data.jwt);
-    }
 
-    if (res.data.jwt) {
-      this.setState({
-        username: res.data.username,
-        password: "",
-        isLoggedIn: true
-      });
+      if (res.data.jwt) {
+        sessionStorage.setItem("jwt", res.data.jwt);
+        this.setState({
+          username: res.data.username,
+          password: "",
+          isLoggedIn: true
+        });
+      }
     }
   };
+
+  logout = () => {};
 
   /* 
     onChange event handler: keyInItemHandler
@@ -348,10 +346,14 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/"
-            render={() => {
+            render={props => {
               return (
                 <React.Fragment>
-                  <Navbar />
+                  <Navbar
+                    username={this.state.username}
+                    isLoggedIn={this.state.isLoggedIn}
+                    logout={this.logout}
+                  />
                   <Homepage />
                 </React.Fragment>
               );
@@ -364,7 +366,11 @@ class App extends React.Component {
             render={props => {
               return (
                 <React.Fragment>
-                  <Navbar />
+                  <Navbar
+                    username={this.state.username}
+                    isLoggedIn={this.state.isLoggedIn}
+                    logout={this.logout}
+                  />
                   <div className="app">
                     <List
                       titleHandler={this.titleHandler}
