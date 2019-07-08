@@ -116,6 +116,7 @@ describe("User", () => {
       expect(response.body).toMatchObject(lists);
     });
 
+    // error
     it("POST / should create a new user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);

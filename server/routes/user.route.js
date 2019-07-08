@@ -82,14 +82,14 @@ userRouter.post("/login", async (req, res, next) => {
   }
 });
 
-userRouter.get("/users/:username", isAuthenticated, async (req, res, next) => {
+userRouter.get("/users/:username", async (req, res, next) => {
   const getAllLists = await controller
     .findAllLists(req.params.username)
     .catch(err => next(err));
   res.status(200).send(getAllLists);
 });
 
-userRouter.post("/users/:username", isAuthenticated, async (req, res, next) => {
+userRouter.post("/users/:username", async (req, res, next) => {
   const createOneList = await controller
     .createOneList(req.params.username)
     .catch(err => next(err));
@@ -98,7 +98,6 @@ userRouter.post("/users/:username", isAuthenticated, async (req, res, next) => {
 
 userRouter.put(
   "/users/:username/lists/:id",
-  isAuthenticated,
   async (req, res, next) => {
     const updateOneList = await controller
       .updateOneList(req.params.username, req.params.id, req.body.name)
@@ -109,7 +108,6 @@ userRouter.put(
 
 userRouter.delete(
   "/users/:username/lists/:id",
-  isAuthenticated,
   async (req, res, next) => {
     const deleteOneList = await controller
       .deleteOneList(req.params.username, req.params.id)
@@ -120,7 +118,6 @@ userRouter.delete(
 
 userRouter.put(
   "/users/:username/lists/:id/items",
-  isAuthenticated,
   async (req, res, next) => {
     const overwriteListItems = await controller
       .overwriteListItems(req.params.username, req.params.id, req.body)
