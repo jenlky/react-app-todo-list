@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
+// import Link from "@material-ui/core/Link";
+// import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LoginForm({ updateUserState, login }) {
+function LoginForm({ updateUserState, login }) {
   const classes = useStyles();
 
   return (
@@ -85,3 +85,5 @@ export default function LoginForm({ updateUserState, login }) {
     </form>
   );
 }
+
+export default LoginForm;

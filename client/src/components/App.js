@@ -54,21 +54,26 @@ class App extends React.Component {
 
   signup = async e => {
     e.preventDefault();
-    const server = "http://localhost:3001";
-    const { name, username, email, password } = this.state;
+    const server =
+      process.env.SERVER_URL || "mongodb://localhost:27017/todolist";
 
+    const { name, username, email, password } = this.state;
     if (name && username && email && password) {
       // doesn't distinguish what kind of error
       // whether user already exists in db, or form failed validation
-      const res = await axios
-        .post(`${server}/signup`, {
+      let res;
+      try {
+        res = await axios.post(`${server}/signup`, {
           name,
           username,
           email,
           password
-        })
-        .catch(err => console.log(err.message));
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
+      console.log(res.data);
       if (res.data.jwt) {
         sessionStorage.setItem("jwt", res.data.jwt);
         this.setState(prev => {
@@ -80,7 +85,10 @@ class App extends React.Component {
             isLoggedIn: !prev.isLoggedIn
           };
         });
+
+        // this.props.history.push(`/users/${username}`);
       }
+
       // after this I'll need 1) React conditional rendering to guard the routes
       // 2) express middleware GET /secure
     }
@@ -96,7 +104,8 @@ class App extends React.Component {
 
   login = async e => {
     e.preventDefault();
-    const server = "http://localhost:3001";
+    const server =
+      process.env.SERVER_URL || "mongodb://localhost:27017/todolist";
 
     const { username, password } = this.state;
     if (username && password) {
@@ -105,6 +114,7 @@ class App extends React.Component {
         password
       });
 
+      console.log(res.data);
       if (res.data.jwt) {
         sessionStorage.setItem("jwt", res.data.jwt);
         this.setState({
@@ -112,6 +122,8 @@ class App extends React.Component {
           password: "",
           isLoggedIn: true
         });
+
+        // props.history.push(`/users/${username}`);
       }
     }
   };
@@ -346,7 +358,7 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/"
-            render={props => {
+            render={() => {
               return (
                 <React.Fragment>
                   <Navbar
@@ -363,7 +375,7 @@ class App extends React.Component {
             // exact={true}
             path="/users"
             // path={`/users/${this.state.username}`}
-            render={props => {
+            render={() => {
               return (
                 <React.Fragment>
                   <Navbar
