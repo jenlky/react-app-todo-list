@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
-const dbURI =
-  process.env.MONGODB_URI ||
-  global.__MONGO_URI__ ||
-  "mongodb://localhost:27017/todolist";
+let dbURI;
+
+switch (process.env.ENVIRONMENT) {
+  case "production":
+    dbURI = process.env.MONGODB_URI;
+  default:
+    dbURI = global.__MONGO_URI__ || "mongodb://localhost:27017/todolist";
+}
 
 mongoose.connect(dbURI, { useNewUrlParser: true });
 mongoose.set("useFindAndModify", false);

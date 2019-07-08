@@ -55,7 +55,7 @@ class App extends React.Component {
   signup = async e => {
     e.preventDefault();
     const server =
-      process.env.SERVER_URL || "mongodb://localhost:27017/todolist";
+      process.env.SERVER_URI || "http://localhost:3001/";
 
     const { name, username, email, password } = this.state;
     if (name && username && email && password) {
@@ -105,7 +105,7 @@ class App extends React.Component {
   login = async e => {
     e.preventDefault();
     const server =
-      process.env.SERVER_URL || "mongodb://localhost:27017/todolist";
+      process.env.SERVER_URI || "http://localhost:3001/";
 
     const { username, password } = this.state;
     if (username && password) {

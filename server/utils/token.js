@@ -7,13 +7,13 @@ const generateToken = user => {
       iat: new Date().getTime(),
       user: user.username
     },
-    process.env.jwtSecret,
+    process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 };
 
 const verifyToken = token => {
-  return jwt.verify(token, process.env.jwtSecret);
+  return jwt.verify(token, process.env.JWT_SECRET);
 };
 
 module.exports = {
