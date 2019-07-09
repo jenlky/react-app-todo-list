@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LoginForm({ updateUserState, login }) {
+function LoginForm({ updateUserState, login, history }) {
+  console.log("LoginForm history", history);
   const classes = useStyles();
 
   return (
@@ -66,7 +67,7 @@ function LoginForm({ updateUserState, login }) {
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={e => login(e)}
+        onClick={e => login(e, history)}
       >
         Log In
       </Button>

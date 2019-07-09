@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SignUpOrLogin({ name, updateUserState, signup, login }) {
+function SignUpOrLogin({ name, updateUserState, signup, login, history }) {
   const classes = useStyles();
 
   return (
@@ -50,11 +50,13 @@ function SignUpOrLogin({ name, updateUserState, signup, login }) {
           <SignUpForm
             updateUserState={updateUserState}
             signup={signup}
+            history={history}
           />
         ) : (
           <LoginForm
             updateUserState={updateUserState}
             login={login}
+            history={history}
           />
         )}
       </div>

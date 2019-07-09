@@ -52,7 +52,7 @@ class App extends React.Component {
     }
   };
 
-  signup = async e => {
+  signup = async (e, history) => {
     e.preventDefault();
     const server = process.env.REACT_APP_URI || "http://localhost:3001";
 
@@ -85,7 +85,7 @@ class App extends React.Component {
           };
         });
 
-        // this.props.history.push(`/users/${username}`);
+        history.push(`/users/${username}`);
       }
 
       // after this I'll need 1) React conditional rendering to guard the routes
@@ -101,8 +101,10 @@ class App extends React.Component {
     };
   };
 
-  login = async e => {
+  login = async (e, history) => {
     e.preventDefault();
+    console.log(history);
+
     const server = process.env.REACT_APP_URI || "http://localhost:3001";
 
     const { username, password } = this.state;
@@ -121,7 +123,7 @@ class App extends React.Component {
           isLoggedIn: true
         });
 
-        // props.history.push(`/users/${username}`);
+        history.push(`/users/${username}`);
       }
     }
   };
@@ -402,8 +404,9 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/signup"
-            render={() => (
+            render={props => (
               <SignUpOrLogin
+                {...props}
                 name="Sign up"
                 updateUserState={this.updateUserState}
                 signup={this.signup}
@@ -414,8 +417,9 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/login"
-            render={() => (
+            render={props => (
               <SignUpOrLogin
+                {...props}
                 name="Log in"
                 updateUserState={this.updateUserState}
                 signup={this.signup}
