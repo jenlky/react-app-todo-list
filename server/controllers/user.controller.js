@@ -34,6 +34,7 @@ const findAllLists = async username => {
   return user.lists;
 };
 
+// forgot to add id
 const createOneList = async username => {
   let user = await User.findOne({ username });
   const newList = {

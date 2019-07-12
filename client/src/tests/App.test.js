@@ -10,11 +10,11 @@ jest.mock("../service/items-service.js", () =>
   jest.fn(() => {
     const sampleData = [
       {
-        id: "1",
-        text: "Week 1",
-        children: [
-          { id: "1-1", text: "Git bash", children: [] },
-          { id: "1-2", text: "Jest", children: [] }
+        id: 1,
+        name: "Week 1",
+        listItems: [
+          { text: "Git bash", children: [] },
+          { text: "Jest", children: [] }
         ]
       }
     ];
@@ -22,8 +22,14 @@ jest.mock("../service/items-service.js", () =>
   })
 );
 
-describe("Add parent item test", () => {
-  it("should add parent item when user clicks add button and clear addItemField after adding", () => {
+describe("Add list", () => {});
+
+describe("Update list", () => {});
+
+describe("Remove list", () => {});
+
+describe("Add list item", () => {
+  it("should add first list item when user clicks add button and clear addItemField after adding", () => {
     // 1. render Component
     const { getByPlaceholderText, getByText, container } = render(<App />);
 
@@ -57,21 +63,30 @@ describe("Add parent item test", () => {
 
     expect(lastInput).toHaveValue("");
   });
+
+  it("should add subsequent list item", () => {});
 });
 
-describe("Remove parent item test", () => {
+describe("Update list item", () => {
+  it("should ", () => {});
+});
+
+describe("Remove list item", () => {
   it.only("should remove parent item with its children item if it has any", () => {
     // Angeline: mockImplementation might need reset or what
     getData.mockReturnValueOnce([
       {
-        id: "1",
-        text: "Week 1",
-        children: []
+        id: 1,
+        name: "Week 1",
+        listItems: [
+          { text: "Git bash", children: [] },
+          { text: "Jest", children: [] }
+        ]
       },
       {
-        id: "2",
+        id: 2,
         text: "Week 2",
-        children: []
+        children: { text: "Git bash", children: [] }
       }
     ]);
 
@@ -91,18 +106,6 @@ describe("Remove parent item test", () => {
   });
 });
 
-describe("Add child item test", () => {
-  it("should ", () => {});
-});
-
-describe("Remove child item test", () => {
-  it("should ", () => {});
-});
-
-describe("Edit parent and child item", () => {
-  it("should ", () => { });
-});
-
-describe("Toggle children", () => {
+describe("Toggle list item", () => {
   it("should ", () => {});
 });

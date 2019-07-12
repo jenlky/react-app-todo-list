@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import List from "./List";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
@@ -12,7 +12,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: "",
       items: getData(),
       keyInItem: "",
       title: "My To-Do List",
@@ -351,84 +350,82 @@ class App extends React.Component {
     console.log(this.state);
 
     return (
-      <Router>
-        <Switch>
-          {/* if user isLoggedIn he can access List */}
-          {/* guard the route for both frontend and backend */}
-          <Route
-            exact={true}
-            path="/"
-            render={() => {
-              return (
-                <React.Fragment>
-                  <Navbar
-                    username={this.state.username}
-                    isLoggedIn={this.state.isLoggedIn}
-                    logout={this.logout}
+      <Switch>
+        {/* if user isLoggedIn he can access List */}
+        {/* guard the route for both frontend and backend */}
+        <Route
+          exact={true}
+          path="/"
+          render={() => {
+            return (
+              <React.Fragment>
+                <Navbar
+                  username={this.state.username}
+                  isLoggedIn={this.state.isLoggedIn}
+                  logout={this.logout}
+                />
+                <Homepage />
+              </React.Fragment>
+            );
+          }}
+        />
+        <Route
+          // exact={true}
+          path="/users"
+          // path={`/users/${this.state.username}`}
+          render={() => {
+            return (
+              <React.Fragment>
+                <Navbar
+                  username={this.state.username}
+                  isLoggedIn={this.state.isLoggedIn}
+                  logout={this.logout}
+                />
+                <div className="app">
+                  <List
+                    titleHandler={this.titleHandler}
+                    title={this.state.title}
+                    keyInItemHandler={this.keyInItemHandler}
+                    handleEnter={this.handleEnter}
+                    addParentItem={this.addParentItem}
+                    items={this.state.items}
+                    addChildItem={this.addChildItem}
+                    removeItem={this.removeItem}
+                    editItem={this.editItem}
+                    toggleDisplay={this.toggleDisplay}
                   />
-                  <Homepage />
-                </React.Fragment>
-              );
-            }}
-          />
-          <Route
-            // exact={true}
-            path="/users"
-            // path={`/users/${this.state.username}`}
-            render={() => {
-              return (
-                <React.Fragment>
-                  <Navbar
-                    username={this.state.username}
-                    isLoggedIn={this.state.isLoggedIn}
-                    logout={this.logout}
-                  />
-                  <div className="app">
-                    <List
-                      titleHandler={this.titleHandler}
-                      title={this.state.title}
-                      keyInItemHandler={this.keyInItemHandler}
-                      handleEnter={this.handleEnter}
-                      addParentItem={this.addParentItem}
-                      items={this.state.items}
-                      addChildItem={this.addChildItem}
-                      removeItem={this.removeItem}
-                      editItem={this.editItem}
-                      toggleDisplay={this.toggleDisplay}
-                    />
-                  </div>
-                </React.Fragment>
-              );
-            }}
-          />
-          <Route
-            exact={true}
-            path="/signup"
-            render={props => (
-              <SignUpOrLogin
-                {...props}
-                name="Sign up"
-                updateUserState={this.updateUserState}
-                signup={this.signup}
-                login={this.login}
-              />
-            )}
-          />
-          <Route
-            exact={true}
-            path="/login"
-            render={props => (
-              <SignUpOrLogin
-                {...props}
-                name="Log in"
-                updateUserState={this.updateUserState}
-                signup={this.signup}
-                login={this.login}
-              />
-            )}
-          />
-        </Switch>
-      </Router>
+                </div>
+              </React.Fragment>
+            );
+          }}
+        />
+        <Route
+          exact={true}
+          path="/signup"
+          render={props => (
+            <SignUpOrLogin
+              {...props}
+              name="Sign up"
+              updateUserState={this.updateUserState}
+              signup={this.signup}
+              login={this.login}
+            />
+          )}
+        />
+        <Route
+          exact={true}
+          path="/login"
+          render={props => (
+            <SignUpOrLogin
+              {...props}
+              name="Log in"
+              updateUserState={this.updateUserState}
+              signup={this.signup}
+              login={this.login}
+            />
+          )}
+        />
+      </Switch>
     );
   }
 }
