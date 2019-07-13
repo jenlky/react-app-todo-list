@@ -122,7 +122,6 @@ class App extends React.Component {
 
   logout = () => {};
 
-  // Handle onChange event on input field
   keyInItemHandler = event => {
     this.setState({
       keyInItem: event.target.value
@@ -149,7 +148,7 @@ class App extends React.Component {
   };
 
   // Add item to parent list item by clicking on the 'Add button'
-  addParentItem = event => {
+  addFirstItem = event => {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
@@ -158,20 +157,15 @@ class App extends React.Component {
     }
   };
 
-  // Helper function for handleEnter and addParentItem
+  // Helper function for handleEnter and addFirstItem
   insertNewItem = () => {
-    this.setState(prev => {
-      return {
-        lists: [
-          ...this.state.lists,
-          {
-            text: prev.keyInItem,
-            children: []
-          }
-        ],
-        keyInItem: ""
-      };
+    const lists = [...this.state.lists];
+    lists[0].listItems.push({
+      text: this.state.keyInItem,
+      children: []
     });
+
+    this.setState({ keyInItem: "" });
   };
 
   render() {
@@ -212,9 +206,10 @@ class App extends React.Component {
                   />
                   <div className="app">
                     <List
-                      listNameHandler={this.listNameHandler}
                       name={this.state.lists[0].name}
+                      listNameHandler={this.listNameHandler}
                       keyInItemHandler={this.keyInItemHandler}
+                      addFirstItem={this.addFirstItem}
                       handleEnter={this.handleEnter}
                       lists={this.state.lists[0]}
                     />

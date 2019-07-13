@@ -13,7 +13,7 @@ const Cross = ({ id, removeItem }) => {
       <span
         alt="Cancel"
         className="todo-item-right-cross"
-        onClick={() => removeItem(id)}
+        // onClick={() => removeItem(id)}
       >
         &#x2573;
       </span>

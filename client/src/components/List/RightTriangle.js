@@ -8,7 +8,7 @@ const RightTriangle = ({ display, id, toggleDisplay }) => {
           ? "todo-item-left-triangle toggled-triangle"
           : "todo-item-left-triangle"
       }
-      onClick={() => toggleDisplay(id)}
+      // onClick={() => toggleDisplay(id)}
     >
       &#x25b6;
     </span>

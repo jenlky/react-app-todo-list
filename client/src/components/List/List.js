@@ -5,9 +5,10 @@ import ToDoParentList from "./ToDoParentList";
 import "../../styles/ToDoList.css";
 
 const List = ({
-  listNameHandler,
   name,
+  listNameHandler,
   keyInItemHandler,
+  addFirstItem,
   handleEnter,
   lists
 }) => {
@@ -21,7 +22,7 @@ const List = ({
           onChangeHandler={keyInItemHandler}
           handleEnter={handleEnter}
         />
-        <Button />
+        <Button addFirstItem={addFirstItem} />
       </div>
       <ToDoParentList lists={lists} />
     </div>
