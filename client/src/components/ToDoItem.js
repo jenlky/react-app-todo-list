@@ -3,42 +3,18 @@ import ToDoItemLeft from "./ToDoItemLeft";
 import ToDoItemRight from "./ToDoItemRight";
 import ToDoChildList from "./ToDoChildList";
 
-const ToDoItem = ({
-  item,
-  addChildItem,
-  removeItem,
-  editItem,
-  toggleDisplay
-}) => {
-  // if (item.children === undefined || item.children.length === 0)
-  // console.log(item);
+const ToDoItem = ({ listItem }) => {
   const displayChildCondition =
-    (item.children !== undefined || item.children.length > 0) &&
-    item.display === true;
+    (listItem !== undefined || listItem.length > 0) &&
+    listItem.display === true;
 
   return (
     <React.Fragment>
       <li className="todo-item break-word">
-        <ToDoItemLeft
-          item={item}
-          addChildItem={addChildItem}
-          toggleDisplay={toggleDisplay}
-        />
-        <ToDoItemRight
-          item={item}
-          removeItem={removeItem}
-          editItem={editItem}
-        />
+        <ToDoItemLeft listItem={listItem} />
+        <ToDoItemRight listItem={listItem} />
       </li>
-      {displayChildCondition && (
-        <ToDoChildList
-          item={item}
-          addChildItem={addChildItem}
-          removeItem={removeItem}
-          editItem={editItem}
-          toggleDisplay={toggleDisplay}
-        />
-      )}
+      {displayChildCondition && <ToDoChildList listItem={listItem} />}
     </React.Fragment>
   );
 };

@@ -1,19 +1,16 @@
 import React from "react";
 import Cross from "./Cross";
 
-const ToDoItemRight = ({ item, removeItem, editItem }) => {
-  // item.id '1-2' after split becomes ['1','2'] and passed to editItem
-  const itemId = item.id.split("-");
-
+const ToDoItemRight = ({ listItem }) => {
   return (
     <div className="todo-item-right-content">
       <input
         type="text"
-        value={item.text}
+        value={listItem.text}
         className="todo-item-right-input"
-        onChange={event => editItem(event.target.value, itemId)}
+        // onChange={() => }
       />
-      <Cross id={itemId} removeItem={removeItem} />
+      <Cross />
     </div>
   );
 };

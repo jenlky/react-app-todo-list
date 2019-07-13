@@ -58,8 +58,7 @@ const lists = [
         ],
         display: false
       }
-    ],
-    display: false
+    ]
   },
   {
     id: 2,
@@ -75,8 +74,7 @@ const lists = [
         children: [],
         display: false
       }
-    ],
-    display: false
+    ]
   }
 ];
 

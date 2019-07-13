@@ -9,12 +9,7 @@ const List = ({
   title,
   keyInItemHandler,
   handleEnter,
-  addParentItem,
-  items,
-  addChildItem,
-  removeItem,
-  editItem,
-  toggleDisplay
+  lists
 }) => {
   return (
     <div className="todo-list">
@@ -26,15 +21,9 @@ const List = ({
           onChangeHandler={keyInItemHandler}
           handleEnter={handleEnter}
         />
-        <Button addParentItem={addParentItem} />
+        <Button />
       </div>
-      <ToDoParentList
-        items={items}
-        addChildItem={addChildItem}
-        removeItem={removeItem}
-        editItem={editItem}
-        toggleDisplay={toggleDisplay}
-      />
+      <ToDoParentList lists={lists} />
     </div>
   );
 };

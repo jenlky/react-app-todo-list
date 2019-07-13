@@ -2,26 +2,13 @@ import React from "react";
 import ToDoItem from "./ToDoItem";
 import "../styles/ToDoList.css";
 
-const ToDoParentList = ({
-  items,
-  addChildItem,
-  removeItem,
-  editItem,
-  toggleDisplay
-}) => {
+const ToDoParentList = ({ lists }) => {
+  console.log(lists);
+
   return (
     <ul className="todo-parent-list">
-      {items.map(item => {
-        return (
-          <ToDoItem
-            key={item.id}
-            item={item}
-            addChildItem={addChildItem}
-            removeItem={removeItem}
-            editItem={editItem}
-            toggleDisplay={toggleDisplay}
-          />
-        );
+      {lists.listItems.map(listItem => {
+        return <ToDoItem key={lists.id} listItem={listItem} />;
       })}
     </ul>
   );
