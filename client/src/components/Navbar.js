@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import "../styles/App.css";
-import SignUp from "./SignUp";
-import Login from "./Login";
+import SignUp from "./SignupLogin/SignUp";
+import Login from "./SignupLogin/Login";
 import Username from "./Username";
-import Logout from "./Logout";
+import Logout from "./SignupLogin/Logout";
 
 const useStyles = makeStyles(theme => ({
   root: {

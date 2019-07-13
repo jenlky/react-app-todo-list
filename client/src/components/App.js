@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import List from "./List/List";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
-import SignUpOrLogin from "./SignUpOrLogin";
+import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
 import getLists from "../service/lists-service";
 import "../styles/App.css";
 import axios from "axios";
