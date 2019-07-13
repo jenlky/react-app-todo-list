@@ -85,8 +85,8 @@ describe("Remove list item", () => {
       },
       {
         id: 2,
-        text: "Week 2",
-        children: { text: "Git bash", children: [] }
+        name: "Week 2",
+        listItems: [{ text: "Text", children: [] }]
       }
     ]);
 
