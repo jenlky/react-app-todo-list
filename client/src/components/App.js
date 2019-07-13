@@ -206,12 +206,12 @@ class App extends React.Component {
                   />
                   <div className="app">
                     <List
+                      lists={this.state.lists[0]}
                       name={this.state.lists[0].name}
                       listNameHandler={this.listNameHandler}
                       keyInItemHandler={this.keyInItemHandler}
                       addFirstItem={this.addFirstItem}
                       handleEnter={this.handleEnter}
-                      lists={this.state.lists[0]}
                     />
                   </div>
                 </React.Fragment>

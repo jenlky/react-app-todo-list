@@ -1,9 +1,9 @@
 import React from "react";
 import ToDoItemLeft from "./ToDoItemLeft";
 import ToDoItemRight from "./ToDoItemRight";
-import ToDoChildList from "./ToDoChildList";
+import SubsequentListItems from "./SubsequentListItems";
 
-const ToDoItem = ({ listItem }) => {
+const ListItem = ({ listItem }) => {
   const displayChildCondition =
     (listItem !== undefined || listItem.length > 0) &&
     listItem.display === true;
@@ -14,9 +14,9 @@ const ToDoItem = ({ listItem }) => {
         <ToDoItemLeft listItem={listItem} />
         <ToDoItemRight listItem={listItem} />
       </li>
-      {displayChildCondition && <ToDoChildList listItem={listItem} />}
+      {displayChildCondition && <SubsequentListItems listItem={listItem} />}
     </React.Fragment>
   );
 };
 
-export default ToDoItem;
+export default ListItem;

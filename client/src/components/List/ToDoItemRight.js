@@ -8,7 +8,7 @@ const ToDoItemRight = ({ listItem }) => {
         type="text"
         value={listItem.text}
         className="todo-item-right-input"
-        // onChange={() => }
+        onChange={() => "ToDoItemRight onChange method"}
       />
       <Cross />
     </div>
