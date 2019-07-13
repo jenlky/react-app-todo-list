@@ -1,6 +1,6 @@
 import React from "react";
 import ToDoItem from "./ToDoItem";
-import "../styles/ToDoList.css";
+import "../../styles/ToDoList.css";
 
 const ToDoParentList = ({ lists }) => {
   console.log(lists);

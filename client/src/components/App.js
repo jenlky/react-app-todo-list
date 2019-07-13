@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import List from "./List";
+import List from "./List/List";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignUpOrLogin";
@@ -129,9 +129,12 @@ class App extends React.Component {
     });
   };
 
-  titleHandler = event => {
+  listNameHandler = event => {
+    const lists = [...this.state.lists];
+    lists[0].name = event.target.value;
+
     this.setState({
-      title: event.target.value
+      lists
     });
   };
 
@@ -209,8 +212,8 @@ class App extends React.Component {
                   />
                   <div className="app">
                     <List
-                      titleHandler={this.titleHandler}
-                      title={this.state.title}
+                      listNameHandler={this.listNameHandler}
+                      name={this.state.lists[0].name}
                       keyInItemHandler={this.keyInItemHandler}
                       handleEnter={this.handleEnter}
                       lists={this.state.lists[0]}

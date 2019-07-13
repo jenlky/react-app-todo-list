@@ -1,19 +1,19 @@
 import React from "react";
-import Input from "./Input";
-import Button from "./Button";
+import Input from "../Input";
+import Button from "../Button";
 import ToDoParentList from "./ToDoParentList";
-import "../styles/ToDoList.css";
+import "../../styles/ToDoList.css";
 
 const List = ({
-  titleHandler,
-  title,
+  listNameHandler,
+  name,
   keyInItemHandler,
   handleEnter,
   lists
 }) => {
   return (
     <div className="todo-list">
-      <Input className="title" onChangeHandler={titleHandler} value={title} />
+      <Input className="title" onChangeHandler={listNameHandler} value={name} />
       <div>
         <Input
           className="todo-input"
