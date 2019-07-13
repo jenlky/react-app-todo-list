@@ -1,4 +1,4 @@
-const data = [
+const lists = [
   {
     id: "1",
     text: "Week 1",
@@ -49,24 +49,6 @@ const data = [
                 text: "General sibling combinator: A ~ B",
                 children: [],
                 display: false
-              },
-              {
-                id: "1-4-2-3",
-                text: "Child combinator: A > B",
-                children: [],
-                display: false
-              },
-              {
-                id: "1-4-2-4",
-                text: "Descendant combinator: A B",
-                children: [],
-                display: false
-              },
-              {
-                id: "1-4-2-5",
-                text: "Column combinator: A || B",
-                children: [],
-                display: false
               }
             ],
             display: false
@@ -107,38 +89,11 @@ const data = [
       }
     ],
     display: false
-  },
-  {
-    id: "3",
-    text: "Week 3",
-    children: [
-      {
-        id: "3-1",
-        text:
-          "What is React?, Single Page Apps, React.createElement(), JSX, function components, class components, ReactDOM.render(), Virtual DOM",
-        children: [],
-        display: false
-      },
-      {
-        id: "3-2",
-        text: "Promise, async/await, testing with Jest",
-        children: [],
-        display: false
-      }
-    ],
-    display: false
-  },
-  { id: "4", text: "Week 4", children: [], display: false },
-  {
-    id: "5",
-    text: "Week 5",
-    children: [],
-    display: false
   }
 ];
 
-const getData = () => {
-  return data;
+const getList = () => {
+  return lists;
 };
 
-export default getData;
+export default getList;

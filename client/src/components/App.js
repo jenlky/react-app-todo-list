@@ -4,7 +4,7 @@ import List from "./List";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignUpOrLogin";
-import getData from "../service/items-service";
+import getLists from "../service/lists-service";
 import "../styles/App.css";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: getData(),
+      items: getLists(),
       keyInItem: "",
       title: "My To-Do List",
       isLoggedIn: false,
@@ -24,13 +24,7 @@ class App extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    // try {
-    //   axios.get("http://localhost:3001/").then(res => console.log(res.data));
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  }
+  async componentDidMount() {}
 
   updateUserState = e => {
     switch (e.target.id) {
@@ -129,15 +123,6 @@ class App extends React.Component {
 
   logout = () => {};
 
-  /* 
-    onChange event handler: keyInItemHandler
-    keyDown event handler: handleEnter
-    onClick event handler: addParentItem
-    helper function for handleEnter and addParentItem: insertNewItem
-
-    onChange, keyDown and onClick event handler for adding parent item
-
-  */
   // Handle onChange event on input field
   keyInItemHandler = event => {
     this.setState({
@@ -190,15 +175,6 @@ class App extends React.Component {
       };
     });
   };
-
-  /*
-    Return value contains the address of item: findFirstIndexOfItem, findSubsequentIndexOfItem
-    Traverse through array to find parent/child item: findItem
-    Helper function for addChildItem: addItemToParent
-
-    addChildItem, removeItem, editItem, toggleDisplay
-
-  */
 
   // Find parent index of item
   findFirstIndexOfItem = id => {
