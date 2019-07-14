@@ -2,7 +2,7 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const Plus = ({ addChildItem, id }) => {
+const Plus = ({ addSubsequentItem, id }) => {
   return (
     <Tooltip
       title="Click to add an item below"
@@ -10,7 +10,10 @@ const Plus = ({ addChildItem, id }) => {
       trigger="mouseenter"
       delay="100"
     >
-      <span className="todo-item-left-plus" onClick={() => addChildItem(id)}>
+      <span
+        className="todo-item-left-plus"
+        onClick={() => addSubsequentItem(id)}
+      >
         &#xFF0B;
       </span>
     </Tooltip>

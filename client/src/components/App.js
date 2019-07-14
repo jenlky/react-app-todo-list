@@ -95,8 +95,6 @@ class App extends React.Component {
 
   login = async (e, history) => {
     e.preventDefault();
-    console.log(history);
-
     const server = process.env.REACT_APP_URI || "http://localhost:3001";
 
     const { username, password } = this.state;
@@ -142,7 +140,7 @@ class App extends React.Component {
     const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertNewItem();
+      this.insertFirstItem();
       event.target.value = "";
     }
   };
@@ -152,24 +150,103 @@ class App extends React.Component {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertNewItem();
+      this.insertFirstItem();
       event.currentTarget.previousSibling.value = "";
     }
   };
 
   // Helper function for handleEnter and addFirstItem
-  insertNewItem = () => {
+  insertFirstItem = () => {
     const lists = [...this.state.lists];
+    const id = this.findEmptyId();
+
     lists[0].listItems.push({
+      id: String(id),
       text: this.state.keyInItem,
-      children: []
+      children: [],
+      display: false
     });
 
     this.setState({ keyInItem: "" });
   };
 
+  findEmptyId = () => {
+    const lists = [...this.state.lists];
+    let id = 1;
+    for (let item of lists[0].listItems) {
+      if (id !== Number(item.id)) {
+        break;
+      }
+      id++;
+    }
+
+    return id;
+  };
+
+  findFirstIndexOfItem = id => {
+    const lists = [...this.state.lists];
+    const firstItem = lists[0].listItems;
+
+    for (let x = 0; x < firstItem.length; x++) {
+      if (id === firstItem[x].id) {
+        return x;
+      }
+    }
+  };
+
+  findSubsequentIndexOfItem = (parentItem, id, address) => {
+    for (let x = 0; x < parentItem.children.length; x++) {
+      const parentItemId = parentItem.children[x].id.split("-");
+
+      // address.length + 1 because parentItem has already accessed parentIndex
+      if (id === parentItemId[address.length + 1]) {
+        address.push(x);
+        return parentItem.children[x];
+      }
+    }
+  };
+
+  findItem = (items, itemId, findItsParent) => {
+    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
+    let parentItem = items[parentAddress];
+    itemId.shift();
+    const childAddress = [];
+
+    while (findItsParent ? itemId.length > 1 : itemId.length > 0) {
+      parentItem = this.findSubsequentIndexOfItem(
+        parentItem,
+        itemId[0],
+        childAddress
+      );
+
+      itemId.shift();
+    }
+
+    console.log("findItem:", { parentItem, childAddress });
+    return { parentItem, childAddress };
+  };
+
+  addSubsequentItem = (id = 0, text) => {
+    const lists = [...this.state.lists];
+    let listItem = lists[0].listItems.find(item => {
+      return Number(id) === item.id && text === item.text;
+    });
+
+    listItem.children.push({
+      id: Number(id) + 1,
+      text: "",
+      children: [],
+      display: false
+    });
+    listItem.display = true;
+
+    setTimeout(() => {
+      this.setState({ lists });
+    }, this.state.delay);
+  };
+
   render() {
-    console.log(this.state);
+    console.log(this.state.lists[0]);
 
     return (
       <Router>
@@ -206,12 +283,13 @@ class App extends React.Component {
                   />
                   <div className="app">
                     <List
-                      lists={this.state.lists[0]}
+                      list={this.state.lists[0]}
                       name={this.state.lists[0].name}
                       listNameHandler={this.listNameHandler}
                       keyInItemHandler={this.keyInItemHandler}
                       addFirstItem={this.addFirstItem}
                       handleEnter={this.handleEnter}
+                      addSubsequentItem={this.addSubsequentItem}
                     />
                   </div>
                 </React.Fragment>

@@ -1,16 +1,17 @@
 import React from "react";
 import Input from "../Input";
 import Button from "../Button";
-import FirstListItems from "./FirstListItems";
+import ListItem from "./ListItem";
 import "../../styles/ToDoList.css";
 
 const List = ({
-  lists,
+  list,
   name,
   listNameHandler,
   keyInItemHandler,
   addFirstItem,
-  handleEnter
+  handleEnter,
+  addSubsequentItem
 }) => {
   return (
     <div className="todo-list">
@@ -24,7 +25,17 @@ const List = ({
         />
         <Button addFirstItem={addFirstItem} />
       </div>
-      <FirstListItems lists={lists} />
+      <ul className="todo-parent-list">
+        {list.listItems.map(listItem => {
+          return (
+            <ListItem
+              key={listItem.id}
+              listItem={listItem}
+              addSubsequentItem={addSubsequentItem}
+            />
+          );
+        })}
+      </ul>
     </div>
   );
 };
