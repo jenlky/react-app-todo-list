@@ -126,9 +126,16 @@ class App extends React.Component {
     });
   };
 
-  listNameHandler = event => {
+  findListIndex = (lists, id) => {
+    return lists.findIndex(list => {
+      return id === list.id;
+    });
+  };
+
+  listNameHandler = (e, id) => {
     const lists = [...this.state.lists];
-    lists[0].name = event.target.value;
+    const address = this.findListIndex(lists, id);
+    lists[address].name = e.target.value;
 
     this.setState({
       lists
@@ -136,38 +143,40 @@ class App extends React.Component {
   };
 
   // Pressing the enter key on input field triggers this method and adds item
-  handleEnter = event => {
+  handleEnter = (event, id) => {
     const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertNewParentItem();
+      this.insertNewParentItem(id);
       event.target.value = "";
     }
   };
 
   // Add item to parent list item by clicking on the 'Add button'
-  addFirstItem = event => {
+  addFirstItem = (event, id) => {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertNewParentItem();
+      this.insertNewParentItem(id);
       event.currentTarget.previousSibling.value = "";
     }
   };
 
   // Helper function for handleEnter and addFirstItem
-  insertNewParentItem = () => {
+  insertNewParentItem = listId => {
     const lists = [...this.state.lists];
-    let id = 1;
-    for (let item of lists[0].listItems) {
-      if (id !== Number(item.id)) {
+    const address = this.findListIndex(lists, listId);
+
+    let itemId = 1;
+    for (let item of lists[address].listItems) {
+      if (itemId !== Number(item.id)) {
         break;
       }
-      id++;
+      itemId++;
     }
 
-    lists[0].listItems.push({
-      id: String(id),
+    lists[address].listItems.push({
+      id: String(itemId),
       text: this.state.keyInItem,
       children: [],
       display: false
@@ -317,7 +326,7 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state.lists[0]);
+    console.log(this.state.lists);
 
     return (
       <Router>

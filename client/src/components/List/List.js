@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../Input";
 import Button from "../Button";
 import ListItem from "./ListItem";
 import "../../styles/ToDoList.css";
@@ -17,19 +16,23 @@ const List = ({
 }) => {
   return (
     <div className="todo-list">
-      <Input
+      <input
+        type="text"
         className="title"
-        onChangeHandler={listNameHandler}
+        placeholder="Enter your item"
         value={list.name}
+        onChange={e => listNameHandler(e, list.id)}
+        onKeyDown={e => handleEnter(e, list.id)}
       />
       <div>
-        <Input
+        <input
+          type="text"
           className="todo-input"
           placeholder="Enter your item"
-          onChangeHandler={keyInItemHandler}
-          handleEnter={handleEnter}
+          onChange={e => keyInItemHandler(e, list.id)}
+          onKeyDown={e => handleEnter(e, list.id)}
         />
-        <Button addFirstItem={addFirstItem} />
+        <Button addFirstItem={addFirstItem} listId={list.id} />
       </div>
       <ul className="todo-parent-list">
         {list.listItems.map(listItem => {
