@@ -6,7 +6,6 @@ import "../../styles/ToDoList.css";
 
 const List = ({
   list,
-  name,
   listNameHandler,
   keyInItemHandler,
   addFirstItem,
@@ -18,7 +17,11 @@ const List = ({
 }) => {
   return (
     <div className="todo-list">
-      <Input className="title" onChangeHandler={listNameHandler} value={name} />
+      <Input
+        className="title"
+        onChangeHandler={listNameHandler}
+        value={list.name}
+      />
       <div>
         <Input
           className="todo-input"

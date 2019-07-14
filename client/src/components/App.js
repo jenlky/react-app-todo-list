@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import List from "./List/List";
+import Lists from "./List/Lists";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
@@ -353,9 +353,8 @@ class App extends React.Component {
                     logout={this.logout}
                   />
                   <div className="app">
-                    <List
-                      list={this.state.lists[0]}
-                      name={this.state.lists[0].name}
+                    <Lists
+                      lists={this.state.lists}
                       listNameHandler={this.listNameHandler}
                       keyInItemHandler={this.keyInItemHandler}
                       addFirstItem={this.addFirstItem}
