@@ -244,8 +244,6 @@ class App extends React.Component {
   // change the logic to fill up the gaps in id
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
-    // console.log(numOfChildren);
-
     let newestId;
     let combinedId;
     let newObj;
@@ -269,15 +267,44 @@ class App extends React.Component {
     parentItem.children.push(newObj);
   };
 
-  // Edit item method for all list items (parent and child)
   editItem = (newValue, itemId) => {
-    // console.log("editItem itemId", itemId);
     const lists = [...this.state.lists];
     const parentItems = lists[0].listItems;
     const { parentItem } = this.findItem(parentItems, itemId, false);
 
     parentItem.text = newValue;
     this.setState({ lists });
+  };
+
+  // Remove both parent and children, or only child item
+  removeItem = itemId => {
+    const lists = [...this.state.lists];
+    const parentItems = lists[0].listItems;
+
+    console.log("removeItem", itemId);
+
+    if (itemId.length === 1) {
+      for (let x = 0; x < parentItems.length; x++) {
+        if (itemId[0] === parentItems[x].id) {
+          parentItems.splice(x, 1);
+        }
+      }
+    } else {
+      const { parentItem } = this.findItem(parentItems, itemId, true);
+      const childAddress = [];
+      this.findSubsequentItemIndex(
+        parentItem,
+        itemId[itemId.length - 1],
+        childAddress
+      );
+
+      const childIndex = childAddress[0];
+      parentItem.children.splice(childIndex, 1);
+    }
+
+    this.setState({
+      lists
+    });
   };
 
   render() {
@@ -326,6 +353,7 @@ class App extends React.Component {
                       handleEnter={this.handleEnter}
                       addSubsequentItem={this.addSubsequentItem}
                       editItem={this.editItem}
+                      removeItem={this.removeItem}
                     />
                   </div>
                 </React.Fragment>

@@ -2,7 +2,7 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const Cross = ({ id, removeItem }) => {
+const Cross = ({ idArray, removeItem }) => {
   return (
     <Tooltip
       title="Remove parent and its children"
@@ -13,7 +13,7 @@ const Cross = ({ id, removeItem }) => {
       <span
         alt="Cancel"
         className="todo-item-right-cross"
-        // onClick={() => removeItem(id)}
+        onClick={() => removeItem(idArray)}
       >
         &#x2573;
       </span>
