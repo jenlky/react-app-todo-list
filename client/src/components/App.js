@@ -223,7 +223,7 @@ class App extends React.Component {
       itemId.shift();
     }
 
-    console.log("findItem:", { parentItem, childAddress });
+    // console.log("findItem:", { parentItem, childAddress });
     return { parentItem, childAddress };
   };
 
@@ -267,6 +267,17 @@ class App extends React.Component {
 
     newObj = { id: combinedId, text: "", children: [] };
     parentItem.children.push(newObj);
+  };
+
+  // Edit item method for all list items (parent and child)
+  editItem = (newValue, itemId) => {
+    // console.log("editItem itemId", itemId);
+    const lists = [...this.state.lists];
+    const parentItems = lists[0].listItems;
+    const { parentItem } = this.findItem(parentItems, itemId, false);
+
+    parentItem.text = newValue;
+    this.setState({ lists });
   };
 
   render() {
@@ -314,6 +325,7 @@ class App extends React.Component {
                       addFirstItem={this.addFirstItem}
                       handleEnter={this.handleEnter}
                       addSubsequentItem={this.addSubsequentItem}
+                      editItem={this.editItem}
                     />
                   </div>
                 </React.Fragment>

@@ -2,7 +2,7 @@ import React from "react";
 import Plus from "./Plus";
 import RightTriangle from "./RightTriangle";
 
-const ToDoItemLeft = ({ listItem, addSubsequentItem }) => {
+const ListItemLeft = ({ listItem, addSubsequentItem }) => {
   const idArray = listItem.id.split("-");
 
   return (
@@ -13,4 +13,4 @@ const ToDoItemLeft = ({ listItem, addSubsequentItem }) => {
   );
 };
 
-export default ToDoItemLeft;
+export default ListItemLeft;

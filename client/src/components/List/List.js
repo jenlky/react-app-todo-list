@@ -11,7 +11,8 @@ const List = ({
   keyInItemHandler,
   addFirstItem,
   handleEnter,
-  addSubsequentItem
+  addSubsequentItem,
+  editItem
 }) => {
   return (
     <div className="todo-list">
@@ -32,6 +33,7 @@ const List = ({
               key={listItem.id}
               listItem={listItem}
               addSubsequentItem={addSubsequentItem}
+              editItem={editItem}
             />
           );
         })}

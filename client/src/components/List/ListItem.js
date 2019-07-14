@@ -1,8 +1,8 @@
 import React from "react";
-import ToDoItemLeft from "./ToDoItemLeft";
-import ToDoItemRight from "./ToDoItemRight";
+import ListItemLeft from "./ListItemLeft";
+import ListItemRight from "./ListItemRight";
 
-const ListItem = ({ listItem, addSubsequentItem }) => {
+const ListItem = ({ listItem, addSubsequentItem, editItem }) => {
   // console.log("listItem", listItem);
 
   const displayChildCondition =
@@ -12,11 +12,11 @@ const ListItem = ({ listItem, addSubsequentItem }) => {
   return (
     <React.Fragment>
       <li className="todo-item break-word">
-        <ToDoItemLeft
+        <ListItemLeft
           listItem={listItem}
           addSubsequentItem={addSubsequentItem}
         />
-        <ToDoItemRight listItem={listItem} />
+        <ListItemRight listItem={listItem} editItem={editItem} />
       </li>
       {displayChildCondition && (
         <ul className="todo-child-list">
@@ -26,6 +26,7 @@ const ListItem = ({ listItem, addSubsequentItem }) => {
                 key={listItem.id}
                 listItem={listItem}
                 addSubsequentItem={addSubsequentItem}
+                editItem={editItem}
               />
             );
           })}
