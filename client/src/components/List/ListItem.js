@@ -2,7 +2,13 @@ import React from "react";
 import ListItemLeft from "./ListItemLeft";
 import ListItemRight from "./ListItemRight";
 
-const ListItem = ({ listItem, addSubsequentItem, editItem, removeItem }) => {
+const ListItem = ({
+  listItem,
+  addSubsequentItem,
+  editItem,
+  removeItem,
+  toggleDisplay
+}) => {
   // console.log("listItem", listItem);
 
   const displayChildCondition =
@@ -15,6 +21,7 @@ const ListItem = ({ listItem, addSubsequentItem, editItem, removeItem }) => {
         <ListItemLeft
           listItem={listItem}
           addSubsequentItem={addSubsequentItem}
+          toggleDisplay={toggleDisplay}
         />
         <ListItemRight
           listItem={listItem}
@@ -32,6 +39,7 @@ const ListItem = ({ listItem, addSubsequentItem, editItem, removeItem }) => {
                 addSubsequentItem={addSubsequentItem}
                 editItem={editItem}
                 removeItem={removeItem}
+                toggleDisplay={toggleDisplay}
               />
             );
           })}

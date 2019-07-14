@@ -1,6 +1,6 @@
 import React from "react";
 
-const RightTriangle = ({ display, id, toggleDisplay }) => {
+const RightTriangle = ({ display, idArray, toggleDisplay }) => {
   return (
     <span
       className={
@@ -8,7 +8,7 @@ const RightTriangle = ({ display, id, toggleDisplay }) => {
           ? "todo-item-left-triangle toggled-triangle"
           : "todo-item-left-triangle"
       }
-      // onClick={() => toggleDisplay(id)}
+      onClick={() => toggleDisplay(idArray)}
     >
       &#x25b6;
     </span>

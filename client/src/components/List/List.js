@@ -13,7 +13,8 @@ const List = ({
   handleEnter,
   addSubsequentItem,
   editItem,
-  removeItem
+  removeItem,
+  toggleDisplay
 }) => {
   return (
     <div className="todo-list">
@@ -36,6 +37,7 @@ const List = ({
               addSubsequentItem={addSubsequentItem}
               editItem={editItem}
               removeItem={removeItem}
+              toggleDisplay={toggleDisplay}
             />
           );
         })}

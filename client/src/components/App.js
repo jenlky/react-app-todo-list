@@ -307,6 +307,26 @@ class App extends React.Component {
     });
   };
 
+  // Toggle display of parentItem using prevState
+  toggleDisplay = itemId => {
+    const lists = [...this.state.lists];
+
+    setTimeout(() => {
+      this.setState(prev => {
+        const { parentItem } = this.findItem(
+          prev.lists[0].listItems,
+          itemId,
+          false
+        );
+        parentItem.display = !parentItem.display;
+
+        return {
+          lists
+        };
+      });
+    }, this.state.delay);
+  };
+
   render() {
     console.log(this.state.lists[0]);
 
@@ -354,6 +374,7 @@ class App extends React.Component {
                       addSubsequentItem={this.addSubsequentItem}
                       editItem={this.editItem}
                       removeItem={this.removeItem}
+                      toggleDisplay={this.toggleDisplay}
                     />
                   </div>
                 </React.Fragment>
