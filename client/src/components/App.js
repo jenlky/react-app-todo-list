@@ -140,7 +140,7 @@ class App extends React.Component {
     const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertFirstItem();
+      this.insertNewParentItem();
       event.target.value = "";
     }
   };
@@ -150,13 +150,13 @@ class App extends React.Component {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertFirstItem();
+      this.insertNewParentItem();
       event.currentTarget.previousSibling.value = "";
     }
   };
 
   // Helper function for handleEnter and addFirstItem
-  insertFirstItem = () => {
+  insertNewParentItem = () => {
     const lists = [...this.state.lists];
     const id = this.findEmptyId();
 
@@ -170,6 +170,7 @@ class App extends React.Component {
     this.setState({ keyInItem: "" });
   };
 
+  // make this more generic
   findEmptyId = () => {
     const lists = [...this.state.lists];
     let id = 1;
@@ -183,18 +184,18 @@ class App extends React.Component {
     return id;
   };
 
-  findFirstIndexOfItem = id => {
+  findFirstItemIndex = id => {
     const lists = [...this.state.lists];
-    const firstItem = lists[0].listItems;
+    const parentItems = lists[0].listItems;
 
-    for (let x = 0; x < firstItem.length; x++) {
-      if (id === firstItem[x].id) {
+    for (let x = 0; x < parentItems.length; x++) {
+      if (id === parentItems[x].id) {
         return x;
       }
     }
   };
 
-  findSubsequentIndexOfItem = (parentItem, id, address) => {
+  findSubsequentItemIndex = (parentItem, id, address) => {
     for (let x = 0; x < parentItem.children.length; x++) {
       const parentItemId = parentItem.children[x].id.split("-");
 
@@ -206,14 +207,14 @@ class App extends React.Component {
     }
   };
 
-  findItem = (items, itemId, findItsParent) => {
-    const parentAddress = this.findFirstIndexOfItem(itemId[0]);
-    let parentItem = items[parentAddress];
+  findItem = (parentItems, itemId, findItsParent) => {
+    const parentAddress = this.findFirstItemIndex(itemId[0]);
+    let parentItem = parentItems[parentAddress];
     itemId.shift();
     const childAddress = [];
 
     while (findItsParent ? itemId.length > 1 : itemId.length > 0) {
-      parentItem = this.findSubsequentIndexOfItem(
+      parentItem = this.findSubsequentItemIndex(
         parentItem,
         itemId[0],
         childAddress
@@ -226,23 +227,46 @@ class App extends React.Component {
     return { parentItem, childAddress };
   };
 
-  addSubsequentItem = (id = 0, text) => {
+  // Add child item to parent item and display its child items
+  addSubsequentItem = itemId => {
     const lists = [...this.state.lists];
-    let listItem = lists[0].listItems.find(item => {
-      return Number(id) === item.id && text === item.text;
-    });
+    const parentItems = lists[0].listItems;
 
-    listItem.children.push({
-      id: Number(id) + 1,
-      text: "",
-      children: [],
-      display: false
-    });
-    listItem.display = true;
+    const { parentItem } = this.findItem(parentItems, itemId, false);
+    this.addItemToParent(parentItem);
+    parentItem.display = true;
 
     setTimeout(() => {
       this.setState({ lists });
     }, this.state.delay);
+  };
+
+  // change the logic to fill up the gaps in id
+  addItemToParent = parentItem => {
+    const numOfChildren = parentItem.children.length;
+    // console.log(numOfChildren);
+
+    let newestId;
+    let combinedId;
+    let newObj;
+
+    if (numOfChildren > 0) {
+      newestId = parentItem.children[numOfChildren - 1].id;
+
+      const itemId = newestId.split("-");
+      const lastNum = itemId[itemId.length - 1];
+
+      const newId = Number(lastNum) + 1;
+
+      itemId[itemId.length - 1] = "" + newId;
+      combinedId = itemId.join("-");
+    } else {
+      newestId = parentItem.id;
+      combinedId = newestId + "-1";
+    }
+
+    newObj = { id: combinedId, text: "", children: [] };
+    parentItem.children.push(newObj);
   };
 
   render() {

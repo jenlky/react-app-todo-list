@@ -3,9 +3,11 @@ import Plus from "./Plus";
 import RightTriangle from "./RightTriangle";
 
 const ToDoItemLeft = ({ listItem, addSubsequentItem }) => {
+  const idArray = listItem.id.split("-");
+
   return (
     <div className="todo-item-left-icons">
-      <Plus id={listItem.id} addSubsequentItem={addSubsequentItem} />
+      <Plus idArray={idArray} addSubsequentItem={addSubsequentItem} />
       <RightTriangle display={listItem.display} id={listItem.id} />
     </div>
   );
