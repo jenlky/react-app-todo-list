@@ -158,21 +158,6 @@ class App extends React.Component {
   // Helper function for handleEnter and addFirstItem
   insertNewParentItem = () => {
     const lists = [...this.state.lists];
-    const id = this.findEmptyId();
-
-    lists[0].listItems.push({
-      id: String(id),
-      text: this.state.keyInItem,
-      children: [],
-      display: false
-    });
-
-    this.setState({ keyInItem: "" });
-  };
-
-  // make this more generic
-  findEmptyId = () => {
-    const lists = [...this.state.lists];
     let id = 1;
     for (let item of lists[0].listItems) {
       if (id !== Number(item.id)) {
@@ -181,7 +166,13 @@ class App extends React.Component {
       id++;
     }
 
-    return id;
+    lists[0].listItems.push({
+      id: String(id),
+      text: this.state.keyInItem,
+      children: [],
+      display: false
+    });
+    this.setState({ keyInItem: "" });
   };
 
   findFirstItemIndex = id => {
@@ -222,12 +213,9 @@ class App extends React.Component {
 
       itemId.shift();
     }
-
-    // console.log("findItem:", { parentItem, childAddress });
     return { parentItem, childAddress };
   };
 
-  // Add child item to parent item and display its child items
   addSubsequentItem = itemId => {
     const lists = [...this.state.lists];
     const parentItems = lists[0].listItems;
@@ -241,26 +229,31 @@ class App extends React.Component {
     }, this.state.delay);
   };
 
-  // change the logic to fill up the gaps in id
   addItemToParent = parentItem => {
     const numOfChildren = parentItem.children.length;
-    let newestId;
     let combinedId;
     let newObj;
 
     if (numOfChildren > 0) {
-      newestId = parentItem.children[numOfChildren - 1].id;
+      let id;
+      let currentLastNum = 1;
+      let nextLastNum;
 
-      const itemId = newestId.split("-");
-      const lastNum = itemId[itemId.length - 1];
+      for (let x = 0; x < parentItem.children.length; x++) {
+        id = parentItem.children[x].id.split("-");
+        nextLastNum = Number(id[id.length - 1]);
 
-      const newId = Number(lastNum) + 1;
+        if (currentLastNum !== nextLastNum) {
+          break;
+        }
+        currentLastNum++;
+      }
 
-      itemId[itemId.length - 1] = "" + newId;
-      combinedId = itemId.join("-");
+      id.pop();
+      id.push(currentLastNum);
+      combinedId = id.join("-");
     } else {
-      newestId = parentItem.id;
-      combinedId = newestId + "-1";
+      combinedId = parentItem.id + "-1";
     }
 
     newObj = { id: combinedId, text: "", children: [] };
@@ -276,12 +269,9 @@ class App extends React.Component {
     this.setState({ lists });
   };
 
-  // Remove both parent and children, or only child item
   removeItem = itemId => {
     const lists = [...this.state.lists];
     const parentItems = lists[0].listItems;
-
-    console.log("removeItem", itemId);
 
     if (itemId.length === 1) {
       for (let x = 0; x < parentItems.length; x++) {
@@ -307,7 +297,6 @@ class App extends React.Component {
     });
   };
 
-  // Toggle display of parentItem using prevState
   toggleDisplay = itemId => {
     const lists = [...this.state.lists];
 
