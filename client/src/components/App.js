@@ -4,7 +4,6 @@ import Lists from "./List/Lists";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
-import getLists from "../service/lists-service";
 import "../styles/App.css";
 import axios from "axios";
 
@@ -12,14 +11,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: getLists(),
-      keyInItem: "",
       isLoggedIn: false,
       name: "",
       username: "",
       email: "",
-      password: "",
-      delay: 150
+      password: ""
     };
   }
 
@@ -120,211 +116,6 @@ class App extends React.Component {
 
   logout = () => {};
 
-  keyInItemHandler = event => {
-    this.setState({
-      keyInItem: event.target.value
-    });
-  };
-
-  findListIndex = (lists, id) => {
-    return lists.findIndex(list => {
-      return id === list.id;
-    });
-  };
-
-  listNameHandler = (e, id) => {
-    const lists = [...this.state.lists];
-    const address = this.findListIndex(lists, id);
-    lists[address].name = e.target.value;
-
-    this.setState({
-      lists
-    });
-  };
-
-  // Pressing the enter key on input field triggers this method and adds item
-  handleEnter = (event, id) => {
-    const enterCondition = event.key === "Enter" && this.state.keyInItem !== "";
-
-    if (enterCondition) {
-      this.insertNewParentItem(id);
-      event.target.value = "";
-    }
-  };
-
-  // Add item to parent list item by clicking on the 'Add button'
-  addFirstItem = (event, id) => {
-    const enterCondition = this.state.keyInItem !== "";
-
-    if (enterCondition) {
-      this.insertNewParentItem(id);
-      event.currentTarget.previousSibling.value = "";
-    }
-  };
-
-  // Helper function for handleEnter and addFirstItem
-  insertNewParentItem = listId => {
-    const lists = [...this.state.lists];
-    const address = this.findListIndex(lists, listId);
-
-    let itemId = 1;
-    for (let item of lists[address].listItems) {
-      if (itemId !== Number(item.id)) {
-        break;
-      }
-      itemId++;
-    }
-
-    lists[address].listItems.push({
-      id: String(itemId),
-      text: this.state.keyInItem,
-      children: [],
-      display: false
-    });
-    this.setState({ keyInItem: "" });
-  };
-
-  findFirstItemIndex = id => {
-    const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
-
-    for (let x = 0; x < parentItems.length; x++) {
-      if (id === parentItems[x].id) {
-        return x;
-      }
-    }
-  };
-
-  findSubsequentItemIndex = (parentItem, id, address) => {
-    for (let x = 0; x < parentItem.children.length; x++) {
-      const parentItemId = parentItem.children[x].id.split("-");
-
-      // address.length + 1 because parentItem has already accessed parentIndex
-      if (id === parentItemId[address.length + 1]) {
-        address.push(x);
-        return parentItem.children[x];
-      }
-    }
-  };
-
-  findItem = (parentItems, itemId, findItsParent) => {
-    const parentAddress = this.findFirstItemIndex(itemId[0]);
-    let parentItem = parentItems[parentAddress];
-    itemId.shift();
-    const childAddress = [];
-
-    while (findItsParent ? itemId.length > 1 : itemId.length > 0) {
-      parentItem = this.findSubsequentItemIndex(
-        parentItem,
-        itemId[0],
-        childAddress
-      );
-
-      itemId.shift();
-    }
-    return { parentItem, childAddress };
-  };
-
-  addSubsequentItem = itemId => {
-    const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
-
-    const { parentItem } = this.findItem(parentItems, itemId, false);
-    this.addItemToParent(parentItem);
-    parentItem.display = true;
-
-    setTimeout(() => {
-      this.setState({ lists });
-    }, this.state.delay);
-  };
-
-  addItemToParent = parentItem => {
-    const numOfChildren = parentItem.children.length;
-    let combinedId;
-    let newObj;
-
-    if (numOfChildren > 0) {
-      let id;
-      let currentLastNum = 1;
-      let nextLastNum;
-
-      for (let x = 0; x < parentItem.children.length; x++) {
-        id = parentItem.children[x].id.split("-");
-        nextLastNum = Number(id[id.length - 1]);
-
-        if (currentLastNum !== nextLastNum) {
-          break;
-        }
-        currentLastNum++;
-      }
-
-      id.pop();
-      id.push(currentLastNum);
-      combinedId = id.join("-");
-    } else {
-      combinedId = parentItem.id + "-1";
-    }
-
-    newObj = { id: combinedId, text: "", children: [] };
-    parentItem.children.push(newObj);
-  };
-
-  editItem = (newValue, itemId) => {
-    const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
-    const { parentItem } = this.findItem(parentItems, itemId, false);
-
-    parentItem.text = newValue;
-    this.setState({ lists });
-  };
-
-  removeItem = itemId => {
-    const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
-
-    if (itemId.length === 1) {
-      for (let x = 0; x < parentItems.length; x++) {
-        if (itemId[0] === parentItems[x].id) {
-          parentItems.splice(x, 1);
-        }
-      }
-    } else {
-      const { parentItem } = this.findItem(parentItems, itemId, true);
-      const childAddress = [];
-      this.findSubsequentItemIndex(
-        parentItem,
-        itemId[itemId.length - 1],
-        childAddress
-      );
-
-      const childIndex = childAddress[0];
-      parentItem.children.splice(childIndex, 1);
-    }
-
-    this.setState({
-      lists
-    });
-  };
-
-  toggleDisplay = itemId => {
-    const lists = [...this.state.lists];
-
-    setTimeout(() => {
-      this.setState(prev => {
-        const { parentItem } = this.findItem(
-          prev.lists[0].listItems,
-          itemId,
-          false
-        );
-        parentItem.display = !parentItem.display;
-
-        return {
-          lists
-        };
-      });
-    }, this.state.delay);
-  };
-
   render() {
     console.log(this.state.lists);
 
@@ -362,17 +153,7 @@ class App extends React.Component {
                     logout={this.logout}
                   />
                   <div className="app">
-                    <Lists
-                      lists={this.state.lists}
-                      listNameHandler={this.listNameHandler}
-                      keyInItemHandler={this.keyInItemHandler}
-                      addFirstItem={this.addFirstItem}
-                      handleEnter={this.handleEnter}
-                      addSubsequentItem={this.addSubsequentItem}
-                      editItem={this.editItem}
-                      removeItem={this.removeItem}
-                      toggleDisplay={this.toggleDisplay}
-                    />
+                    <Lists />
                   </div>
                 </React.Fragment>
               );
