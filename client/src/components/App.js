@@ -117,7 +117,7 @@ class App extends React.Component {
   logout = () => {};
 
   render() {
-    console.log(this.state.lists);
+    console.log(this.state);
 
     return (
       <Router>

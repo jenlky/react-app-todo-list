@@ -19,12 +19,6 @@ class Lists extends React.Component {
     });
   };
 
-  findListIndex = (lists, id) => {
-    return lists.findIndex(list => {
-      return id === list.id;
-    });
-  };
-
   listNameHandler = (e, id) => {
     const lists = [...this.state.lists];
     const address = this.findListIndex(lists, id);
@@ -58,7 +52,7 @@ class Lists extends React.Component {
   // Helper function for handleEnter and addFirstItem
   insertNewParentItem = listId => {
     const lists = [...this.state.lists];
-    const address = this.findListIndex(lists, listId);
+    const address = this.findListIndex(listId);
 
     let itemId = 1;
     for (let item of lists[address].listItems) {
@@ -77,16 +71,17 @@ class Lists extends React.Component {
     this.setState({ keyInItem: "" });
   };
 
-  // stopped here in making functions dynamic and responding to list id
-  findFirstItemIndex = id => {
+  findListIndex = id => {
     const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
+    return lists.findIndex(list => {
+      return Number(id) === list.id;
+    });
+  };
 
-    for (let x = 0; x < parentItems.length; x++) {
-      if (id === parentItems[x].id) {
-        return x;
-      }
-    }
+  findFirstItemIndex = (listItems, id) => {
+    return listItems.findIndex(item => {
+      return id === item.id;
+    });
   };
 
   findSubsequentItemIndex = (parentItem, id, address) => {
@@ -101,10 +96,13 @@ class Lists extends React.Component {
     }
   };
 
-  findItem = (parentItems, itemId, findItsParent) => {
-    const parentAddress = this.findFirstItemIndex(itemId[0]);
-    let parentItem = parentItems[parentAddress];
+  findItem = (lists, listId, itemId, findItsParent) => {
+    const listAddress = this.findListIndex(listId);
+    const listItems = lists[listAddress].listItems;
+
+    const firstItemAddress = this.findFirstItemIndex(listItems, itemId[0]);
     itemId.shift();
+    let parentItem = listItems[firstItemAddress];
     const childAddress = [];
 
     while (findItsParent ? itemId.length > 1 : itemId.length > 0) {
@@ -119,16 +117,18 @@ class Lists extends React.Component {
     return { parentItem, childAddress };
   };
 
-  addSubsequentItem = itemId => {
-    const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
+  addSubsequentItem = (listId, itemId) => {
+    // console.log("addSubsequentItem listId and itemId:", listId + ", " + itemId);
 
-    const { parentItem } = this.findItem(parentItems, itemId, false);
+    const parentItems = [...this.state.lists];
+    const { parentItem } = this.findItem(parentItems, listId, itemId, false);
+    // console.log("addSubsequentItem parentItem", parentItem);
+
     this.addItemToParent(parentItem);
     parentItem.display = true;
 
     setTimeout(() => {
-      this.setState({ lists });
+      this.setState({ lists: parentItems });
     }, this.state.delay);
   };
 
@@ -163,11 +163,9 @@ class Lists extends React.Component {
     parentItem.children.push(newObj);
   };
 
-  editItem = (newValue, itemId) => {
+  editItem = (newValue, listId, itemId) => {
     const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
-    const { parentItem } = this.findItem(parentItems, itemId, false);
-
+    const { parentItem } = this.findItem(lists, listId, itemId, false);
     parentItem.text = newValue;
     this.setState({ lists });
   };
@@ -220,6 +218,8 @@ class Lists extends React.Component {
   };
 
   render() {
+    console.log(this.state.lists);
+
     return (
       <React.Fragment>
         {this.state.lists.map(list => {

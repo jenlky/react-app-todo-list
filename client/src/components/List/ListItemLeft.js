@@ -2,15 +2,25 @@ import React from "react";
 import Plus from "./Plus";
 import RightTriangle from "./RightTriangle";
 
-const ListItemLeft = ({ listItem, addSubsequentItem, toggleDisplay }) => {
-  const idArray = listItem.id.split("-");
+const ListItemLeft = ({
+  listId,
+  listItem,
+  addSubsequentItem,
+  toggleDisplay
+}) => {
+  const itemId = listItem.id.split("-");
 
   return (
     <div className="todo-item-left-icons">
-      <Plus idArray={idArray} addSubsequentItem={addSubsequentItem} />
+      <Plus
+        listId={listId}
+        itemId={itemId}
+        addSubsequentItem={addSubsequentItem}
+      />
       <RightTriangle
         display={listItem.display}
-        idArray={idArray}
+        listId={listId}
+        itemId={itemId}
         toggleDisplay={toggleDisplay}
       />
     </div>

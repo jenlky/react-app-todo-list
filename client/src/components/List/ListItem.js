@@ -3,14 +3,13 @@ import ListItemLeft from "./ListItemLeft";
 import ListItemRight from "./ListItemRight";
 
 const ListItem = ({
+  listId,
   listItem,
   addSubsequentItem,
   editItem,
   removeItem,
   toggleDisplay
 }) => {
-  // console.log("listItem", listItem);
-
   const displayChildCondition =
     (listItem !== undefined || listItem.children.length > 0) &&
     listItem.display === true;
@@ -19,11 +18,13 @@ const ListItem = ({
     <React.Fragment>
       <li className="todo-item break-word">
         <ListItemLeft
+          listId={listId}
           listItem={listItem}
           addSubsequentItem={addSubsequentItem}
           toggleDisplay={toggleDisplay}
         />
         <ListItemRight
+          listId={listId}
           listItem={listItem}
           editItem={editItem}
           removeItem={removeItem}
@@ -34,6 +35,7 @@ const ListItem = ({
           {listItem.children.map(listItem => {
             return (
               <ListItem
+                listId={listId}
                 key={listItem.id}
                 listItem={listItem}
                 addSubsequentItem={addSubsequentItem}

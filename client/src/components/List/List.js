@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../Button";
 import ListItem from "./ListItem";
-import "../../styles/ToDoList.css";
 
 const List = ({
   list,
@@ -39,6 +38,7 @@ const List = ({
           return (
             <ListItem
               key={listItem.id}
+              listId={list.id}
               listItem={listItem}
               addSubsequentItem={addSubsequentItem}
               editItem={editItem}

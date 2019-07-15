@@ -1,8 +1,8 @@
 import React from "react";
 import Cross from "./Cross";
 
-const ListItemRight = ({ listItem, editItem, removeItem }) => {
-  const idArray = listItem.id.split("-");
+const ListItemRight = ({ listId, listItem, editItem, removeItem }) => {
+  const itemId = listItem.id.split("-");
 
   return (
     <div className="todo-item-right-content">
@@ -10,9 +10,9 @@ const ListItemRight = ({ listItem, editItem, removeItem }) => {
         type="text"
         value={listItem.text}
         className="todo-item-right-input"
-        onChange={e => editItem(e.target.value, idArray)}
+        onChange={e => editItem(e.target.value, listId, itemId)}
       />
-      <Cross idArray={idArray} removeItem={removeItem} />
+      <Cross listId={listId} itemId={itemId} removeItem={removeItem} />
     </div>
   );
 };
