@@ -170,18 +170,18 @@ class Lists extends React.Component {
     this.setState({ lists });
   };
 
-  removeItem = itemId => {
+  removeItem = (listId, itemId) => {
     const lists = [...this.state.lists];
-    const parentItems = lists[0].listItems;
 
     if (itemId.length === 1) {
-      for (let x = 0; x < parentItems.length; x++) {
-        if (itemId[0] === parentItems[x].id) {
-          parentItems.splice(x, 1);
-        }
-      }
+      const listAddress = this.findListIndex(listId);
+      const listItems = lists[listAddress].listItems;
+      const childIndex = listItems.findIndex(item => {
+        return item.id === itemId[0];
+      });
+      listItems.splice(childIndex, 1);
     } else {
-      const { parentItem } = this.findItem(parentItems, itemId, true);
+      const { parentItem } = this.findItem(lists, listId, itemId, true);
       const childAddress = [];
       this.findSubsequentItemIndex(
         parentItem,
@@ -198,16 +198,12 @@ class Lists extends React.Component {
     });
   };
 
-  toggleDisplay = itemId => {
+  toggleDisplay = (listId, itemId) => {
     const lists = [...this.state.lists];
 
     setTimeout(() => {
       this.setState(prev => {
-        const { parentItem } = this.findItem(
-          prev.lists[0].listItems,
-          itemId,
-          false
-        );
+        const { parentItem } = this.findItem(prev.lists, listId, itemId, false);
         parentItem.display = !parentItem.display;
 
         return {
