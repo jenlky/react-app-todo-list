@@ -1,6 +1,7 @@
 import React from "react";
 import List from "./List";
 import getLists from "../../service/lists-service";
+import AddNewList from "./AddNewList";
 import "../../styles/ToDoList.css";
 
 class Lists extends React.Component {
@@ -21,7 +22,7 @@ class Lists extends React.Component {
 
   listNameHandler = (e, id) => {
     const lists = [...this.state.lists];
-    const address = this.findListIndex(lists, id);
+    const address = this.findListIndex(id);
     lists[address].name = e.target.value;
 
     this.setState({
@@ -72,6 +73,8 @@ class Lists extends React.Component {
   };
 
   findListIndex = id => {
+    console.log(id);
+
     const lists = [...this.state.lists];
     return lists.findIndex(list => {
       return Number(id) === list.id;
@@ -219,6 +222,25 @@ class Lists extends React.Component {
     }, this.state.delay);
   };
 
+  addList = () => {
+    const lists = [...this.state.lists];
+
+    let greatestId = 0;
+    for (let x = 0; x < lists.length; x++) {
+      if (lists[x].id > greatestId) {
+        greatestId = lists[x].id;
+      }
+    }
+
+    const newList = {
+      id: greatestId + 1,
+      name: "",
+      listItems: []
+    };
+    lists.push(newList);
+    this.setState({ lists });
+  };
+
   render() {
     console.log(this.state.lists);
 
@@ -240,6 +262,7 @@ class Lists extends React.Component {
             />
           );
         })}
+        <AddNewList addList={this.addList} />
       </React.Fragment>
     );
   }

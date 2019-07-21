@@ -7,7 +7,8 @@ body {
   font-size: 16px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #0079bf; }
+  background-color: #0079bf;
+  overflow: scroll; }
 
 #root {
   min-height: 100vh;

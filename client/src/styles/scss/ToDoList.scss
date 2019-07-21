@@ -21,14 +21,14 @@ $dropdown-triangle-size: 16px;
 
     &-name-row {
       display: flex;
-      font-size: 20px;
-      color: red;
-      font-weight: bold;
       margin-bottom: 50px;
     }
 
     &-remove-list {
       cursor: pointer;
+      font-size: 22px;
+      color: red;
+      font-weight: bold;
     }
   }
 

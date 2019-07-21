@@ -125,7 +125,7 @@ class App extends React.Component {
           {/* if user isLoggedIn he can access List */}
           {/* guard the route for both frontend and backend */}
           <Route
-            exact={true}
+            exact
             path="/"
             render={() => {
               return (
@@ -141,7 +141,7 @@ class App extends React.Component {
             }}
           />
           <Route
-            // exact={true}
+            // exact
             path="/users"
             // path={`/users/${this.state.username}`}
             render={() => {
@@ -160,7 +160,7 @@ class App extends React.Component {
             }}
           />
           <Route
-            exact={true}
+            exact
             path="/signup"
             render={props => (
               <SignUpOrLogin
@@ -173,7 +173,7 @@ class App extends React.Component {
             )}
           />
           <Route
-            exact={true}
+            exact
             path="/login"
             render={props => (
               <SignUpOrLogin
