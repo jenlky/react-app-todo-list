@@ -7,16 +7,7 @@ body {
   font-size: 16px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #0079bf;
-  overflow: scroll; }
-
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box; }
+  background-color: #0079bf; }
 
 .title {
   border: 0;
@@ -27,7 +18,11 @@ body {
 
 .app {
   display: flex;
-  flex-flow: row nowrap; }
+  flex-flow: row nowrap;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: absolute; }
   .app h1 {
     margin-top: 10px; }
 

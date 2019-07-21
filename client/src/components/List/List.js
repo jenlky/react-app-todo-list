@@ -20,7 +20,7 @@ const List = ({
         <input
           type="text"
           className="title"
-          placeholder="List Name"
+          placeholder="List name"
           value={list.name}
           onChange={e => listNameHandler(e, list.id)}
           onKeyDown={e => handleEnter(e, list.id)}
