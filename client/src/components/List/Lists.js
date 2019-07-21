@@ -173,7 +173,13 @@ class Lists extends React.Component {
   removeItem = (listId, itemId) => {
     const lists = [...this.state.lists];
 
-    if (itemId.length === 1) {
+    if (itemId === undefined) {
+      const listAddress = lists.findIndex(list => {
+        return list.id === listId;
+      });
+
+      lists.splice(listAddress, 1);
+    } else if (itemId.length === 1) {
       const listAddress = this.findListIndex(listId);
       const listItems = lists[listAddress].listItems;
       const childIndex = listItems.findIndex(item => {

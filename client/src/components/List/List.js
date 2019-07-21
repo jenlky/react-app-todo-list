@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../Button";
 import ListItem from "./ListItem";
+import Cross from "./Cross";
 
 const List = ({
   list,
@@ -15,14 +16,22 @@ const List = ({
 }) => {
   return (
     <div className="todo-list">
-      <input
-        type="text"
-        className="title"
-        placeholder="Enter your item"
-        value={list.name}
-        onChange={e => listNameHandler(e, list.id)}
-        onKeyDown={e => handleEnter(e, list.id)}
-      />
+      <div className="todo-list-name-row">
+        <input
+          type="text"
+          className="title"
+          placeholder="Enter your item"
+          value={list.name}
+          onChange={e => listNameHandler(e, list.id)}
+          onKeyDown={e => handleEnter(e, list.id)}
+        />
+        <Cross
+          title="Remove list"
+          className="todo-list-remove-list"
+          listId={list.id}
+          removeItem={removeItem}
+        />
+      </div>
       <div>
         <input
           type="text"

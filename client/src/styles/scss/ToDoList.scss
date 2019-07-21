@@ -18,6 +18,18 @@ $dropdown-triangle-size: 16px;
     @include min-device("tablet") {
       padding: 20px 20px;
     }
+
+    &-name-row {
+      display: flex;
+      font-size: 20px;
+      color: red;
+      font-weight: bold;
+      margin-bottom: 50px;
+    }
+
+    &-remove-list {
+      cursor: pointer;
+    }
   }
 
   &-btn {

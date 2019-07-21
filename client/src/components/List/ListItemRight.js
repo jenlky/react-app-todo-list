@@ -12,7 +12,13 @@ const ListItemRight = ({ listId, listItem, editItem, removeItem }) => {
         className="todo-item-right-input"
         onChange={e => editItem(e.target.value, listId, itemId)}
       />
-      <Cross listId={listId} itemId={itemId} removeItem={removeItem} />
+      <Cross
+        title="Remove parent and its children"
+        className="todo-item-right-cross"
+        listId={listId}
+        itemId={itemId}
+        removeItem={removeItem}
+      />
     </div>
   );
 };
