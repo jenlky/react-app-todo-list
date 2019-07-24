@@ -9,6 +9,14 @@ body {
   min-height: 100vh;
   background-color: #0079bf; }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box; }
+
 .title {
   border: 0;
   font-size: 32px;

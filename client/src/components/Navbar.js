@@ -8,7 +8,7 @@ import Login from "./SignupLogin/Login";
 import Username from "./Username";
 import Logout from "./SignupLogin/Logout";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
     width: "100vw"

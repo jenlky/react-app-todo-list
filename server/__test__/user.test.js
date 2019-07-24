@@ -1,8 +1,8 @@
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
-const app = require("../app");
-const { userData } = require("../utils/seed");
-const { verifyToken } = require("../utils/token");
+const app = require("../src/app");
+const { userData } = require("../src/utils/seed");
+const { verifyToken } = require("../src/utils/token");
 
 describe("User", () => {
   let connection;
@@ -33,7 +33,7 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
-  describe.only("POST /signup, POST /login and GET /secure", () => {
+  describe("POST /signup, POST /login and GET /secure", () => {
     it("users can POST /signup with validated name, username, email address and password", async () => {
       const user = {
         name: "Eddie",
@@ -69,27 +69,6 @@ describe("User", () => {
       expect(response.status).toEqual(201);
       expect(response.body.username).toEqual(user.username);
     });
-
-    xit("GET /secure checks if users have valid token before giving them access", async () => {
-      // doesn't work because nodeJS does not have sessionStorage
-      //   const user = {
-      //     name: "Eddie",
-      //     username: "EdsonElson",
-      //     email: "eddie@gmail.com",
-      //     password: "selamatdatang"
-      //   };
-      //   const signupResponse = await request(app)
-      //     .post("/signup")
-      //     .send(user);
-      //   const jwt = signupResponse.body.jwt;
-      //   if (jwt) {
-      //     sessionStorage.setItem("jwt", jwt);
-      //     headers.Authorization = "Bearer " + jwt;
-      //   }
-      //   const response = await request(app).get("/secure");
-      //   console.log(response.body.username);
-      //   expect(response.body.username).toEqual(user.username);
-    });
   });
 
   describe("/users/:username", () => {
@@ -116,7 +95,6 @@ describe("User", () => {
       expect(response.body).toMatchObject(lists);
     });
 
-    // error
     it("POST / should create a new user's list", async () => {
       const users = db.collection("users");
       await users.insertMany(userData);
