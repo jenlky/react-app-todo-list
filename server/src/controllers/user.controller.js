@@ -47,7 +47,6 @@ const createOneList = async username => {
   return user.lists;
 };
 
-// update one list's name
 const updateOneList = async (username, id, name) => {
   let user = await User.findOne({ username });
   const list = user.lists.find(list => list.id === Number(id));
