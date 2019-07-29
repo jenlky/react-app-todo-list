@@ -1,17 +1,36 @@
 import React from "react";
 import List from "./List";
-import getLists from "../../service/lists-service";
+// import getLists from "../../service/lists-service";
 import AddNewList from "./AddNewList";
 import "../../styles/ToDoList.css";
+import { getAllLists, updateOneList } from "../../api/api";
 
 class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: getLists(),
+      lists: [
+        {
+          id: 1,
+          name: "",
+          listItems: []
+        }
+      ],
       keyInItem: "",
       delay: 150
     };
+  }
+
+  async componentDidMount() {
+    const { isLoggedIn, username } = this.props;
+    if (isLoggedIn) {
+      try {
+        const res = await getAllLists(username);
+        this.setState({ lists: res.data });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   keyInItemHandler = event => {
@@ -20,7 +39,7 @@ class Lists extends React.Component {
     });
   };
 
-  listNameHandler = (e, id) => {
+  listNameHandler = async (e, id) => {
     const lists = [...this.state.lists];
     const address = this.findListIndex(id);
     lists[address].name = e.target.value;
@@ -28,6 +47,13 @@ class Lists extends React.Component {
     this.setState({
       lists
     });
+
+    try {
+      const res = await updateOneList(this.props.username, id);
+      console.log("listNameHandler res", res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // Pressing the enter key on input field triggers this method and adds item
@@ -38,6 +64,14 @@ class Lists extends React.Component {
       this.insertNewParentItem(id);
       event.target.value = "";
     }
+  };
+
+  // when I login or do CRUD then put the token in the request
+  insertJWT = () => {
+    const jwt = sessionStorage.getItem("jwt");
+    return {
+      authorization: "Bearer " + jwt
+    };
   };
 
   // Add item to parent list item by clicking on the 'Add button'
@@ -121,11 +155,8 @@ class Lists extends React.Component {
   };
 
   addSubsequentItem = (listId, itemId) => {
-    // console.log("addSubsequentItem listId and itemId:", listId + ", " + itemId);
-
     const parentItems = [...this.state.lists];
     const { parentItem } = this.findItem(parentItems, listId, itemId, false);
-    // console.log("addSubsequentItem parentItem", parentItem);
 
     this.addItemToParent(parentItem);
     parentItem.display = true;
