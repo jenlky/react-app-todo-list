@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import "../styles/App.css";
 import SignUp from "./SignupLogin/SignUp";
 import Login from "./SignupLogin/Login";
-import Username from "./Username";
+import Username from "./SignupLogin/Username";
 import Logout from "./SignupLogin/Logout";
 
 const useStyles = makeStyles(() => ({
