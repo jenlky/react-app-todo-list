@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
 import "../styles/App.css";
-import axios from "axios";
+import { signUp, login } from "../api/api";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,8 +18,6 @@ class App extends React.Component {
       password: ""
     };
   }
-
-  async componentDidMount() {}
 
   updateUserState = e => {
     switch (e.target.id) {
@@ -42,15 +40,12 @@ class App extends React.Component {
 
   signup = async (e, history) => {
     e.preventDefault();
-    const server = process.env.REACT_APP_URI || "http://localhost:3001";
 
     const { name, username, email, password } = this.state;
     if (name && username && email && password) {
-      // doesn't distinguish what kind of error
-      // whether user already exists in db, or form failed validation
       let res;
       try {
-        res = await axios.post(`${server}/signup`, {
+        res = await signUp(`/signup`, {
           name,
           username,
           email,
@@ -75,27 +70,15 @@ class App extends React.Component {
 
         history.push(`/users/${username}`);
       }
-
-      // after this I'll need 1) React conditional rendering to guard the routes
-      // 2) express middleware GET /secure
     }
-  };
-
-  // when I login or do CRUD then put the token in the request
-  insertJWT = () => {
-    const jwt = sessionStorage.getItem("jwt");
-    return {
-      authorization: "Bearer " + jwt
-    };
   };
 
   login = async (e, history) => {
     e.preventDefault();
-    const server = process.env.REACT_APP_URI || "http://localhost:3001";
 
     const { username, password } = this.state;
     if (username && password) {
-      const res = await axios.post(`${server}/login`, {
+      const res = await login(`/login`, {
         username,
         password
       });
@@ -122,8 +105,6 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          {/* if user isLoggedIn he can access List */}
-          {/* guard the route for both frontend and backend */}
           <Route
             exact
             path="/"
@@ -141,9 +122,7 @@ class App extends React.Component {
             }}
           />
           <Route
-            // exact
             path="/users"
-            // path={`/users/${this.state.username}`}
             render={() => {
               return (
                 <React.Fragment>
@@ -153,7 +132,10 @@ class App extends React.Component {
                     logout={this.logout}
                   />
                   <div className="app">
-                    <Lists />
+                    <Lists
+                      username={this.state.username}
+                      isLoggedIn={this.state.isLoggedIn}
+                    />
                   </div>
                 </React.Fragment>
               );
