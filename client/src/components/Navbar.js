@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import "../styles/App.css";
-import SignUp from "./SignupLogin/SignUp";
-import Login from "./SignupLogin/Login";
+import SignUpBtn from "./SignupLogin/SignUpBtn";
+import LoginBtn from "./SignupLogin/LoginBtn";
 import Username from "./SignupLogin/Username";
-import Logout from "./SignupLogin/Logout";
+import LogoutBtn from "./SignupLogin/LogoutBtn";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,12 +35,12 @@ function Navbar({ username, isLoggedIn, logout }) {
           {isLoggedIn && username !== "" ? (
             <React.Fragment>
               <Username className={classes.button} username={username} />
-              <Logout className={classes.button} logout={logout} />
+              <LogoutBtn className={classes.button} logout={logout} />
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <SignUp className={classes.button} />
-              <Login className={classes.button} />
+              <SignUpBtn className={classes.button} />
+              <LoginBtn className={classes.button} />
             </React.Fragment>
           )}
         </Toolbar>
