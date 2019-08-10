@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function LoginForm({ updateUserState, login, history }) {
-  console.log("LoginForm history", history);
   const classes = useStyles();
 
   return (

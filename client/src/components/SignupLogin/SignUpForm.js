@@ -25,13 +25,13 @@ export default function SignUpForm({ updateUserState, signup, history }) {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
-            // autoComplete="fname"
             variant="outlined"
             required
             fullWidth
             id="name"
             label="Name"
             name="name"
+            autoComplete="name"
             autoFocus
             onChange={updateUserState}
           />
@@ -44,7 +44,7 @@ export default function SignUpForm({ updateUserState, signup, history }) {
             id="username"
             label="Username"
             name="username"
-            // autoComplete="lname"
+            autoComplete="username"
             onChange={updateUserState}
           />
         </Grid>
