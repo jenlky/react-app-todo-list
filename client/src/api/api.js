@@ -25,7 +25,7 @@ export const createOneList = async username => {
 };
 
 export const updateOneList = async (username, id) => {
-  return await axios.get(`/users/${username}/lists/${id}`);
+  return await axios.put(`/users/${username}/lists/${id}`);
 };
 
 export const deleteOneList = async (username, id) => {

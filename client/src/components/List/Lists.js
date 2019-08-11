@@ -48,8 +48,10 @@ class Lists extends React.Component {
     });
 
     try {
-      const res = await updateOneList(this.props.username, id);
-      console.log("listNameHandler res", res.data);
+      if (this.props.username) {
+        const res = await updateOneList(this.props.username, id);
+        console.log("listNameHandler res", res.data);
+      }
     } catch (err) {
       console.log(err);
     }
