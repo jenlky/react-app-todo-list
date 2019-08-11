@@ -2,9 +2,13 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const Button = ({ addFirstItem, listId }) => {
+const Button = ({ dataTestId, addFirstItem, listId }) => {
   return (
-    <button className="todo-btn tooltip" onClick={e => addFirstItem(e, listId)}>
+    <button
+      className="todo-btn tooltip"
+      data-testid={dataTestId}
+      onClick={e => addFirstItem(e, listId)}
+    >
       <Tooltip
         title="Add a parent item"
         position="bottom"

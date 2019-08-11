@@ -22,12 +22,14 @@ const List = ({
           className="title"
           placeholder="List name"
           value={list.name}
+          data-testid="list-title"
           onChange={e => listNameHandler(e, list.id)}
           onKeyDown={e => handleEnter(e, list.id)}
         />
         <Cross
           title="Remove list"
           className="todo-list-remove-list"
+          dataTestId="list-cross"
           listId={list.id}
           removeItem={removeItem}
         />
@@ -36,11 +38,16 @@ const List = ({
         <input
           type="text"
           className="todo-input"
+          data-testid="list-input"
           placeholder="Enter your item"
           onChange={e => keyInItemHandler(e, list.id)}
           onKeyDown={e => handleEnter(e, list.id)}
         />
-        <Button addFirstItem={addFirstItem} listId={list.id} />
+        <Button
+          addFirstItem={addFirstItem}
+          listId={list.id}
+          dataTestId="list-add-btn"
+        />
       </div>
       <ul className="todo-parent-list">
         {list.listItems.map(listItem => {

@@ -16,7 +16,7 @@ const ListItem = ({
 
   return (
     <React.Fragment>
-      <li className="todo-item break-word">
+      <li className="todo-item break-word" data-testid="todo-item">
         <ListItemLeft
           listId={listId}
           listItem={listItem}

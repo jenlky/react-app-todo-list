@@ -16,6 +16,7 @@ const ListItemRight = ({ listId, listItem, editItem, removeItem }) => {
       <Cross
         title="Remove parent and its children"
         className="todo-item-right-cross"
+        dataTestId="todo-item-cross"
         listId={listId}
         itemId={itemId}
         removeItem={removeItem}

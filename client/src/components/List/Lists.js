@@ -1,6 +1,5 @@
 import React from "react";
 import List from "./List";
-// import getLists from "../../service/lists-service";
 import AddNewList from "./AddNewList";
 import "../../styles/ToDoList.css";
 import { getAllLists, updateOneList } from "../../api/api";
