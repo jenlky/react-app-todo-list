@@ -8,6 +8,7 @@ const Cross = ({ title, className, listId, itemId, removeItem }) => {
       <span
         alt="Cancel"
         className={className}
+        data-testid="todo-item-cross"
         onClick={() => removeItem(listId, itemId)}
       >
         &#x2573;

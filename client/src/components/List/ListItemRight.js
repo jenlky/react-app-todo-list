@@ -10,6 +10,7 @@ const ListItemRight = ({ listId, listItem, editItem, removeItem }) => {
         type="text"
         value={listItem.text}
         className="todo-item-right-input"
+        data-testid="todo-item-input"
         onChange={e => editItem(e.target.value, listId, itemId)}
       />
       <Cross

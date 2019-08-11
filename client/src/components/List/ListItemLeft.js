@@ -13,12 +13,18 @@ const ListItemLeft = ({
   return (
     <div className="todo-item-left-icons">
       <Plus
+        title="Click to add an item below"
+        className="todo-item-left-plus"
         listId={listId}
         itemId={itemId}
         addSubsequentItem={addSubsequentItem}
       />
       <RightTriangle
-        display={listItem.display}
+        className={
+          listItem.display
+            ? "todo-item-left-triangle toggled-triangle"
+            : "todo-item-left-triangle"
+        }
         listId={listId}
         itemId={itemId}
         toggleDisplay={toggleDisplay}
