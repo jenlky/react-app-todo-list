@@ -2,6 +2,29 @@
 $plus-cross-size: 16px;
 $dropdown-triangle-size: 16px;
 
+.list {
+  &-add-btn {
+    margin-left: 5px;
+    padding: 2px 10px;
+    font-size: 16px;
+  }
+
+  &-input {
+    border-width: 0px 0px 2px 0px;
+    border-style: solid;
+    border-color: black;
+    outline: 0;
+    font-size: 18px;
+    line-height: 24px;
+    background-color: #dfe1e6;
+    color: black;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+
 .todo {
   &-list {
     display: block;
@@ -32,12 +55,8 @@ $dropdown-triangle-size: 16px;
     }
   }
 
-  &-btn {
-    margin-left: 5px;
-    padding: 2px 10px;
-    font-size: 16px;
-  }
-
+  // probably can remove
+  /* 
   &-input {
     border-width: 0px 0px 2px 0px;
     border-style: solid;
@@ -51,7 +70,7 @@ $dropdown-triangle-size: 16px;
     &::placeholder {
       color: rgba(0, 0, 0, 0.6);
     }
-  }
+  } */
 
   &-parent-list {
     padding: 0;

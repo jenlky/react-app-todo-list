@@ -2,10 +2,10 @@ import React from "react";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
-const Button = ({ dataTestId, addFirstItem, listId }) => {
+const Button = ({ className, dataTestId, addFirstItem, listId }) => {
   return (
     <button
-      className="todo-btn tooltip"
+      className={className}
       data-testid={dataTestId}
       onClick={e => addFirstItem(e, listId)}
     >

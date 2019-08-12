@@ -37,13 +37,14 @@ const List = ({
       <div>
         <input
           type="text"
-          className="todo-input"
+          className="list-input"
           data-testid="list-input"
           placeholder="Enter your item"
           onChange={e => keyInItemHandler(e, list.id)}
           onKeyDown={e => handleEnter(e, list.id)}
         />
         <Button
+          className="list-add-btn tooltip"
           addFirstItem={addFirstItem}
           listId={list.id}
           dataTestId="list-add-btn"
