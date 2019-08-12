@@ -1,7 +1,7 @@
 import React from "react";
 import List from "./List";
 import AddNewList from "./AddNewList";
-import "../../styles/ToDoList.css";
+import "../../styles/List.css";
 import { getAllLists, updateOneList } from "../../api/api";
 
 class Lists extends React.Component {

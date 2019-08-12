@@ -61,41 +61,41 @@
   width: 400px;
   background-color: white;
   border-radius: 3px; }
-  .todo-item-left-icons {
+  .todo-item-icons {
     display: flex;
     align-items: center; }
-  .todo-item-left-plus {
+  .todo-item-plus {
     visibility: hidden;
     margin-left: 10px;
     font-size: 16px; }
-  .todo-item-left-triangle {
+  .todo-item-right-triangle {
     border-radius: 4px;
     padding: 0 4px;
     margin-right: 4px;
     font-size: 16px; }
-    .todo-item-left-triangle:hover {
+    .todo-item-right-triangle:hover {
       background-color: rgba(0, 0, 0, 0.1); }
-  .todo-item-right-content {
+  .todo-item-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     width: stretch;
     width: -moz-available; }
-  .todo-item-right-input {
+  .todo-item-input {
     border: 0;
     height: 16px;
     font-size: 14px;
     width: inherit; }
-  .todo-item-right-cross {
+  .todo-item-cross {
     visibility: hidden;
     font-size: 16px;
     margin: 0px 10px; }
   .todo-item:hover {
     background-color: #f4f5f7; }
-    .todo-item:hover .todo-item-left-plus {
+    .todo-item:hover .todo-item-plus {
       visibility: visible; }
-    .todo-item:hover .todo-item-right-cross {
+    .todo-item:hover .todo-item-cross {
       visibility: visible; }
 
 .toggled-triangle {

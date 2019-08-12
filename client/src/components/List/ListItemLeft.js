@@ -11,10 +11,10 @@ const ListItemLeft = ({
   const itemId = listItem.id.split("-");
 
   return (
-    <div className="todo-item-left-icons">
+    <div className="todo-item-icons">
       <Plus
         title="Click to add an item below"
-        className="todo-item-left-plus"
+        className="todo-item-plus"
         listId={listId}
         itemId={itemId}
         addSubsequentItem={addSubsequentItem}
@@ -22,8 +22,8 @@ const ListItemLeft = ({
       <RightTriangle
         className={
           listItem.display
-            ? "todo-item-left-triangle toggled-triangle"
-            : "todo-item-left-triangle"
+            ? "todo-item-right-triangle toggled-triangle"
+            : "todo-item-right-triangle"
         }
         listId={listId}
         itemId={itemId}

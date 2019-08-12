@@ -47,11 +47,6 @@ $dropdown-triangle-size: 16px;
     line-height: 24px;
     background-color: #dfe1e6;
     color: black;
-    // width: 320px;
-
-    // &:focus {
-    //   border-color: blue;
-    // }
 
     &::placeholder {
       color: rgba(0, 0, 0, 0.6);
@@ -69,14 +64,10 @@ $dropdown-triangle-size: 16px;
     overflow-y: auto;
     overflow-x: hidden;
     height: 300px;
-    // min-height: 0;
-    // z-index: 1;
   }
 
   &-child-list {
     color: black;
-    // padding-inline-start: 25px;
-    // padding-inline-end: 25px;
   }
 
   &-item {
@@ -89,79 +80,74 @@ $dropdown-triangle-size: 16px;
     background-color: white;
     border-radius: 3px;
 
-    &-left {
-      &-icons {
-        display: flex;
-        align-items: center;
-      }
-
-      &-plus {
-        visibility: hidden;
-        margin-left: 10px;
-        font-size: $plus-cross-size;
-      }
-
-      &-triangle {
-        border-radius: 4px;
-        padding: 0 4px;
-        margin-right: 4px;
-
-        // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
-        font-size: $dropdown-triangle-size;
-
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-      }
-
-      // &-toggled-triangle {
-      //   transform: rotate(90deg);
-      //   border-radius: 4px;
-      //   padding: 0 4px;
-      //   margin-right: 4px;
-
-      //   // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
-      //   font-size: $dropdown-triangle-size;
-
-      //   &:hover {
-      //     background-color: rgba(0, 0, 0, 0.1);
-      //   }
-      // }
+    &-icons {
+      display: flex;
+      align-items: center;
     }
 
-    &-right {
-      &-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        // width: -webkit-fill-available;
-        width: stretch;
-        width: -moz-available;
-      }
+    &-plus {
+      visibility: hidden;
+      margin-left: 10px;
+      font-size: $plus-cross-size;
+    }
 
-      &-input {
-        border: 0;
-        height: 16px;
-        font-size: 14px;
-        width: inherit;
-      }
+    &-right-triangle {
+      border-radius: 4px;
+      padding: 0 4px;
+      margin-right: 4px;
 
-      &-cross {
-        visibility: hidden;
-        font-size: $plus-cross-size;
-        margin: 0px 10px;
+      // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
+      font-size: $dropdown-triangle-size;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
       }
+    }
+
+    // &-toggled-triangle {
+    //   transform: rotate(90deg);
+    //   border-radius: 4px;
+    //   padding: 0 4px;
+    //   margin-right: 4px;
+
+    //   // Chrome's dropdown triangle is small, while firefox dropdown triangle is still big
+    //   font-size: $dropdown-triangle-size;
+
+    //   &:hover {
+    //     background-color: rgba(0, 0, 0, 0.1);
+    //   }
+    // }
+
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      width: stretch;
+      width: -moz-available;
+    }
+
+    &-input {
+      border: 0;
+      height: 16px;
+      font-size: 14px;
+      width: inherit;
+    }
+
+    &-cross {
+      visibility: hidden;
+      font-size: $plus-cross-size;
+      margin: 0px 10px;
     }
 
     &:hover {
       background-color: #f4f5f7;
 
-      .todo-item-left-plus {
+      .todo-item-plus {
         visibility: visible;
       }
 
-      .todo-item-right-cross {
+      .todo-item-cross {
         visibility: visible;
       }
     }
