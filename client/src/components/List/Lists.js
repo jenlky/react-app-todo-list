@@ -108,8 +108,6 @@ class Lists extends React.Component {
   };
 
   findListIndex = id => {
-    console.log(id);
-
     const lists = [...this.state.lists];
     return lists.findIndex(list => {
       return Number(id) === list.id;
@@ -161,10 +159,7 @@ class Lists extends React.Component {
 
     this.addItemToParent(parentItem);
     parentItem.display = true;
-
-    setTimeout(() => {
-      this.setState({ lists: parentItems });
-    }, this.state.delay);
+    this.setState({ lists: parentItems });
   };
 
   addItemToParent = parentItem => {
@@ -274,8 +269,6 @@ class Lists extends React.Component {
   };
 
   render() {
-    console.log(this.state.lists);
-
     return (
       <React.Fragment>
         {this.state.lists.map(list => {
