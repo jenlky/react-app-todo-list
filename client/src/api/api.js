@@ -33,5 +33,5 @@ export const deleteOneList = async (username, id) => {
 };
 
 export const overwriteListItems = async (username, id) => {
-  return await axios.delete(`/users/${username}/lists/${id}/items`);
+  return await axios.put(`/users/${username}/lists/${id}/items`);
 };

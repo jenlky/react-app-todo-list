@@ -34,15 +34,23 @@ const findAllLists = async username => {
   return user.lists;
 };
 
-// forgot to add id
 const createOneList = async username => {
-  let user = await User.findOne({ username });
+  const user = await User.findOne({ username });
+
+  let greatestId = 0;
+  for (let x = 0; x < user.lists.length; x++) {
+    if (user.lists[x].id > greatestId) {
+      greatestId = user.lists[x].id;
+    }
+  }
+
   const newList = {
+    id: greatestId + 1,
     name: "",
     listItems: []
   };
-
   user.lists.push(newList);
+
   await user.save();
   return user.lists;
 };
@@ -62,15 +70,14 @@ const findListIndex = (user, id) => {
       return x;
     }
   }
-
   throw new Error("List Id cannot be found");
 };
 
 const deleteOneList = async (username, id) => {
   let user = await User.findOne({ username });
   const listIndex = findListIndex(user, id);
-
   user.lists.splice(listIndex, 1);
+
   await user.save();
   return user.lists;
 };
@@ -78,8 +85,8 @@ const deleteOneList = async (username, id) => {
 const overwriteListItems = async (username, id, newList) => {
   let user = await User.findOne({ username });
   const listIndex = findListIndex(user, id);
-
   user.lists[listIndex].listItems = newList.listItems;
+
   await user.save();
   return user.lists[listIndex].listItems;
 };

@@ -100,7 +100,6 @@ describe("User", () => {
       await users.insertMany(userData);
 
       const username = "jenlky";
-      // Insert lists[1] and expect lists
       const lists = [
         {
           id: 1,
@@ -114,9 +113,7 @@ describe("User", () => {
         }
       ];
 
-      const response = await request(app)
-        .post(`/users/${username}`)
-        .send(lists[1]);
+      const response = await request(app).post(`/users/${username}`);
       expect(response.status).toEqual(201);
       expect(response.body).toMatchObject(lists);
     });
@@ -129,8 +126,6 @@ describe("User", () => {
 
       const username = "EdsonElson";
       const id = 2;
-
-      // Update lists[1].name and expect lists
       const lists = [
         {
           id: 1,
