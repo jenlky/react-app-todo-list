@@ -33,41 +33,41 @@ describe("User", () => {
     expect(response.text).toEqual("Hello world");
   });
 
+  const eddie = {
+    name: "Eddie",
+    username: "EdsonElson",
+    email: "eddie@gmail.com",
+    password: "selamatdatang"
+  };
+
+  const jenssen = {
+    name: "Jenssen",
+    username: "jenlky",
+    email: "jenssen.lee@gmail.com",
+    password: "jumpstart"
+  };
+
   describe("POST /signup, POST /login and GET /secure", () => {
     it("users can POST /signup with validated name, username, email address and password", async () => {
-      const user = {
-        name: "Eddie",
-        username: "EdsonElson",
-        email: "eddie@gmail.com",
-        password: "selamatdatang"
-      };
-
       // I get back the token, on client side I'm supposed to set it in authorization header
       // ONLY when I interact with the endpoints/server, when I do CRUD
       const response = await request(app)
         .post("/signup")
-        .send(user);
+        .send(eddie);
       expect(response.status).toEqual(201);
-      expect(response.body.username).toEqual(user.username);
+      expect(response.body.username).toEqual(eddie.username);
     });
 
     it("users can POST /login with validated username and password", async () => {
-      const user = {
-        name: "Eddie",
-        username: "EdsonElson",
-        email: "eddie@gmail.com",
-        password: "selamatdatang"
-      };
-
       await request(app)
         .post("/signup")
-        .send(user);
+        .send(eddie);
 
       const response = await request(app)
         .post("/login")
-        .send({ username: user.username, password: user.password });
+        .send({ username: eddie.username, password: eddie.password });
       expect(response.status).toEqual(201);
-      expect(response.body.username).toEqual(user.username);
+      expect(response.body.username).toEqual(eddie.username);
     });
   });
 
@@ -76,7 +76,6 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const username = "EdsonElson";
       const lists = [
         {
           id: 1,
@@ -90,7 +89,10 @@ describe("User", () => {
         }
       ];
 
-      const response = await request(app).get(`/users/${username}`);
+      await request(app)
+        .post("/login")
+        .send({ username: eddie.username, password: eddie.password });
+      const response = await request(app).get(`/users/${eddie.username}`);
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(lists);
     });
@@ -99,7 +101,6 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const username = "jenlky";
       const lists = [
         {
           id: 1,
@@ -113,7 +114,7 @@ describe("User", () => {
         }
       ];
 
-      const response = await request(app).post(`/users/${username}`);
+      const response = await request(app).post(`/users/${jenssen.username}`);
       expect(response.status).toEqual(201);
       expect(response.body).toMatchObject(lists);
     });
@@ -124,7 +125,6 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const username = "EdsonElson";
       const id = 2;
       const lists = [
         {
@@ -140,7 +140,7 @@ describe("User", () => {
       ];
 
       const response = await request(app)
-        .put(`/users/${username}/lists/${id}`)
+        .put(`/users/${eddie.username}/lists/${id}`)
         .send({ name: lists[1].name });
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(lists);
@@ -150,11 +150,9 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const username = "jenlky";
       const listId = 1;
-
       const response = await request(app).delete(
-        `/users/${username}/lists/${listId}`
+        `/users/${jenssen.username}/lists/${listId}`
       );
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject({});
@@ -166,7 +164,6 @@ describe("User", () => {
       const users = db.collection("users");
       await users.insertMany(userData);
 
-      const username = "EdsonElson";
       const id = 1;
       const list = {
         id: 1,
@@ -191,7 +188,7 @@ describe("User", () => {
       };
 
       const response = await request(app)
-        .put(`/users/${username}/lists/${id}/items`)
+        .put(`/users/${eddie.username}/lists/${id}/items`)
         .send(list);
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(list.listItems);
