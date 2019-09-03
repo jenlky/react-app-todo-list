@@ -4,30 +4,7 @@ const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
 const { signupSchema, loginSchema } = require("../models/userValidation");
 const { generateToken, verifyToken } = require("../utils/token");
-
-const isAuthenticated = async (req, res, next) => {
-  try {
-    const authorization = req.headers.authorization;
-    if (!authorization) {
-      return res.sendStatus(401);
-    }
-
-    const token = authorization.split(" ")[1];
-    if (token) {
-      const payload = verifyToken(token);
-      const foundUser = await controller.checkPayload({
-        username: payload.username
-      });
-
-      if (foundUser) {
-        return true;
-      }
-      throw new Error("User cannot be found");
-    }
-  } catch (err) {
-    next(err);
-  }
-};
+const isAuthenticated = require("../utils/isAuthenticated");
 
 userRouter.post("/signup", async (req, res, next) => {
   const { name, username, email, password } = req.body;
@@ -80,7 +57,8 @@ userRouter.post("/login", async (req, res, next) => {
   }
 });
 
-userRouter.get("/users/:username", async (req, res, next) => {
+userRouter.get("/users/:username", isAuthenticated, async (req, res, next) => {
+  console.log("enters GET");
   const getAllLists = await controller
     .findAllLists(req.params.username)
     .catch(err => next(err));

@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 
 const createOneUser = async user => {
   const { name, username, email, password } = user;
-
   const saltRound = 10;
   const hash = await bcrypt.hash(password, saltRound);
   const newUser = new User({ name, username, email, password: hash });
@@ -19,7 +18,7 @@ const findOneUser = async user => {
   const isUser = await bcrypt.compare(user.password, foundUser.password);
 
   if (isUser) {
-    return { username: user.username };
+    return { _id: foundUser._id, username: foundUser.username };
   } else {
     throw new Error("User not found");
   }

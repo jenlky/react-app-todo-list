@@ -37,14 +37,33 @@ describe("User", () => {
     name: "Eddie",
     username: "EdsonElson",
     email: "eddie@gmail.com",
-    password: "selamatdatang"
+    password: "selamatdatang",
+    lists: [
+      {
+        id: 1,
+        name: "JumpStart",
+        listItems: [{ text: "Week 1", children: [] }]
+      },
+      {
+        id: 2,
+        name: "SUSS",
+        listItems: [{ text: "Object Oriented Programming", children: [] }]
+      }
+    ]
   };
 
   const jenssen = {
     name: "Jenssen",
     username: "jenlky",
     email: "jenssen.lee@gmail.com",
-    password: "jumpstart"
+    password: "jumpstart",
+    lists: [
+      {
+        id: 1,
+        name: "JumpStart",
+        listItems: [{ text: "Week 1", children: [] }]
+      }
+    ]
   };
 
   describe("POST /signup, POST /login and GET /secure", () => {
@@ -72,29 +91,29 @@ describe("User", () => {
   });
 
   describe("/users/:username", () => {
-    it("GET / should return all of the user's lists", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
+    it.only("GET / should return all of the user's lists", async () => {
+      const signupResponse = await request(app)
+        .post("/signup")
+        .send(eddie);
 
-      const lists = [
-        {
-          id: 1,
-          name: "JumpStart",
-          listItems: [{ text: "Week 1", children: [] }]
-        },
-        {
-          id: 2,
-          name: "SUSS",
-          listItems: [{ text: "Object Oriented Programming", children: [] }]
-        }
-      ];
-
-      await request(app)
+      const loginResponse = await request(app)
         .post("/login")
         .send({ username: eddie.username, password: eddie.password });
-      const response = await request(app).get(`/users/${eddie.username}`);
-      expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(lists);
+      sessionStorage.setItem("jwt", loginResponse.body.jwt);
+      const jwt = "Bearer " + sessionStorage.getItem("jwt");
+
+      const getResponse = await request(app)
+        .get(`/users/${eddie.username}`)
+        .set("Authorization", jwt);
+
+      expect(signupResponse.status).toBe(201);
+      expect(signupResponse.body.username).toBe(eddie.username);
+
+      expect(loginResponse.status).toBe(201);
+      expect(loginResponse.body.username).toBe(eddie.username);
+
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toMatchObject([]);
     });
 
     it("POST / should create a new user's list", async () => {
