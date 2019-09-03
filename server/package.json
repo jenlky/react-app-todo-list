@@ -4,7 +4,10 @@
   "description": "",
   "main": "server.js",
   "jest": {
-    "preset": "@shelf/jest-mongodb"
+    "preset": "@shelf/jest-mongodb",
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ]
   },
   "scripts": {
     "start": "node ./src/server",
@@ -31,6 +34,7 @@
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.0.1",
     "jest": "24.7.1",
+    "jest-localstorage-mock": "^2.4.0",
     "supertest": "^4.0.2"
   }
 }
