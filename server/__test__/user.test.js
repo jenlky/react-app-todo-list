@@ -66,7 +66,7 @@ describe("User", () => {
     ]
   };
 
-  describe("POST /signup, POST /login and GET /secure", () => {
+  describe("POST /signup and POST /login", () => {
     it("users can POST /signup with validated name, username, email address and password", async () => {
       // I get back the token, on client side I'm supposed to set it in authorization header
       // ONLY when I interact with the endpoints/server, when I do CRUD
@@ -91,8 +91,8 @@ describe("User", () => {
   });
 
   describe("/users/:username", () => {
-    it.only("GET / should return all of the user's lists", async () => {
-      const signupResponse = await request(app)
+    it("GET / should return all of the user's lists", async () => {
+      await request(app)
         .post("/signup")
         .send(eddie);
 
@@ -102,77 +102,85 @@ describe("User", () => {
       sessionStorage.setItem("jwt", loginResponse.body.jwt);
       const jwt = "Bearer " + sessionStorage.getItem("jwt");
 
-      const getResponse = await request(app)
+      const response = await request(app)
         .get(`/users/${eddie.username}`)
         .set("Authorization", jwt);
 
-      expect(signupResponse.status).toBe(201);
-      expect(signupResponse.body.username).toBe(eddie.username);
-
-      expect(loginResponse.status).toBe(201);
-      expect(loginResponse.body.username).toBe(eddie.username);
-
-      expect(getResponse.status).toBe(200);
-      expect(getResponse.body).toMatchObject([]);
+      expect(response.status).toBe(200);
+      expect(response.body).toMatchObject([]);
     });
 
     it("POST / should create a new user's list", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
+      await request(app)
+        .post("/signup")
+        .send(jenssen);
 
-      const lists = [
-        {
-          id: 1,
-          name: "JumpStart",
-          listItems: [{ text: "Week 1", children: [] }]
-        },
-        {
-          id: 2,
-          name: "",
-          listItems: []
-        }
-      ];
+      const loginResponse = await request(app)
+        .post("/login")
+        .send({ username: jenssen.username, password: jenssen.password });
+      sessionStorage.setItem("jwt", loginResponse.body.jwt);
+      const jwt = "Bearer " + sessionStorage.getItem("jwt");
 
-      const response = await request(app).post(`/users/${jenssen.username}`);
+      const response = await request(app)
+        .post(`/users/${jenssen.username}`)
+        .set("Authorization", jwt);
+
       expect(response.status).toEqual(201);
-      expect(response.body).toMatchObject(lists);
+      expect(response.body).toMatchObject({
+        id: 1,
+        name: "",
+        listItems: []
+      });
     });
   });
 
   describe("/users/:username/lists/:id", () => {
     it("PUT / should update user's list name", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
+      await request(app)
+        .post("/signup")
+        .send(eddie);
 
-      const id = 2;
-      const lists = [
-        {
-          id: 1,
-          name: "JumpStart",
-          listItems: [{ text: "Week 1", children: [] }]
-        },
-        {
-          id: 2,
-          name: "PUT updates list name",
-          listItems: [{ text: "Object Oriented Programming", children: [] }]
-        }
-      ];
+      const loginResponse = await request(app)
+        .post("/login")
+        .send({ username: eddie.username, password: eddie.password });
+      sessionStorage.setItem("jwt", loginResponse.body.jwt);
+      const jwt = "Bearer " + sessionStorage.getItem("jwt");
+
+      await request(app)
+        .post(`/users/${eddie.username}`)
+        .set("Authorization", jwt);
 
       const response = await request(app)
-        .put(`/users/${eddie.username}/lists/${id}`)
-        .send({ name: lists[1].name });
+        .put(`/users/${eddie.username}/lists/1`)
+        .send({ name: "JumpStart" })
+        .set("Authorization", jwt);
+
       expect(response.status).toEqual(200);
-      expect(response.body).toMatchObject(lists);
+      expect(response.body).toEqual({
+        id: 1,
+        name: "JumpStart",
+        listItems: []
+      });
     });
 
     it("DELETE / should remove a user's list", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
+      await request(app)
+        .post("/signup")
+        .send(jenssen);
 
-      const listId = 1;
-      const response = await request(app).delete(
-        `/users/${jenssen.username}/lists/${listId}`
-      );
+      const loginResponse = await request(app)
+        .post("/login")
+        .send({ username: jenssen.username, password: jenssen.password });
+      sessionStorage.setItem("jwt", loginResponse.body.jwt);
+      const jwt = "Bearer " + sessionStorage.getItem("jwt");
+
+      await request(app)
+        .post(`/users/${jenssen.username}`)
+        .set("Authorization", jwt);
+
+      const response = await request(app)
+        .delete(`/users/${jenssen.username}/lists/1`)
+        .set("Authorization", jwt);
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject({});
     });
@@ -180,10 +188,20 @@ describe("User", () => {
 
   describe("/users/:username/lists/:id/items", () => {
     it("PUT / should overwrite all the items in user's list", async () => {
-      const users = db.collection("users");
-      await users.insertMany(userData);
+      await request(app)
+        .post("/signup")
+        .send(eddie);
 
-      const id = 1;
+      const loginResponse = await request(app)
+        .post("/login")
+        .send({ username: eddie.username, password: eddie.password });
+      sessionStorage.setItem("jwt", loginResponse.body.jwt);
+      const jwt = "Bearer " + sessionStorage.getItem("jwt");
+
+      await request(app)
+        .post(`/users/${eddie.username}`)
+        .set("Authorization", jwt);
+
       const list = {
         id: 1,
         name: "JumpStart",
@@ -207,8 +225,9 @@ describe("User", () => {
       };
 
       const response = await request(app)
-        .put(`/users/${eddie.username}/lists/${id}/items`)
-        .send(list);
+        .put(`/users/${eddie.username}/lists/1/items`)
+        .send(list)
+        .set("Authorization", jwt);
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(list.listItems);
     });

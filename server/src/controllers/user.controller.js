@@ -35,7 +35,6 @@ const findAllLists = async username => {
 
 const createOneList = async username => {
   const user = await User.findOne({ username });
-
   let greatestId = 0;
   for (let x = 0; x < user.lists.length; x++) {
     if (user.lists[x].id > greatestId) {
@@ -49,9 +48,8 @@ const createOneList = async username => {
     listItems: []
   };
   user.lists.push(newList);
-
   await user.save();
-  return user.lists;
+  return newList;
 };
 
 const updateOneList = async (username, id, name) => {
@@ -59,8 +57,14 @@ const updateOneList = async (username, id, name) => {
   const list = user.lists.find(list => list.id === Number(id));
   list.name = name;
 
+  const updatedList = {
+    id: list.id,
+    name: list.name,
+    listItems: list.listItems
+  };
+
   await user.save();
-  return user.lists;
+  return updatedList;
 };
 
 const findListIndex = (user, id) => {
