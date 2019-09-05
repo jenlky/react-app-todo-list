@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
 import "../styles/App.css";
-import { signUp, login } from "../api/api";
+import { signUp, login, logout } from "../api/api";
 
 class App extends React.Component {
   constructor(props) {
@@ -43,31 +43,25 @@ class App extends React.Component {
 
     const { name, username, email, password } = this.state;
     if (name && username && email && password) {
-      let res;
+      let response;
       try {
-        res = await signUp(`/signup`, {
-          name,
-          username,
-          email,
-          password
-        });
+        response = await signUp(name, username, email, password);
+        console.log("signup response", response);
       } catch (error) {
         console.log(error);
       }
 
-      console.log(res.data);
-      if (res.data.jwt) {
-        sessionStorage.setItem("jwt", res.data.jwt);
+      if (response.data.jwt) {
+        sessionStorage.setItem("jwt", response.data.jwt);
         this.setState(prev => {
           return {
             name: "",
             email: "",
             password: "",
-            username: res.data.username,
+            username: response.data.username,
             isLoggedIn: !prev.isLoggedIn
           };
         });
-
         history.push(`/users/${username}`);
       }
     }
@@ -78,26 +72,34 @@ class App extends React.Component {
 
     const { username, password } = this.state;
     if (username && password) {
-      const res = await login(`/login`, {
-        username,
-        password
-      });
+      const response = await login(username, password);
+      console.log("login response", response);
 
-      console.log(res.data);
-      if (res.data.jwt) {
-        sessionStorage.setItem("jwt", res.data.jwt);
+      if (response.data.jwt) {
+        sessionStorage.setItem("jwt", response.data.jwt);
         this.setState({
-          username: res.data.username,
+          username: response.data.username,
           password: "",
           isLoggedIn: true
         });
-
         history.push(`/users/${username}`);
       }
     }
   };
 
-  logout = () => {};
+  logout = async (e, history) => {
+    e.preventDefault();
+    const response = await logout();
+    console.log("logout response", response);
+
+    sessionStorage.removeItem("jwt");
+    this.setState({
+      username: "",
+      password: "",
+      isLoggedIn: false
+    });
+    history.push("/");
+  };
 
   render() {
     console.log(this.state);
@@ -108,10 +110,11 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={() => {
+            render={props => {
               return (
                 <React.Fragment>
                   <Navbar
+                    {...props}
                     username={this.state.username}
                     isLoggedIn={this.state.isLoggedIn}
                     logout={this.logout}
@@ -123,10 +126,11 @@ class App extends React.Component {
           />
           <Route
             path="/users"
-            render={() => {
+            render={props => {
               return (
                 <React.Fragment>
                   <Navbar
+                    {...props}
                     username={this.state.username}
                     isLoggedIn={this.state.isLoggedIn}
                     logout={this.logout}

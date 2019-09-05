@@ -8,7 +8,6 @@ const isAuthenticated = require("../utils/isAuthenticated");
 
 userRouter.post("/signup", async (req, res, next) => {
   const { name, username, email, password } = req.body;
-
   try {
     Joi.validate(
       { name, username, email, password },
@@ -34,7 +33,6 @@ userRouter.post("/signup", async (req, res, next) => {
 
 userRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-
   try {
     Joi.validate({ username, password }, loginSchema, (err, value) => {
       if (err) {
@@ -48,13 +46,18 @@ userRouter.post("/login", async (req, res, next) => {
     }
 
     const token = generateToken(user);
-    res.status(201).send({
+    res.status(200).send({
       username: user.username,
       jwt: token
     });
   } catch (err) {
     next(err);
   }
+});
+
+// it only works when I don't mount isAuthenticated
+userRouter.post("/logout", (req, res, next) => {
+  res.sendStatus(200);
 });
 
 userRouter.get("/users/:username", isAuthenticated, async (req, res, next) => {
