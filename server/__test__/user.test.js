@@ -65,12 +65,15 @@ describe("User", () => {
 
   describe("POST /signup and POST /login", () => {
     it("users can POST /signup with validated name, username, email address and password", async () => {
-      expect(eddieLogin.status).toEqual(201);
-      expect(eddieLogin.body.username).toEqual(eddie.username);
+      const response = await request(app)
+        .post("/signup")
+        .send(eddie);
+      expect(response.status).toEqual(201);
+      expect(response.body.username).toEqual(eddie.username);
     });
 
     it("users can POST /login with validated username and password", async () => {
-      expect(eddieLogin.status).toEqual(201);
+      expect(eddieLogin.status).toEqual(200);
       expect(eddieLogin.body.username).toEqual(eddie.username);
     });
   });
