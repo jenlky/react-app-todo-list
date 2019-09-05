@@ -157,10 +157,12 @@ describe("User", () => {
         name: "JumpStart",
         listItems: [
           {
+            id: "1-1",
             text: "Week 1",
             children: [
-              { text: "Week 1", children: [] },
+              { id: "1-1-1", text: "Week 1", children: [] },
               {
+                id: "1-1-2",
                 text: "Drink driving",
                 children: [
                   {
