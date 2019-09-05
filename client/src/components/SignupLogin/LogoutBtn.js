@@ -1,9 +1,13 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 
-function LogoutBtn({ className, logout }) {
+function LogoutBtn({ className, logout, history }) {
   return (
-    <Button onClick={logout} className={className} color="inherit">
+    <Button
+      onClick={e => logout(e, history)}
+      className={className}
+      color="inherit"
+    >
       Log out
     </Button>
   );

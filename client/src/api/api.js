@@ -22,7 +22,7 @@ export const login = async (username, password) => {
 };
 
 export const logout = async () => {
-  return await axios.post("/logout");
+  return await axios.post("/logout", config);
 };
 
 export const getAllLists = async username => {

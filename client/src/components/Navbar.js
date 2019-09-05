@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function Navbar({ username, isLoggedIn, logout }) {
+function Navbar({ username, isLoggedIn, logout, history }) {
   const classes = useStyles();
 
   return (
@@ -35,7 +35,11 @@ function Navbar({ username, isLoggedIn, logout }) {
           {isLoggedIn && username !== "" ? (
             <React.Fragment>
               <Username className={classes.button} username={username} />
-              <LogoutBtn className={classes.button} logout={logout} />
+              <LogoutBtn
+                className={classes.button}
+                logout={logout}
+                history={history}
+              />
             </React.Fragment>
           ) : (
             <React.Fragment>

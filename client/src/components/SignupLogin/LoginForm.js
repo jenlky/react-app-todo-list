@@ -47,7 +47,6 @@ function LoginForm({ updateUserState, login, history }) {
         autoFocus
         onChange={updateUserState}
       />
-
       <TextField
         variant="outlined"
         margin="normal"
