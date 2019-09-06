@@ -65,15 +65,6 @@ const updateOneList = async (username, index, name) => {
   return updatedList;
 };
 
-const findListIndex = (user, id) => {
-  for (let x = 0; x < user.lists.length; x++) {
-    if (user.lists[x].id === Number(id)) {
-      return x;
-    }
-  }
-  throw new Error("List Id cannot be found");
-};
-
 const deleteOneList = async (username, index) => {
   let user = await User.findOne({ username });
   user.lists.splice(index, 1);
