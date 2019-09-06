@@ -2,7 +2,13 @@ import React from "react";
 import List from "./List";
 import AddNewList from "./AddNewList";
 import "../../styles/List.css";
-import { getAllLists, updateOneList } from "../../api/api";
+import {
+  getAllLists,
+  createOneList,
+  updateOneList,
+  deleteOneList,
+  overwriteListItems
+} from "../../api/api";
 
 class Lists extends React.Component {
   constructor(props) {
@@ -15,6 +21,7 @@ class Lists extends React.Component {
           listItems: []
         }
       ],
+      hasUpdatedList: false,
       keyInItem: "",
       delay: 150
     };
@@ -24,13 +31,26 @@ class Lists extends React.Component {
     const { isLoggedIn, username } = this.props;
     if (isLoggedIn) {
       try {
-        const res = await getAllLists(username);
-        this.setState({ lists: res.data });
+        const response = await getAllLists(username);
+        console.log("getAllLists response", response);
+        this.setState({ lists: response.data });
       } catch (err) {
         console.log(err);
       }
     }
   }
+
+  /*   async componentDidUpdate(prevProps, prevState) {
+    if (this.state.hasUpdatedList && this.props.username) {
+      const address = this.state.lists.find(list => {
+        return list.listItems !== prevState.listItems;
+      });
+      const response = await overwriteListItems(this.props.username, address);
+      console.log("overwriteListItems response", response);
+
+      this.setState({ hasUpdatedList: false });
+    }
+  } */
 
   keyInItemHandler = event => {
     this.setState({
@@ -42,6 +62,9 @@ class Lists extends React.Component {
     const lists = [...this.state.lists];
     const address = this.findListIndex(id);
     lists[address].name = e.target.value;
+    const reqBody = {
+      name: e.target.value
+    };
 
     this.setState({
       lists
@@ -49,8 +72,12 @@ class Lists extends React.Component {
 
     try {
       if (this.props.username) {
-        const res = await updateOneList(this.props.username, id);
-        console.log("listNameHandler res", res.data);
+        const response = await updateOneList(
+          this.props.username,
+          reqBody,
+          address
+        );
+        console.log("updateOneList response", response);
       }
     } catch (err) {
       console.log(err);
@@ -200,17 +227,18 @@ class Lists extends React.Component {
     this.setState({ lists });
   };
 
-  removeItem = (listId, itemId) => {
+  removeItem = async (listId, itemId) => {
     const lists = [...this.state.lists];
+    let listAddress;
 
     if (itemId === undefined) {
-      const listAddress = lists.findIndex(list => {
+      listAddress = lists.findIndex(list => {
         return list.id === listId;
       });
 
       lists.splice(listAddress, 1);
     } else if (itemId.length === 1) {
-      const listAddress = this.findListIndex(listId);
+      listAddress = this.findListIndex(listId);
       const listItems = lists[listAddress].listItems;
       const childIndex = listItems.findIndex(item => {
         return item.id === itemId[0];
@@ -232,6 +260,11 @@ class Lists extends React.Component {
     this.setState({
       lists
     });
+
+    if (this.props.username) {
+      const response = await deleteOneList(this.props.username, listAddress);
+      console.log("deleteOneList response", response);
+    }
   };
 
   toggleDisplay = (listId, itemId) => {
@@ -249,9 +282,8 @@ class Lists extends React.Component {
     }, this.state.delay);
   };
 
-  addList = () => {
+  addList = async () => {
     const lists = [...this.state.lists];
-
     let greatestId = 0;
     for (let x = 0; x < lists.length; x++) {
       if (lists[x].id > greatestId) {
@@ -266,6 +298,11 @@ class Lists extends React.Component {
     };
     lists.push(newList);
     this.setState({ lists });
+
+    if (this.props.username) {
+      const response = await createOneList(this.props.username);
+      console.log("createOneList response", response);
+    }
   };
 
   render() {
