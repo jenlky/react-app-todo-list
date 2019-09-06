@@ -30,17 +30,17 @@ export const getAllLists = async username => {
 };
 
 export const createOneList = async username => {
-  return await axios.post(`/users/${username}`, config);
+  return await axios.post(`/users/${username}`, "", config);
 };
 
-export const updateOneList = async (username, id) => {
-  return await axios.put(`/users/${username}/lists/${id}`, config);
+export const updateOneList = async (username, reqBody, index) => {
+  return await axios.put(`/users/${username}/lists/${index}`, reqBody, config);
 };
 
-export const deleteOneList = async (username, id) => {
-  return await axios.delete(`/users/${username}/lists/${id}`, config);
+export const deleteOneList = async (username, index) => {
+  return await axios.delete(`/users/${username}/lists/${index}`, config);
 };
 
-export const overwriteListItems = async (username, id) => {
-  return await axios.put(`/users/${username}/lists/${id}/items`, config);
+export const overwriteListItems = async (username, index) => {
+  return await axios.put(`/users/${username}/lists/${index}/items`, config);
 };
