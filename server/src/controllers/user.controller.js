@@ -52,15 +52,13 @@ const createOneList = async username => {
   return newList;
 };
 
-const updateOneList = async (username, id, name) => {
+const updateOneList = async (username, index, name) => {
   let user = await User.findOne({ username });
-  const list = user.lists.find(list => list.id === Number(id));
-  list.name = name;
-
+  user.lists[index].name = name;
   const updatedList = {
-    id: list.id,
-    name: list.name,
-    listItems: list.listItems
+    id: user.lists[index].id,
+    name: user.lists[index].name,
+    listItems: user.lists[index].listItems
   };
 
   await user.save();
@@ -76,22 +74,20 @@ const findListIndex = (user, id) => {
   throw new Error("List Id cannot be found");
 };
 
-const deleteOneList = async (username, id) => {
+const deleteOneList = async (username, index) => {
   let user = await User.findOne({ username });
-  const listIndex = findListIndex(user, id);
-  user.lists.splice(listIndex, 1);
+  user.lists.splice(index, 1);
 
   await user.save();
   return user.lists;
 };
 
-const overwriteListItems = async (username, id, newList) => {
+const overwriteListItems = async (username, index, newList) => {
   let user = await User.findOne({ username });
-  const listIndex = findListIndex(user, id);
-  user.lists[listIndex].listItems = newList.listItems;
+  user.lists[index].listItems = newList.listItems;
 
   await user.save();
-  return user.lists[listIndex].listItems;
+  return user.lists[index].listItems;
 };
 
 module.exports = {

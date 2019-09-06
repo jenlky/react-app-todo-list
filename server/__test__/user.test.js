@@ -68,13 +68,13 @@ describe("User", () => {
       const response = await request(app)
         .post("/signup")
         .send(eddie);
-      expect(response.status).toEqual(201);
-      expect(response.body.username).toEqual(eddie.username);
+      expect(response.status).toBe(201);
+      expect(response.body.username).toBe(eddie.username);
     });
 
     it("users can POST /login with validated username and password", async () => {
-      expect(eddieLogin.status).toEqual(200);
-      expect(eddieLogin.body.username).toEqual(eddie.username);
+      expect(eddieLogin.status).toBe(200);
+      expect(eddieLogin.body.username).toBe(eddie.username);
     });
   });
 
@@ -99,7 +99,7 @@ describe("User", () => {
         .post(`/users/${jenssen.username}`)
         .set("Authorization", jwt);
 
-      expect(response.status).toEqual(201);
+      expect(response.status).toBe(201);
       expect(response.body).toMatchObject({
         id: 1,
         name: "",
@@ -118,11 +118,11 @@ describe("User", () => {
         .set("Authorization", jwt);
 
       const response = await request(app)
-        .put(`/users/${eddie.username}/lists/1`)
+        .put(`/users/${eddie.username}/lists/0`)
         .send({ name: "JumpStart" })
         .set("Authorization", jwt);
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toBe(200);
       expect(response.body).toEqual({
         id: 1,
         name: "JumpStart",
@@ -139,9 +139,9 @@ describe("User", () => {
         .set("Authorization", jwt);
 
       const response = await request(app)
-        .delete(`/users/${jenssen.username}/lists/1`)
+        .delete(`/users/${jenssen.username}/lists/0`)
         .set("Authorization", jwt);
-      expect(response.status).toEqual(200);
+      expect(response.status).toBe(200);
       expect(response.body).toMatchObject({});
     });
   });
@@ -180,10 +180,10 @@ describe("User", () => {
       };
 
       const response = await request(app)
-        .put(`/users/${eddie.username}/lists/1/items`)
+        .put(`/users/${eddie.username}/lists/0/items`)
         .send(list)
         .set("Authorization", jwt);
-      expect(response.status).toEqual(200);
+      expect(response.status).toBe(200);
       expect(response.body).toMatchObject(list.listItems);
     });
   });

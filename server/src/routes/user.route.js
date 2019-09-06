@@ -75,33 +75,33 @@ userRouter.post("/users/:username", isAuthenticated, async (req, res, next) => {
 });
 
 userRouter.put(
-  "/users/:username/lists/:id",
+  "/users/:username/lists/:index",
   isAuthenticated,
   async (req, res, next) => {
     const updateOneList = await controller
-      .updateOneList(req.params.username, req.params.id, req.body.name)
+      .updateOneList(req.params.username, req.params.index, req.body.name)
       .catch(err => next(err));
     res.status(200).send(updateOneList);
   }
 );
 
 userRouter.delete(
-  "/users/:username/lists/:id",
+  "/users/:username/lists/:index",
   isAuthenticated,
   async (req, res, next) => {
     const deleteOneList = await controller
-      .deleteOneList(req.params.username, req.params.id)
+      .deleteOneList(req.params.username, req.params.index)
       .catch(err => next(err));
     res.status(200).send(deleteOneList);
   }
 );
 
 userRouter.put(
-  "/users/:username/lists/:id/items",
+  "/users/:username/lists/:index/items",
   isAuthenticated,
   async (req, res, next) => {
     const overwriteListItems = await controller
-      .overwriteListItems(req.params.username, req.params.id, req.body)
+      .overwriteListItems(req.params.username, req.params.index, req.body)
       .catch(err => next(err));
     res.status(200).send(overwriteListItems);
   }
