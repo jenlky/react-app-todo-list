@@ -35,10 +35,10 @@ export const createOneList = async username => {
   return await axios.post(`/users/${username}`, "", insertAuthorization());
 };
 
-export const updateOneList = async (username, reqBody, index) => {
+export const updateOneList = async (username, index, requestBody) => {
   return await axios.put(
     `/users/${username}/lists/${index}`,
-    reqBody,
+    requestBody,
     insertAuthorization()
   );
 };
@@ -50,9 +50,10 @@ export const deleteOneList = async (username, index) => {
   );
 };
 
-export const overwriteListItems = async (username, index) => {
+export const overwriteListItems = async (username, index, requestBody) => {
   return await axios.put(
     `/users/${username}/lists/${index}/items`,
+    requestBody,
     insertAuthorization()
   );
 };
