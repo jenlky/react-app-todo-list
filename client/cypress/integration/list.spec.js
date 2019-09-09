@@ -1,52 +1,45 @@
-/* eslint-disable cypress/no-unnecessary-waiting */
 import faker from "faker";
+import {
+  addSubsequentItems,
+  addEmptyItems,
+  login,
+  logout
+} from "../utils/helper";
 
 const baseUrl = Cypress.env("baseUrl");
-
 const word = faker.lorem.word();
 const listItem1 = faker.lorem.sentence();
 const listItem2 = faker.lorem.sentence();
-const waitForChildItem = 100;
 
-const addSubsequentItems = (howManyLayers, numOfItems) => {
-  let startingIndex = howManyLayers * (numOfItems - 1);
-  const numOfTimes = howManyLayers - 1;
-
-  for (let x = 0; x < numOfTimes; x++) {
-    cy.get("span[data-testid=todo-item-plus]")
-      .eq(startingIndex)
-      .click({ force: true });
-    cy.wait(waitForChildItem);
-    cy.get("input[data-testid=todo-item-input]")
-      .eq(++startingIndex)
-      .type(`List item ${numOfItems}-${x + 1}`);
-  }
-};
-
-const addEmptyItems = howManyLayers => {
-  const numOfTimes = howManyLayers - 1;
-
-  for (let x = 0; x < numOfTimes; x++) {
-    cy.get("span[data-testid=todo-item-plus]")
-      .eq(x)
-      .click({ force: true });
-    cy.wait(100);
-  }
-};
-
+// test login and do CRUD, logout, re-login again and check if the changes made were there
 describe("List", () => {
-  it("should add nested children items", () => {
-    cy.visit(`${baseUrl}/users`);
-
+  it.only("should add list, update title and the changes should persist in the next login", () => {
+    login();
+    cy.get("button[class=add-another-list]").click();
     cy.get("input[class=title]").type(word);
-    cy.get("input[class=list-input]").type(listItem1);
-    cy.get("button[data-testid=list-add-btn]").click({ force: true });
-    addEmptyItems(15);
+
+    logout();
+    login();
+
+    cy.get("input[class=title]").should("have.value", word);
+    cy.get("span[class=todo-list-remove-list]")
+      .eq(0)
+      .click({ force: true });
+  });
+
+  it("should add nested children items", () => {
+    // cy.get("span[data-testid=todo-item-cross]")
+    //   .eq(0)
+    //   .click({ force: true });
+    // cy.get("input[class=list-input]").type(listItem1);
+    // cy.get("button[data-testid=list-add-btn]")
+    //   .click({ force: true })
+    //   .then(response => {
+    // addEmptyItems(5);
   });
 
   it("should toggle list item and its children", () => {
     cy.visit(`${baseUrl}/users`);
-
     cy.get("input[class=title]").type(word);
     cy.get("input[class=list-input]").type(listItem1);
     cy.get("button[data-testid=list-add-btn]").click();
@@ -61,7 +54,6 @@ describe("List", () => {
 
   it("should delete list item and its children", () => {
     cy.visit(`${baseUrl}/users`);
-
     cy.get("input[class=title]").type(word);
     cy.get("input[class=list-input]").type(listItem1);
     cy.get("button[data-testid=list-add-btn]").click();
@@ -76,10 +68,9 @@ describe("List", () => {
   });
 });
 
-describe.only("lists", () => {
-  const updateTitleAddFirstItems = listId => {
+describe("lists", () => {
+  const updateTitleAddFirstItem = listId => {
     const index = listId - 1;
-
     cy.get("input[class=title]")
       .eq(index)
       .type(word);
@@ -99,24 +90,18 @@ describe.only("lists", () => {
 
   it("should fill up multiple list", () => {
     cy.visit(`${baseUrl}/users`);
-
-    cy.get("input[class=title]").type(word);
-    cy.get("input[class=list-input]").type(listItem1);
-    cy.get("button[data-testid=list-add-btn]").click();
-    cy.get("input[class=list-input]").type(listItem2);
-    cy.get("button[data-testid=list-add-btn]").click();
-
+    updateTitleAddFirstItem(1);
     addSubsequentItems(3, 1);
     addSubsequentItems(3, 2);
 
-    cy.get("button[class=add-another-list").click();
-    updateTitleAddFirstItems(2);
+    cy.get("button[class=add-another-list]").click();
+    updateTitleAddFirstItem(2);
     addSubsequentItems(3, 3);
     addSubsequentItems(3, 4);
 
-    // need to enable side scroll then cypress will type
-    cy.get("button[class=add-another-list").click();
-    updateTitleAddFirstItems(3);
+    cy.get("button[class=add-another-list]").click();
+    cy.scrollTo("right");
+    updateTitleAddFirstItem(3);
     addSubsequentItems(3, 5);
     addSubsequentItems(3, 6);
   });
