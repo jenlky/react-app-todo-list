@@ -35,6 +35,7 @@ const login = () => {
   cy.get("input[id=password]").type(credentials);
   cy.get("button[type=submit]").click();
   cy.get("button[class=add-another-list]").should("exist");
+  cy.wait(100);
 };
 
 const logout = () => {

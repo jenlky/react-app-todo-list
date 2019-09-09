@@ -11,30 +11,35 @@ const word = faker.lorem.word();
 const listItem1 = faker.lorem.sentence();
 const listItem2 = faker.lorem.sentence();
 
-// test login and do CRUD, logout, re-login again and check if the changes made were there
 describe("List", () => {
-  it.only("should add list, update title and the changes should persist in the next login", () => {
+  it("should add list, update title, CRUD list items and changes should persist in the next login", () => {
     login();
     cy.get("button[class=add-another-list]").click();
     cy.get("input[class=title]").type(word);
+    cy.get("input[class=list-input]").type(listItem1);
+    cy.get("button[data-testid=list-add-btn]").click();
+    cy.get("input[class=todo-item-input]")
+      .clear()
+      .type("update listItem works");
 
     logout();
     login();
 
     cy.get("input[class=title]").should("have.value", word);
-    cy.get("span[class=todo-list-remove-list]")
-      .eq(0)
-      .click({ force: true });
+    cy.get("input[class=todo-item-input]").should(
+      "have.value",
+      "update listItem works"
+    );
+    cy.get("span[data-testid=todo-item-cross]").click({ force: true });
+    cy.get("span[class=todo-list-remove-list]").click({ force: true });
   });
 
   it("should add nested children items", () => {
     // cy.get("span[data-testid=todo-item-cross]")
-    //   .eq(0)
     //   .click({ force: true });
     // cy.get("input[class=list-input]").type(listItem1);
     // cy.get("button[data-testid=list-add-btn]")
     //   .click({ force: true })
-    //   .then(response => {
     // addEmptyItems(5);
   });
 
