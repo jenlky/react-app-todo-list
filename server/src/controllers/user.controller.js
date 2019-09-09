@@ -73,9 +73,9 @@ const deleteOneList = async (username, index) => {
   return user.lists;
 };
 
-const overwriteListItems = async (username, index, newList) => {
+const overwriteListItems = async (username, index, newListItems) => {
   let user = await User.findOne({ username });
-  user.lists[index].listItems = newList.listItems;
+  user.lists[index].listItems = newListItems;
 
   await user.save();
   return user.lists[index].listItems;

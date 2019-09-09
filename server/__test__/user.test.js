@@ -155,10 +155,7 @@ describe("User", () => {
         .post(`/users/${eddie.username}`)
         .set("Authorization", jwt);
 
-      const list = {
-        id: 1,
-        name: "JumpStart",
-        listItems: [
+      const listItems = [
           {
             id: "1-1",
             text: "Week 1",
@@ -176,15 +173,14 @@ describe("User", () => {
               }
             ]
           }
-        ]
-      };
+        ];
 
       const response = await request(app)
         .put(`/users/${eddie.username}/lists/0/items`)
-        .send(list)
+        .send(listItems)
         .set("Authorization", jwt);
       expect(response.status).toBe(200);
-      expect(response.body).toMatchObject(list.listItems);
+      expect(response.body).toMatchObject(listItems);
     });
   });
 });
