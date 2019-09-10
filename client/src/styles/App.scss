@@ -32,6 +32,52 @@ body {
   background-color: #dfe1e6;
 }
 
+.landing {
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(36, 57, 114, 0.8),
+      hsla(0, 0%, 100%, 0.8)
+    ),
+    url("../assets/open-book.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 30% 50%;
+  height: calc(100vh - 64px);
+  width: 100%;
+
+  &-header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+
+    &-main {
+    }
+
+    &-secondary {
+    }
+  }
+
+  &-btn {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 6px 10px;
+    background-color: rgba(9, 30, 54, 0.4);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: white;
+      color: #0079bf;
+    }
+
+    &-group {
+      text-align: center;
+    }
+  }
+}
+
 .app {
   // I suspect min-height increases the height and makes it scrollable on mobile
   // min-height: 100vh;

@@ -16,6 +16,36 @@ body {
   outline: 0;
   background-color: #dfe1e6; }
 
+.landing {
+  background-image: linear-gradient(to right bottom, rgba(36, 57, 114, 0.8), rgba(255, 255, 255, 0.8)), url("../assets/open-book.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 30% 50%;
+  height: calc(100vh - 64px);
+  width: 100%; }
+
+.landing-header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff; }
+
+.landing-btn {
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 6px 10px;
+  background-color: rgba(9, 30, 54, 0.4);
+  border-radius: 4px; }
+
+.landing-btn:hover {
+  background-color: white;
+  color: #0079bf; }
+
+.landing-btn-group {
+  text-align: center; }
+
 .app {
   display: flex;
   flex-flow: row nowrap;
@@ -23,8 +53,9 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   position: absolute; }
-  .app h1 {
-    margin-top: 10px; }
+
+.app h1 {
+  margin-top: 10px; }
 
 .navbar-link {
   color: inherit;
