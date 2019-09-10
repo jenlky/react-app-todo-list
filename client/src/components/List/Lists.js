@@ -21,7 +21,6 @@ class Lists extends React.Component {
           listItems: []
         }
       ],
-      hasUpdatedList: false,
       keyInItem: "",
       delay: 150
     };
@@ -40,18 +39,6 @@ class Lists extends React.Component {
     }
   }
 
-  /*   async componentDidUpdate(prevProps, prevState) {
-    if (this.state.hasUpdatedList && this.props.username) {
-      const address = this.state.lists.find(list => {
-        return list.listItems !== prevState.listItems;
-      });
-      const response = await overwriteListItems(this.props.username, address);
-      console.log("overwriteListItems response", response);
-
-      this.setState({ hasUpdatedList: false });
-    }
-  } */
-
   keyInItemHandler = event => {
     this.setState({
       keyInItem: event.target.value
@@ -62,7 +49,7 @@ class Lists extends React.Component {
     const lists = [...this.state.lists];
     const address = this.findListIndex(id);
     lists[address].name = e.target.value;
-    const reqBody = {
+    const updatedListName = {
       name: e.target.value
     };
 
@@ -74,8 +61,8 @@ class Lists extends React.Component {
       if (this.props.username) {
         const response = await updateOneList(
           this.props.username,
-          reqBody,
-          address
+          address,
+          updatedListName
         );
         console.log("updateOneList response", response);
       }
@@ -94,21 +81,25 @@ class Lists extends React.Component {
     }
   };
 
-  // when I login or do CRUD then put the token in the request
-  insertJWT = () => {
-    const jwt = sessionStorage.getItem("jwt");
-    return {
-      authorization: "Bearer " + jwt
-    };
-  };
-
   // Add item to parent list item by clicking on the 'Add button'
-  addFirstItem = (event, id) => {
+  addFirstItem = async (event, id) => {
     const enterCondition = this.state.keyInItem !== "";
 
     if (enterCondition) {
-      this.insertNewParentItem(id);
+      const address = this.insertNewParentItem(id);
       event.currentTarget.previousSibling.value = "";
+
+      if (this.props.username) {
+        const updatedListItems = this.state.lists[address].listItems;
+        console.log("addFirstItem updatedListItems", updatedListItems);
+
+        const response = await overwriteListItems(
+          this.props.username,
+          address,
+          updatedListItems
+        );
+        console.log("overwriteListItems response", response);
+      }
     }
   };
 
@@ -132,12 +123,13 @@ class Lists extends React.Component {
       display: false
     });
     this.setState({ keyInItem: "" });
+    return address;
   };
 
   findListIndex = id => {
     const lists = [...this.state.lists];
     return lists.findIndex(list => {
-      return Number(id) === list.id;
+      return list.id === Number(id);
     });
   };
 
@@ -177,16 +169,33 @@ class Lists extends React.Component {
 
       itemId.shift();
     }
-    return { parentItem, childAddress };
+    return { parentItem, childAddress, listAddress };
   };
 
-  addSubsequentItem = (listId, itemId) => {
+  addSubsequentItem = async (listId, itemId) => {
     const parentItems = [...this.state.lists];
-    const { parentItem } = this.findItem(parentItems, listId, itemId, false);
+    const { parentItem, listAddress } = this.findItem(
+      parentItems,
+      listId,
+      itemId,
+      false
+    );
 
     this.addItemToParent(parentItem);
     parentItem.display = true;
     this.setState({ lists: parentItems });
+
+    if (this.props.username) {
+      const updatedListItems = this.state.lists[listAddress].listItems;
+      console.log("addSubsequentItem updatedListItems", updatedListItems);
+
+      const response = await overwriteListItems(
+        this.props.username,
+        listAddress,
+        updatedListItems
+      );
+      console.log("overwriteListItems response", response);
+    }
   };
 
   addItemToParent = parentItem => {
@@ -220,11 +229,28 @@ class Lists extends React.Component {
     parentItem.children.push(newObj);
   };
 
-  editItem = (newValue, listId, itemId) => {
+  editItem = async (newValue, listId, itemId) => {
     const lists = [...this.state.lists];
-    const { parentItem } = this.findItem(lists, listId, itemId, false);
+    const { parentItem, listAddress } = this.findItem(
+      lists,
+      listId,
+      itemId,
+      false
+    );
     parentItem.text = newValue;
     this.setState({ lists });
+
+    if (this.props.username) {
+      const updatedListItems = this.state.lists[listAddress].listItems;
+      console.log("editItem updatedListItems", updatedListItems);
+
+      const response = await overwriteListItems(
+        this.props.username,
+        listAddress,
+        updatedListItems
+      );
+      console.log("overwriteListItems response", response);
+    }
   };
 
   removeItem = async (listId, itemId) => {
@@ -232,11 +258,13 @@ class Lists extends React.Component {
     let listAddress;
 
     if (itemId === undefined) {
-      listAddress = lists.findIndex(list => {
-        return list.id === listId;
-      });
-
+      listAddress = this.findListIndex(listId);
       lists.splice(listAddress, 1);
+
+      if (this.props.username) {
+        const response = await deleteOneList(this.props.username, listAddress);
+        console.log("deleteOneList response", response);
+      }
     } else if (itemId.length === 1) {
       listAddress = this.findListIndex(listId);
       const listItems = lists[listAddress].listItems;
@@ -261,9 +289,16 @@ class Lists extends React.Component {
       lists
     });
 
-    if (this.props.username) {
-      const response = await deleteOneList(this.props.username, listAddress);
-      console.log("deleteOneList response", response);
+    if (this.state.lists[listAddress] && this.props.username) {
+      const updatedListItems = this.state.lists[listAddress].listItems;
+      console.log("removeItem updatedListItems", updatedListItems);
+
+      const response = await overwriteListItems(
+        this.props.username,
+        listAddress,
+        updatedListItems
+      );
+      console.log("overwriteListItems response", response);
     }
   };
 
