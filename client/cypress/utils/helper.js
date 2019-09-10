@@ -18,16 +18,6 @@ const addSubsequentItems = (numOfLayers, numOfItems) => {
   }
 };
 
-const addEmptyItems = numOfLayers => {
-  const numOfTimes = numOfLayers - 1;
-  for (let x = 0; x < numOfTimes; x++) {
-    cy.get("span[data-testid=todo-item-plus]")
-      .eq(x)
-      .click({ force: true });
-    cy.wait(100);
-  }
-};
-
 const credentials = "cypresstest";
 const login = () => {
   cy.visit(`${baseUrl}/login`);
@@ -45,4 +35,4 @@ const logout = () => {
   cy.url().should("eq", `${baseUrl}/`);
 };
 
-module.exports = { addSubsequentItems, addEmptyItems, login, logout };
+module.exports = { addSubsequentItems, login, logout };
