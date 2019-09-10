@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lists from "./List/Lists";
 import Navbar from "./Navbar";
-import Homepage from "./Homepage";
+import Landing from "./Landing";
 import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
 import "../styles/App.css";
 import { signUp, login, logout } from "../api/api";
@@ -119,7 +119,7 @@ class App extends React.Component {
                     isLoggedIn={this.state.isLoggedIn}
                     logout={this.logout}
                   />
-                  <Homepage />
+                  <Landing />
                 </React.Fragment>
               );
             }}

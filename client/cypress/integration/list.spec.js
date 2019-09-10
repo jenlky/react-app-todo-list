@@ -87,7 +87,7 @@ describe("lists", () => {
       .click();
   };
 
-  it.only("should fill up multiple list", () => {
+  it("should fill up multiple list", () => {
     cy.visit(`${baseUrl}/users`);
     updateTitleAddFirstItem(1);
     addSubsequentItems(3, 1);

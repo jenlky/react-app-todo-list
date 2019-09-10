@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#0067A3"
   },
   toolbar: {
-    justifyContent: "flex-end"
+    justifyContent: "space-between"
   },
   button: {
     textTransform: "none",
@@ -32,20 +32,32 @@ function Navbar({ username, isLoggedIn, logout, history }) {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
+          <a
+            className=""
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "white",
+              fontSize: "24px"
+            }}
+            href="/"
+          >
+            StudyLah
+          </a>
           {isLoggedIn && username !== "" ? (
-            <React.Fragment>
+            <div>
               <Username className={classes.button} username={username} />
               <LogoutBtn
                 className={classes.button}
                 logout={logout}
                 history={history}
               />
-            </React.Fragment>
+            </div>
           ) : (
-            <React.Fragment>
+            <div>
               <SignUpBtn className={classes.button} />
               <LoginBtn className={classes.button} />
-            </React.Fragment>
+            </div>
           )}
         </Toolbar>
       </AppBar>
