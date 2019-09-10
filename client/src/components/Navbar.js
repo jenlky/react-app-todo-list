@@ -27,21 +27,11 @@ const useStyles = makeStyles(() => ({
 
 function Navbar({ username, isLoggedIn, logout, history }) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
-          <a
-            className=""
-            style={{
-              textDecoration: "none",
-              fontWeight: "bold",
-              color: "white",
-              fontSize: "24px"
-            }}
-            href="/"
-          >
+          <a className="navbar-title" href="/">
             StudyLah
           </a>
           {isLoggedIn && username !== "" ? (
