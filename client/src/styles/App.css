@@ -3,7 +3,12 @@ body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 16px;
   margin: 0 auto;
-  background-color: var(--body-bg-color); }
+  background-color: var(--body-bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center; }
 
 .title {
   border: 0;
