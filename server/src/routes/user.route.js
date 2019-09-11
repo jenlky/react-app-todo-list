@@ -2,7 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
-const { signupSchema, loginSchema } = require("../models/userValidation");
+const { signupSchema, loginSchema } = require("../utils/userValidation");
 const { generateToken } = require("../utils/token");
 const isAuthenticated = require("../utils/isAuthenticated");
 
@@ -26,7 +26,6 @@ userRouter.post("/signup", async (req, res, next) => {
       jwt: token
     });
   } catch (err) {
-    // maybe I can specify how to deal with different errors
     next(err);
   }
 });
