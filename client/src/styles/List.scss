@@ -16,7 +16,7 @@ $dropdown-triangle-size: 16px;
     outline: 0;
     font-size: 18px;
     line-height: 24px;
-    background-color: #dfe1e6;
+    background-color: var(--list-bg-color);
     color: black;
 
     &::placeholder {
@@ -27,12 +27,13 @@ $dropdown-triangle-size: 16px;
 
 .todo {
   &-list {
-    display: block;
-    text-align: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     padding: 20px 20px 0px;
     margin-right: 20px;
     border-radius: 3px;
-    background-color: #dfe1e6;
+    background-color: var(--list-bg-color);
 
     @include min-device("phone") {
       padding: 10px 15px;
@@ -44,7 +45,8 @@ $dropdown-triangle-size: 16px;
 
     &-name-row {
       display: flex;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
+      width: 100%;
     }
 
     &-remove-list {
@@ -56,6 +58,7 @@ $dropdown-triangle-size: 16px;
   }
 
   &-parent-list {
+    flex: 1 1 auto;
     padding: 0;
     list-style: none;
     margin: 10px 0px;
@@ -65,7 +68,25 @@ $dropdown-triangle-size: 16px;
     width: -moz-available;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 300px;
+
+    &::-webkit-scrollbar-track {
+      border-radius: 20px;
+      background-color: #dadbe2;
+    }
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: #dadbe2;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #bfc4ce;
+    }
+
+    &::-webkit-scrollbar-track-piece {
+      background: rgba(0, 0, 0, 0.05);
+    }
   }
 
   &-child-list {

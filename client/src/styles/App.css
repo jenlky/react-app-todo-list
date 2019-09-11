@@ -1,20 +1,17 @@
-:root {
-  font-size: 62.5%; }
-
 body {
   box-sizing: border-box;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 16px;
   margin: 0 auto;
-  min-height: 100vh;
-  background-color: #0079bf; }
+  background-color: var(--body-bg-color); }
 
 .title {
   border: 0;
   font-size: 32px;
   text-align: center;
   outline: 0;
-  background-color: #dfe1e6; }
+  background-color: var(--list-bg-color);
+  width: 100%; }
 
 .navbar-title {
   text-decoration: none;
@@ -58,7 +55,7 @@ body {
 
 .landing-btn:hover {
   background-color: white;
-  color: #0079bf; }
+  color: var(--body-bg-color); }
 
 .landing-btn-group {
   text-align: center;
@@ -70,7 +67,15 @@ body {
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  position: absolute; }
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.app-main-content {
+  position: relative;
+  height: calc(100vh - 64px); }
 
 .app h1 {
   margin-top: 10px; }
