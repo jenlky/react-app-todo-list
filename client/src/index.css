@@ -1,7 +1,10 @@
 :root {
   --navbar-bg-color: #0067a3;
   --body-bg-color: #0079bf;
-  --list-bg-color: #dfe1e6; /* trello #ebecf0 */
+  --list-bg-color: #dfe1e6; /* trello uses #ebecf0 */
   --list-scrollbar-thumb: #bfc4ce;
+  --list-scrollbar-track: #dadbe2;
+  --lists-scrollbar-thumb: rgba(255, 255, 255, 0.5);
+  --lists-scrollbar-track: rgba(0, 0, 0, 0.05);
   font-size: 62.5%;
 }

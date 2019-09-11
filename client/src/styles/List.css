@@ -49,6 +49,7 @@
   padding: 0;
   list-style: none;
   margin: 10px 0px;
+  padding: 0 4px;
   text-align: left;
   width: 100%;
   width: stretch;
@@ -57,19 +58,18 @@
   overflow-x: hidden; }
 
 .todo-parent-list::-webkit-scrollbar-track {
-  border-radius: 20px;
-  background-color: #dadbe2; }
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: var(--list-scrollbar-track); }
 
 .todo-parent-list::-webkit-scrollbar {
+  border-radius: 10px;
   width: 8px;
-  background-color: #dadbe2; }
+  background-color: var(--list-scrollbar-track); }
 
 .todo-parent-list::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background-color: #bfc4ce; }
-
-.todo-parent-list::-webkit-scrollbar-track-piece {
-  background: rgba(0, 0, 0, 0.05); }
+  border-radius: 10px;
+  background-color: var(--list-scrollbar-thumb); }
 
 .todo-child-list {
   color: black; }
