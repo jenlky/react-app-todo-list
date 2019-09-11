@@ -6,8 +6,8 @@ const Landing = () => {
       <div className="landing-header">
         <div className="landing-header-main">Learn Better, Learn Faster</div>
         <div className="landing-header-secondary">
-          StudyLah promotes active recall by enabling you to have an overview of
-          your study topics and drill down onto each individual topic.
+          Promotes active recall by allowing an overview of your study topics
+          and letting you drill down into each sub-topic.
         </div>
         <div className="landing-btn-group">
           <a href="/users" className="landing-btn">

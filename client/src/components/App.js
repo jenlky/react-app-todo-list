@@ -135,11 +135,13 @@ class App extends React.Component {
                     isLoggedIn={this.state.isLoggedIn}
                     logout={this.logout}
                   />
-                  <div className="app">
-                    <Lists
-                      username={this.state.username}
-                      isLoggedIn={this.state.isLoggedIn}
-                    />
+                  <div className='app-main-content'>
+                    <div className="app">
+                      <Lists
+                        username={this.state.username}
+                        isLoggedIn={this.state.isLoggedIn}
+                      />
+                    </div>
                   </div>
                 </React.Fragment>
               );
