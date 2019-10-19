@@ -15,7 +15,8 @@ class App extends React.Component {
       name: "",
       username: "",
       email: "",
-      password: ""
+      password: "",
+      error: null
     };
   }
 
@@ -47,22 +48,23 @@ class App extends React.Component {
       try {
         response = await signUp(name, username, email, password);
         console.log("signup response", response);
+
+        if (response.data.jwt) {
+          sessionStorage.setItem("jwt", response.data.jwt);
+          this.setState(prev => {
+            return {
+              name: "",
+              email: "",
+              password: "",
+              username: response.data.username,
+              isLoggedIn: !prev.isLoggedIn
+            };
+          });
+          history.push(`/users/${username}`);
+        }
       } catch (error) {
         console.log(error);
-      }
-
-      if (response.data.jwt) {
-        sessionStorage.setItem("jwt", response.data.jwt);
-        this.setState(prev => {
-          return {
-            name: "",
-            email: "",
-            password: "",
-            username: response.data.username,
-            isLoggedIn: !prev.isLoggedIn
-          };
-        });
-        history.push(`/users/${username}`);
+        this.setState({ error });
       }
     }
   };
@@ -72,17 +74,23 @@ class App extends React.Component {
 
     const { username, password } = this.state;
     if (username && password) {
-      const response = await login(username, password);
-      console.log("login response", response);
+      try {
+        const response = await login(username, password);
+        console.log("login response", response);
 
-      if (response.data.jwt) {
-        sessionStorage.setItem("jwt", response.data.jwt);
-        this.setState({
-          username: response.data.username,
-          password: "",
-          isLoggedIn: true
-        });
-        history.push(`/users/${username}`);
+        if (response.data.jwt) {
+          sessionStorage.setItem("jwt", response.data.jwt);
+          this.setState({
+            username: response.data.username,
+            password: "",
+            isLoggedIn: true
+          });
+          history.push(`/users/${username}`);
+        }
+      } catch (error) {
+        console.log(error);
+        this.setState({ error });
+        // throw new Error(error);
       }
     }
   };
@@ -135,7 +143,7 @@ class App extends React.Component {
                     isLoggedIn={this.state.isLoggedIn}
                     logout={this.logout}
                   />
-                  <div className='app-main-content'>
+                  <div className="app-main-content">
                     <div className="app">
                       <Lists
                         username={this.state.username}

@@ -17,8 +17,27 @@ class Lists extends React.Component {
       lists: [
         {
           id: 1,
-          name: "",
-          listItems: []
+          name: "Test",
+          listItems: [
+            {
+              id: "1",
+              text: "First item",
+              children: [],
+              display: false
+            },
+            {
+              id: "2",
+              text: "Second item",
+              children: [],
+              display: false
+            },
+            {
+              id: "3",
+              text: "Third item",
+              children: [],
+              display: false
+            }
+          ]
         }
       ],
       keyInItem: "",
@@ -134,19 +153,22 @@ class Lists extends React.Component {
   };
 
   findFirstItemIndex = (listItems, id) => {
+    // when remove - this func can't find firstItemIndex
     return listItems.findIndex(item => {
       return id === item.id;
     });
   };
 
   findSubsequentItemIndex = (parentItem, id, address) => {
-    for (let x = 0; x < parentItem.children.length; x++) {
-      const parentItemId = parentItem.children[x].id.split("-");
+    if (parentItem) {
+      for (let x = 0; x < parentItem.children.length; x++) {
+        const parentItemId = parentItem.children[x].id.split("-");
 
-      // address.length + 1 because parentItem has already accessed parentIndex
-      if (id === parentItemId[address.length + 1]) {
-        address.push(x);
-        return parentItem.children[x];
+        // address.length + 1 because parentItem has already accessed parentIndex
+        if (id === parentItemId[address.length + 1]) {
+          address.push(x);
+          return parentItem.children[x];
+        }
       }
     }
   };
