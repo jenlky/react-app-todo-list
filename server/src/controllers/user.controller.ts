@@ -81,7 +81,7 @@ const overwriteListItems = async (username, index, newListItems) => {
   return user.lists[index].listItems;
 };
 
-module.exports = {
+export {
   createOneUser,
   findOneUser,
   checkPayload,

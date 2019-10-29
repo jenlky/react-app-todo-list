@@ -1,7 +1,12 @@
-const controller = require("../controllers/user.controller");
-const { verifyToken } = require("../utils/token");
+import * as controller from "../controllers/user.controller";
+import { verifyToken } from "../utils/token";
+import { Request, Response, NextFunction } from "express";
 
-const isAuthenticated = async (req, res, next) => {
+const isAuthenticated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const authorization = req.headers.authorization;
     if (!authorization) {
@@ -23,4 +28,4 @@ const isAuthenticated = async (req, res, next) => {
   }
 };
 
-module.exports = isAuthenticated;
+export { isAuthenticated };

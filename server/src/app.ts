@@ -1,7 +1,8 @@
-require("./utils/db");
-require("dotenv").config();
+import "./utils/db";
+import dotenv from "dotenv";
+import express from "express";
+dotenv.config();
 
-const express = require("express");
 const cors = require("cors");
 const app = express();
 const userRouter = require("./routes/user.route");
@@ -18,4 +19,4 @@ app.use((err, req, res, next) => {
   res.status(500).send(err);
 });
 
-module.exports = app;
+export { app };

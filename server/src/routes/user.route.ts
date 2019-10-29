@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 const userRouter = express.Router();
 const controller = require("../controllers/user.controller");
 const Joi = require("@hapi/joi");
