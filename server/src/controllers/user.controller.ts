@@ -1,9 +1,22 @@
-require("../models/user.model");
-const mongoose = require("mongoose");
-const User = mongoose.model("User");
-const bcrypt = require("bcrypt");
+import "../models/user.model";
+import mongoose, { Document } from "mongoose";
+import bcrypt from "bcrypt";
+import User from "../models/user.model";
 
-const createOneUser = async user => {
+interface UserType extends Document {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  lists: Array<{
+    id: number;
+    name: string;
+    listItems: [];
+  }>;
+}
+
+const createOneUser = async (user: UserType) => {
+  console.log(user);
   const { name, username, email, password } = user;
   const saltRound = 10;
   const hash = await bcrypt.hash(password, saltRound);
@@ -13,7 +26,7 @@ const createOneUser = async user => {
   return { _id: newUser._id, username: newUser.username };
 };
 
-const findOneUser = async user => {
+const findOneUser = async (user: UserType) => {
   const foundUser = await User.findOne({ username: user.username });
   const isUser = await bcrypt.compare(user.password, foundUser.password);
 
@@ -24,16 +37,16 @@ const findOneUser = async user => {
   }
 };
 
-const checkPayload = async username => {
+const checkPayload = async (username: UserType["username"]) => {
   return await User.findOne({ username });
 };
 
-const findAllLists = async username => {
+const findAllLists = async (username: UserType["username"]) => {
   const user = await User.findOne({ username });
   return user.lists;
 };
 
-const createOneList = async username => {
+const createOneList = async (username: UserType["username"]) => {
   const user = await User.findOne({ username });
   let greatestId = 0;
   for (let x = 0; x < user.lists.length; x++) {
@@ -52,7 +65,11 @@ const createOneList = async username => {
   return newList;
 };
 
-const updateOneList = async (username, index, name) => {
+const updateOneList = async (
+  username: UserType["username"],
+  index: number,
+  name: UserType["name"]
+) => {
   let user = await User.findOne({ username });
   user.lists[index].name = name;
   const updatedList = {
@@ -65,7 +82,7 @@ const updateOneList = async (username, index, name) => {
   return updatedList;
 };
 
-const deleteOneList = async (username, index) => {
+const deleteOneList = async (username: UserType["username"], index: number) => {
   let user = await User.findOne({ username });
   user.lists.splice(index, 1);
 
@@ -73,7 +90,11 @@ const deleteOneList = async (username, index) => {
   return user.lists;
 };
 
-const overwriteListItems = async (username, index, newListItems) => {
+const overwriteListItems = async (
+  username: UserType["username"],
+  index: number,
+  newListItems: UserType["lists"]["listItems"]
+) => {
   let user = await User.findOne({ username });
   user.lists[index].listItems = newListItems;
 
