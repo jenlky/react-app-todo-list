@@ -26,11 +26,6 @@ describe("User", () => {
     await db.dropDatabase();
   });
 
-  interface urlResponse {
-    status: string;
-    body: [];
-  }
-
   let eddieLogin: {};
   let jenssenLogin: {};
   beforeEach(async () => {
