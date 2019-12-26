@@ -12,8 +12,9 @@
     "start:dev": "nodemon ./dist/server",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "tsc",
-    "watch:ts": "tsc -w"
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts",
+    "watch-ts": "tsc -w"
   },
   "repository": {
     "type": "git",
