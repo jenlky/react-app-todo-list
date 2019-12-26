@@ -8,8 +8,8 @@
     "start:dev": "nodemon ./dist/server",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build-ts": "tsc",
-    "watch-ts": "tsc -w"
+    "build": "tsc",
+    "watch:ts": "tsc -w"
   },
   "repository": {
     "type": "git",

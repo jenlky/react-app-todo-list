@@ -22,7 +22,6 @@ export const signUp = async (name, username, email, password) => {
 };
 
 export const login = async (username, password) => {
-  console.log(process.env.NODE_ENV);
   return await axios.post(`${domain}/login`, {
     username,
     password
