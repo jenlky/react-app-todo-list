@@ -12,7 +12,7 @@
     "start:dev": "nodemon ./dist/server",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build-ts": "tsc",
+    "build-ts": "tsc && npm run start",
     "postinstall": "npm run build-ts",
     "watch-ts": "tsc -w"
   },
