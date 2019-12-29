@@ -16,7 +16,7 @@ export default class App extends Component {
       username: "",
       email: "",
       password: "",
-      hasError: null
+      hasError: false
     };
   }
 
@@ -43,30 +43,28 @@ export default class App extends Component {
     e.preventDefault();
     const { name, username, email, password } = this.state;
 
-    if (name && username && email && password) {
+    try {
       let response;
-      try {
-        response = await signUp(name, username, email, password);
-        console.log("signup response", response);
+      response = await signUp(name, username, email, password);
+      console.log("signup response", response);
 
-        if (response.data.jwt) {
-          sessionStorage.setItem("jwt", response.data.jwt);
-          this.setState(prev => {
-            return {
-              name: "",
-              email: "",
-              password: "",
-              username: response.data.username,
-              isLoggedIn: !prev.isLoggedIn,
-              hasError: null
-            };
-          });
-          history.push(`/users/${username}`);
-        }
-      } catch (error) {
-        console.log(error);
-        this.setState({ hasError: error });
+      if (response.data.jwt) {
+        sessionStorage.setItem("jwt", response.data.jwt);
+        this.setState(prev => {
+          return {
+            name: "",
+            email: "",
+            password: "",
+            username: response.data.username,
+            isLoggedIn: !prev.isLoggedIn,
+            hasError: null
+          };
+        });
+        history.push(`/users/${username}`);
       }
+    } catch (error) {
+      console.log("signup", error);
+      this.setState({ error, hasError: true });
     }
   };
 
@@ -74,25 +72,23 @@ export default class App extends Component {
     e.preventDefault();
     const { username, password } = this.state;
 
-    if (username && password) {
-      try {
-        const response = await login(username, password);
-        console.log("login response", response);
+    try {
+      const response = await login(username, password);
+      console.log("login response", response);
 
-        if (response.data.jwt) {
-          sessionStorage.setItem("jwt", response.data.jwt);
-          this.setState({
-            username: response.data.username,
-            password: "",
-            isLoggedIn: true,
-            hasError: null
-          });
-          history.push(`/users/${username}`);
-        }
-      } catch (error) {
-        console.log(error);
-        this.setState({ hasError: error });
+      if (response.data.jwt) {
+        sessionStorage.setItem("jwt", response.data.jwt);
+        this.setState({
+          username: response.data.username,
+          password: "",
+          isLoggedIn: true,
+          hasError: null
+        });
+        history.push(`/users/${username}`);
       }
+    } catch (error) {
+      console.log("login", error);
+      this.setState({ error, hasError: true });
     }
   };
 
@@ -108,6 +104,10 @@ export default class App extends Component {
       isLoggedIn: false
     });
     history.push("/");
+  };
+
+  resetNotificationState = () => {
+    this.setState({ hasError: false });
   };
 
   render() {
@@ -164,6 +164,7 @@ export default class App extends Component {
                 {...props}
                 name="Sign up"
                 updateUserState={this.updateUserState}
+                resetNotificationState={this.resetNotificationState}
                 signup={this.signup}
                 login={this.login}
                 hasError={this.state.hasError}
@@ -178,6 +179,7 @@ export default class App extends Component {
                 {...props}
                 name="Log in"
                 updateUserState={this.updateUserState}
+                resetNotificationState={this.resetNotificationState}
                 signup={this.signup}
                 login={this.login}
                 hasError={this.state.hasError}

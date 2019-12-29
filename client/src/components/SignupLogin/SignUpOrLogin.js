@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignUpOrLogin({
   name,
   updateUserState,
+  resetNotificationState,
   signup,
   login,
   hasError,
@@ -48,6 +49,7 @@ export default function SignUpOrLogin({
         {name === "Sign up" ? (
           <SignUpForm
             updateUserState={updateUserState}
+            resetNotificationState={resetNotificationState}
             signup={signup}
             history={history}
             hasError={hasError}
@@ -55,6 +57,7 @@ export default function SignUpOrLogin({
         ) : (
           <LoginForm
             updateUserState={updateUserState}
+            resetNotificationState={resetNotificationState}
             login={login}
             history={history}
             hasError={hasError}

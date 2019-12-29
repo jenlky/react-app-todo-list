@@ -41,7 +41,8 @@ const useStyles1 = makeStyles(theme => ({
   },
   message: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    fontSize: "1.2rem"
   }
 }));
 
@@ -88,13 +89,17 @@ const useStyles2 = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedSnackbars({ hasError, type, message }) {
+export default function CustomizedSnackbars({
+  hasError,
+  resetNotificationState,
+  type,
+  message
+}) {
   const classes = useStyles2();
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
-    if (hasError) {
-      setOpen(hasError);
-    }
+    setOpen(hasError);
   }, [hasError]);
 
   const handleClose = (event, reason) => {
@@ -103,10 +108,8 @@ export default function CustomizedSnackbars({ hasError, type, message }) {
     }
 
     setOpen(false);
+    resetNotificationState();
   };
-
-  console.log("parent hasError", hasError);
-  console.log("own open", open);
 
   return (
     <div>

@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function LoginForm({
   updateUserState,
+  resetNotificationState,
   login,
   hasError,
   history
@@ -82,6 +83,7 @@ export default function LoginForm({
       </Grid> */}
       <Notification
         hasError={hasError}
+        resetNotificationState={resetNotificationState}
         type="error"
         message="Incorrect username or password."
       />

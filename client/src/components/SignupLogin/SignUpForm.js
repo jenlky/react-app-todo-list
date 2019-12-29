@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpForm({
   updateUserState,
+  resetNotificationState,
   signup,
   hasError,
   history
@@ -107,8 +108,9 @@ export default function SignUpForm({
       </Grid> */}
       <Notification
         hasError={hasError}
+        resetNotificationState={resetNotificationState}
         type="error"
-        message="Incorrect username or password."
+        message="There was an error verifying your account."
       />
     </form>
   );
