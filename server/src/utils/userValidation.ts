@@ -13,7 +13,7 @@ const signupSchema = Joi.object().keys({
     .email({ minDomainSegments: 2 })
     .required(),
   password: Joi.string()
-    .regex(/[a-zA-Z0-9~!@#$%^&*()]{8,30}$/)
+    .regex(/[a-zA-Z0-9]{8,30}$/)
     .required()
 });
 
@@ -28,7 +28,7 @@ const loginSchema = Joi.object().keys({
   //   .email({ minDomainSegments: 2 })
   //   .required(),
   password: Joi.string()
-    .regex(/[a-zA-Z0-9~!@#$%^&*()]{8,30}$/)
+    .regex(/[a-zA-Z0-9]{8,30}$/)
     .required()
 });
 
