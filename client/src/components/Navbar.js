@@ -5,8 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import "../styles/App.css";
 import SignUpBtn from "./SignupLogin/SignUpBtn";
 import LoginBtn from "./SignupLogin/LoginBtn";
-import Username from "./SignupLogin/Username";
 import LogoutBtn from "./SignupLogin/LogoutBtn";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,7 +37,9 @@ function Navbar({ username, isLoggedIn, logout, history }) {
           </a>
           {isLoggedIn && username !== "" ? (
             <div>
-              <Username className={classes.button} username={username} />
+              <Button className={classes.button} color="inherit">
+                {username}
+              </Button>
               <LogoutBtn
                 className={classes.button}
                 logout={logout}

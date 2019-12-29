@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 // import Link from "@material-ui/core/Link";
 // import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Notification from "../Notification";
+import Username from "./Username";
+import Password from "./Password";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -37,70 +37,17 @@ export default function LoginForm({
   history
 }) {
   const classes = useStyles();
-  const [userError, setUserError] = useState(false);
-  const [userHelperText, setUserHelperText] = useState("");
-
-  const [passError, setPassError] = useState(false);
-  const [passHelperText, setPassHelperText] = useState("");
 
   return (
     <form className={classes.form} noValidate>
-      <ClickAwayListener
-        onClickAway={e => {
-          setUserError(false);
-          setUserHelperText("");
-        }}
-      >
-        <TextField
-          error={userError}
-          helperText={userHelperText}
-          className={classes.textField}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="current-username"
-          autoFocus
-          onChange={updateUserState}
-          onClick={e => {
-            setUserError(true);
-            setUserHelperText(
-              "Username must be alphanumberic and between 4 to 20 characters"
-            );
-          }}
-        />
-      </ClickAwayListener>
-      <ClickAwayListener
-        onClickAway={e => {
-          setPassError(false);
-          setPassHelperText("");
-        }}
-      >
-        <TextField
-          error={passError}
-          helperText={passHelperText}
-          className={classes.textField}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={updateUserState}
-          onClick={e => {
-            setPassError(true);
-            setPassHelperText(
-              "Password must be alphanumberic and between 8 to 20 characters"
-            );
-          }}
-        />
-      </ClickAwayListener>
+      <Username
+        textField={classes.textField}
+        updateUserState={updateUserState}
+      />
+      <Password
+        textField={classes.textField}
+        updateUserState={updateUserState}
+      />
       <Button
         type="submit"
         fullWidth
