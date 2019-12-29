@@ -4,20 +4,30 @@ import TextField from "@material-ui/core/TextField";
 // import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import Notification from "../Notification";
 
 const useStyles = makeStyles(theme => ({
-  "@global": {
-    form: {
-      width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing(3)
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2)
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3)
+  },
+  textField: {
+    "& label": {
+      fontSize: "1.1rem"
     }
+  },
+  submit: {
+    margin: theme.spacing(2.5, 0, 1.84),
+    fontSize: "1.1rem"
   }
 }));
 
-export default function SignUpForm({ updateUserState, signup, history }) {
+export default function SignUpForm({
+  updateUserState,
+  signup,
+  hasError,
+  history
+}) {
   const classes = useStyles();
 
   return (
@@ -25,6 +35,7 @@ export default function SignUpForm({ updateUserState, signup, history }) {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
+            className={classes.textField}
             variant="outlined"
             required
             fullWidth
@@ -38,6 +49,7 @@ export default function SignUpForm({ updateUserState, signup, history }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            className={classes.textField}
             variant="outlined"
             required
             fullWidth
@@ -50,6 +62,7 @@ export default function SignUpForm({ updateUserState, signup, history }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            className={classes.textField}
             variant="outlined"
             required
             fullWidth
@@ -62,6 +75,7 @@ export default function SignUpForm({ updateUserState, signup, history }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            className={classes.textField}
             variant="outlined"
             required
             fullWidth
@@ -91,6 +105,11 @@ export default function SignUpForm({ updateUserState, signup, history }) {
           </Link>
         </Grid>
       </Grid> */}
+      <Notification
+        hasError={hasError}
+        type="error"
+        message="Incorrect username or password."
+      />
     </form>
   );
 }

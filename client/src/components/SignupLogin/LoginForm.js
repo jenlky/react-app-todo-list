@@ -4,38 +4,36 @@ import TextField from "@material-ui/core/TextField";
 // import Link from "@material-ui/core/Link";
 // import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import Notification from "../Notification";
 
 const useStyles = makeStyles(theme => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
+  textField: {
+    "& label": {
+      fontSize: "1.1rem"
+    }
+  },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(2.5, 0, 1.84),
+    fontSize: "1.1rem"
   }
 }));
 
-function LoginForm({ updateUserState, login, history }) {
+export default function LoginForm({
+  updateUserState,
+  login,
+  hasError,
+  history
+}) {
   const classes = useStyles();
 
   return (
     <form className={classes.form} noValidate>
       <TextField
+        className={classes.textField}
         variant="outlined"
         margin="normal"
         required
@@ -48,6 +46,7 @@ function LoginForm({ updateUserState, login, history }) {
         onChange={updateUserState}
       />
       <TextField
+        className={classes.textField}
         variant="outlined"
         margin="normal"
         required
@@ -81,8 +80,11 @@ function LoginForm({ updateUserState, login, history }) {
           </Link>
         </Grid>
       </Grid> */}
+      <Notification
+        hasError={hasError}
+        type="error"
+        message="Incorrect username or password."
+      />
     </form>
   );
 }
-
-export default LoginForm;

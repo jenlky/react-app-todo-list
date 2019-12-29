@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lists from "./List/Lists";
 import Navbar from "./Navbar";
@@ -7,7 +7,7 @@ import SignUpOrLogin from "./SignupLogin/SignUpOrLogin";
 import "../styles/App.css";
 import { signUp, login, logout } from "../api/api";
 
-class App extends React.Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ class App extends React.Component {
       username: "",
       email: "",
       password: "",
-      error: null
+      hasError: null
     };
   }
 
@@ -41,8 +41,8 @@ class App extends React.Component {
 
   signup = async (e, history) => {
     e.preventDefault();
-
     const { name, username, email, password } = this.state;
+
     if (name && username && email && password) {
       let response;
       try {
@@ -57,22 +57,23 @@ class App extends React.Component {
               email: "",
               password: "",
               username: response.data.username,
-              isLoggedIn: !prev.isLoggedIn
+              isLoggedIn: !prev.isLoggedIn,
+              hasError: null
             };
           });
           history.push(`/users/${username}`);
         }
       } catch (error) {
         console.log(error);
-        this.setState({ error });
+        this.setState({ hasError: error });
       }
     }
   };
 
   login = async (e, history) => {
     e.preventDefault();
-
     const { username, password } = this.state;
+
     if (username && password) {
       try {
         const response = await login(username, password);
@@ -83,14 +84,14 @@ class App extends React.Component {
           this.setState({
             username: response.data.username,
             password: "",
-            isLoggedIn: true
+            isLoggedIn: true,
+            hasError: null
           });
           history.push(`/users/${username}`);
         }
       } catch (error) {
         console.log(error);
-        this.setState({ error });
-        // throw new Error(error);
+        this.setState({ hasError: error });
       }
     }
   };
@@ -165,6 +166,7 @@ class App extends React.Component {
                 updateUserState={this.updateUserState}
                 signup={this.signup}
                 login={this.login}
+                hasError={this.state.hasError}
               />
             )}
           />
@@ -178,6 +180,7 @@ class App extends React.Component {
                 updateUserState={this.updateUserState}
                 signup={this.signup}
                 login={this.login}
+                hasError={this.state.hasError}
               />
             )}
           />
@@ -186,5 +189,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
