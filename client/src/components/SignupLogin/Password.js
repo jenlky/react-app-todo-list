@@ -1,9 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 
 export default function Username({ updateUserState, textField }) {
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
+
+  const [password, setPassword] = useState("");
+  useEffect(() => validate(password), [password]);
+
+  const validate = password => {
+    if (
+      password.match(/^[a-zA-Z0-9]+$/) &&
+      password.length >= 4 &&
+      password.length <= 20
+    ) {
+      setError(false);
+      setHelperText("");
+    } else if (password === "") {
+      setError(false);
+      setHelperText("");
+    } else {
+      setError(true);
+      setHelperText(
+        "Password must be alphanumeric and between 8 to 20 characters"
+      );
+    }
+  };
 
   return (
     <>
@@ -20,16 +42,9 @@ export default function Username({ updateUserState, textField }) {
         type="password"
         id="password"
         autoComplete="current-password"
-        onChange={updateUserState}
-        onFocus={e => {
-          setError(true);
-          setHelperText(
-            "Password must be alphanumeric and between 8 to 20 characters"
-          );
-        }}
-        onBlur={e => {
-          setError(false);
-          setHelperText("");
+        onChange={e => {
+          setPassword(e.target.value);
+          return updateUserState(e);
         }}
       />
     </>

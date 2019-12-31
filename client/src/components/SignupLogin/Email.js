@@ -9,7 +9,6 @@ export default function Email({ updateUserState, textField }) {
     <>
       <TextField
         error={error}
-        errorStyle={{ color: "green" }}
         helperText={helperText}
         className={textField}
         variant="outlined"
