@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Notification from "../Notification";
 import Username from "./Username";
 import Password from "./Password";
-import Email from "./Email";
+import EmailAddress from "./EmailAddress";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -59,7 +59,10 @@ export default function SignUpForm({
         textField={classes.textField}
         updateUserState={updateUserState}
       />
-      <Email textField={classes.textField} updateUserState={updateUserState} />
+      <EmailAddress
+        textField={classes.textField}
+        updateUserState={updateUserState}
+      />
       <Password
         textField={classes.textField}
         updateUserState={updateUserState}
