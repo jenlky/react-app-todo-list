@@ -15,7 +15,7 @@ const ListItem = ({
     listItem.display === true;
 
   return (
-    <React.Fragment>
+    <>
       <li className="todo-item break-word" data-testid="todo-item">
         <ListItemLeft
           listId={listId}
@@ -47,7 +47,7 @@ const ListItem = ({
           })}
         </ul>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

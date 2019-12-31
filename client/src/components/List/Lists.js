@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import List from "./List";
 import AddNewList from "./AddNewList";
 import "../../styles/List.css";
@@ -10,30 +10,36 @@ import {
   overwriteListItems
 } from "../../api/api";
 
-class Lists extends React.Component {
+export default class Lists extends Component {
   constructor(props) {
     super(props);
     this.state = {
       lists: [
         {
           id: 1,
-          name: "Test",
+          name: "Playground",
           listItems: [
             {
               id: "1",
-              text: "First item",
+              text: "Type whatever you want",
               children: [],
               display: false
             },
             {
               id: "2",
-              text: "Second item",
+              text: "Click on plus to add new child item",
               children: [],
               display: false
             },
             {
               id: "3",
-              text: "Third item",
+              text: "Click on right triangle to display child items",
+              children: [],
+              display: false
+            },
+            {
+              id: "4",
+              text: "Click on cross to remove list item",
               children: [],
               display: false
             }
@@ -364,7 +370,7 @@ class Lists extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         {this.state.lists.map(list => {
           return (
             <List
@@ -382,9 +388,7 @@ class Lists extends React.Component {
           );
         })}
         <AddNewList addList={this.addList} />
-      </React.Fragment>
+      </>
     );
   }
 }
-
-export default Lists;

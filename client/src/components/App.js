@@ -121,7 +121,7 @@ export default class App extends Component {
             path="/"
             render={props => {
               return (
-                <React.Fragment>
+                <>
                   <Navbar
                     {...props}
                     username={this.state.username}
@@ -129,7 +129,7 @@ export default class App extends Component {
                     logout={this.logout}
                   />
                   <Landing />
-                </React.Fragment>
+                </>
               );
             }}
           />
@@ -137,7 +137,7 @@ export default class App extends Component {
             path="/users"
             render={props => {
               return (
-                <React.Fragment>
+                <>
                   <Navbar
                     {...props}
                     username={this.state.username}
@@ -152,7 +152,7 @@ export default class App extends Component {
                       />
                     </div>
                   </div>
-                </React.Fragment>
+                </>
               );
             }}
           />

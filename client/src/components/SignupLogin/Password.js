@@ -24,7 +24,7 @@ export default function Username({ updateUserState, textField }) {
         onFocus={e => {
           setError(true);
           setHelperText(
-            "Password must be alphanumberic and between 8 to 20 characters"
+            "Password must be alphanumeric and between 8 to 20 characters"
           );
         }}
         onBlur={e => {

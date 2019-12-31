@@ -1,13 +1,17 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
-const AddNewList = ({ addList }) => {
+export default function AddNewList({ addList }) {
   return (
     <div>
-      <button className="add-another-list" onClick={addList}>
+      <Button
+        variant="contained"
+        color="inherit"
+        disableElevation
+        onClick={addList}
+      >
         Add another list
-      </button>
+      </Button>
     </div>
   );
-};
-
-export default AddNewList;
+}
