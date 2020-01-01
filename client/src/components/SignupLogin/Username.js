@@ -22,7 +22,7 @@ export default function Username({ updateUserState, textField }) {
     } else {
       setError(true);
       setHelperText(
-        "Username must be alphanumeric and between 4 to 20 characters"
+        "Username can contain a-z, 0-9 and only 4 to 20 characters."
       );
     }
   };

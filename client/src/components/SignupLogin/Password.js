@@ -22,7 +22,7 @@ export default function Username({ updateUserState, textField }) {
     } else {
       setError(true);
       setHelperText(
-        "Password must be alphanumeric and between 8 to 20 characters"
+        "Password can contain a-z, 0-9 and only 8 to 20 characters."
       );
     }
   };
