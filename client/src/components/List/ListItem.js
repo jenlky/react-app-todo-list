@@ -16,7 +16,7 @@ const ListItem = ({
 
   return (
     <>
-      <li className="todo-item break-word" data-testid="todo-item">
+      <li className="list-item break-word" data-testid="todo-item">
         <ListItemLeft
           listId={listId}
           listItem={listItem}
@@ -31,7 +31,7 @@ const ListItem = ({
         />
       </li>
       {displayChildCondition && (
-        <ul className="todo-child-list">
+        <ul className="list-child">
           {listItem.children.map(listItem => {
             return (
               <ListItem

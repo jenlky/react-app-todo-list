@@ -3,6 +3,35 @@ $plus-cross-size: 16px;
 $dropdown-triangle-size: 16px;
 
 .list {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 20px 20px 0px;
+  margin-right: 20px;
+  border-radius: 3px;
+  background-color: var(--list-bg-color);
+
+  @include min-device("phone") {
+    padding: 10px 15px;
+  }
+
+  @include min-device("tablet") {
+    padding: 20px 20px;
+  }
+
+  &-name-row {
+    display: flex;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  &-remove-list {
+    cursor: pointer;
+    font-size: 22px;
+    color: red;
+    font-weight: bold;
+  }
+
   &-add-btn {
     margin-left: 5px;
     padding: 2px 10px;
@@ -23,41 +52,8 @@ $dropdown-triangle-size: 16px;
       color: rgba(0, 0, 0, 0.6);
     }
   }
-}
 
-.todo {
-  &-list {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    padding: 20px 20px 0px;
-    margin-right: 20px;
-    border-radius: 3px;
-    background-color: var(--list-bg-color);
-
-    @include min-device("phone") {
-      padding: 10px 15px;
-    }
-
-    @include min-device("tablet") {
-      padding: 20px 20px;
-    }
-
-    &-name-row {
-      display: flex;
-      margin-bottom: 30px;
-      width: 100%;
-    }
-
-    &-remove-list {
-      cursor: pointer;
-      font-size: 22px;
-      color: red;
-      font-weight: bold;
-    }
-  }
-
-  &-parent-list {
+  &-parent {
     flex: 1 1 auto;
     padding: 0;
     list-style: none;
@@ -88,7 +84,7 @@ $dropdown-triangle-size: 16px;
     }
   }
 
-  &-child-list {
+  &-child {
     color: black;
   }
 

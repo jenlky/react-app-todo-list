@@ -1,3 +1,31 @@
+.list {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 20px 20px 0px;
+  margin-right: 20px;
+  border-radius: 3px;
+  background-color: var(--list-bg-color); }
+
+@media screen and (min-width: 480px) {
+  .list {
+    padding: 10px 15px; } }
+
+@media screen and (min-width: 768px) {
+  .list {
+    padding: 20px 20px; } }
+
+.list-name-row {
+  display: flex;
+  margin-bottom: 30px;
+  width: 100%; }
+
+.list-remove-list {
+  cursor: pointer;
+  font-size: 22px;
+  color: red;
+  font-weight: bold; }
+
 .list-add-btn {
   margin-left: 5px;
   padding: 2px 10px;
@@ -16,35 +44,7 @@
 .list-input::placeholder {
   color: rgba(0, 0, 0, 0.6); }
 
-.todo-list {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 20px 20px 0px;
-  margin-right: 20px;
-  border-radius: 3px;
-  background-color: var(--list-bg-color); }
-
-@media screen and (min-width: 480px) {
-  .todo-list {
-    padding: 10px 15px; } }
-
-@media screen and (min-width: 768px) {
-  .todo-list {
-    padding: 20px 20px; } }
-
-.todo-list-name-row {
-  display: flex;
-  margin-bottom: 30px;
-  width: 100%; }
-
-.todo-list-remove-list {
-  cursor: pointer;
-  font-size: 22px;
-  color: red;
-  font-weight: bold; }
-
-.todo-parent-list {
+.list-parent {
   flex: 1 1 auto;
   padding: 0;
   list-style: none;
@@ -57,24 +57,24 @@
   overflow-y: auto;
   overflow-x: hidden; }
 
-.todo-parent-list::-webkit-scrollbar-track {
+.list-parent::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   background-color: var(--list-scrollbar-track); }
 
-.todo-parent-list::-webkit-scrollbar {
+.list-parent::-webkit-scrollbar {
   border-radius: 10px;
   width: 8px;
   background-color: var(--list-scrollbar-track); }
 
-.todo-parent-list::-webkit-scrollbar-thumb {
+.list-parent::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: var(--list-scrollbar-thumb); }
 
-.todo-child-list {
+.list-child {
   color: black; }
 
-.todo-item {
+.list-item {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
@@ -84,25 +84,25 @@
   background-color: white;
   border-radius: 3px; }
 
-.todo-item-icons {
+.list-item-icons {
   display: flex;
   align-items: center; }
 
-.todo-item-plus {
+.list-item-plus {
   visibility: hidden;
   margin-left: 10px;
   font-size: 16px; }
 
-.todo-item-right-triangle {
+.list-item-right-triangle {
   border-radius: 4px;
   padding: 0 4px;
   margin-right: 4px;
   font-size: 16px; }
 
-.todo-item-right-triangle:hover {
+.list-item-right-triangle:hover {
   background-color: rgba(0, 0, 0, 0.1); }
 
-.todo-item-content {
+.list-item-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -110,24 +110,24 @@
   width: stretch;
   width: -moz-available; }
 
-.todo-item-input {
+.list-item-input {
   border: 0;
   height: 16px;
   font-size: 14px;
   width: inherit; }
 
-.todo-item-cross {
+.list-item-cross {
   visibility: hidden;
   font-size: 16px;
   margin: 0px 10px; }
 
-.todo-item:hover {
+.list-item:hover {
   background-color: #f4f5f7; }
 
-.todo-item:hover .todo-item-plus {
+.list-item:hover .todo-item-plus {
   visibility: visible; }
 
-.todo-item:hover .todo-item-cross {
+.list-item:hover .todo-item-cross {
   visibility: visible; }
 
 .toggled-triangle {

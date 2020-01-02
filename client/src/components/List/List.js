@@ -18,8 +18,8 @@ export default function List({
   expandOrCollapseAll
 }) {
   return (
-    <div className="todo-list">
-      <div className="todo-list-name-row">
+    <div className="list">
+      <div className="list-name-row">
         <input
           type="text"
           className="title"
@@ -31,13 +31,13 @@ export default function List({
         />
         <Cross
           title="Remove list"
-          className="todo-list-remove-list"
+          className="list-remove-list"
           dataTestId="list-cross"
           listId={list.id}
           removeItem={removeItem}
         />
       </div>
-      <div>
+      <div className="">
         <OpenWithIcon onClick={e => expandOrCollapseAll(true, list.id)} />
         <CancelIcon onClick={e => expandOrCollapseAll(false, list.id)} />
         <input
@@ -55,7 +55,7 @@ export default function List({
           dataTestId="list-add-btn"
         />
       </div>
-      <ul className="todo-parent-list">
+      <ul className="list-parent">
         {list.listItems.map(listItem => {
           return (
             <ListItem
