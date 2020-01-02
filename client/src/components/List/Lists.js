@@ -22,13 +22,55 @@ export default class Lists extends Component {
             {
               id: "1",
               text: "Type whatever you want",
-              children: [],
+              children: [
+                {
+                  id: "1-1",
+                  text: "Test nested items",
+                  children: [
+                    {
+                      id: "1-1-1",
+                      text: "1-1-1",
+                      children: [
+                        {
+                          id: "1-1-1-1",
+                          text: "1-1-1-1",
+                          children: [],
+                          display: false
+                        }
+                      ],
+                      display: false
+                    }
+                  ],
+                  display: false
+                }
+              ],
               display: false
             },
             {
               id: "2",
               text: "Click on plus to add new child item",
-              children: [],
+              children: [
+                {
+                  id: "2-1",
+                  text: "2-1",
+                  children: [
+                    {
+                      id: "2-1-1",
+                      text: "2-1-1",
+                      children: [
+                        {
+                          id: "2-1-1-1",
+                          text: "2-1-1-1",
+                          children: [],
+                          display: false
+                        }
+                      ],
+                      display: false
+                    }
+                  ],
+                  display: false
+                }
+              ],
               display: false
             },
             {
@@ -368,6 +410,32 @@ export default class Lists extends Component {
     }
   };
 
+  recursiveAll = (toDisplay, item) => {
+    item.display = toDisplay;
+
+    if (item.children.length === 0) {
+      return;
+    } else if (item.children.length > 0) {
+      for (const child of item.children) {
+        return this.recursiveAll(toDisplay, child);
+      }
+    }
+  };
+
+  expandOrCollapseAll = (toDisplay, id) => {
+    const address = this.findListIndex(id);
+    const lists = [...this.state.lists];
+
+    for (const item of lists[address].listItems) {
+      item.display = toDisplay;
+      if ("children" in item && item.children.length > 0) {
+        this.recursiveAll(toDisplay, item);
+      }
+    }
+
+    this.setState({ lists });
+  };
+
   render() {
     return (
       <>
@@ -384,6 +452,7 @@ export default class Lists extends Component {
               editItem={this.editItem}
               removeItem={this.removeItem}
               toggleDisplay={this.toggleDisplay}
+              expandOrCollapseAll={this.expandOrCollapseAll}
             />
           );
         })}

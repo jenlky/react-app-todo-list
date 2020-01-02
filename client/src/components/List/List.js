@@ -2,8 +2,10 @@ import React from "react";
 import Button from "../Button";
 import ListItem from "./ListItem";
 import Cross from "./Cross";
+import OpenWithIcon from "@material-ui/icons/OpenWith";
+import CancelIcon from "@material-ui/icons/Cancel";
 
-const List = ({
+export default function List({
   list,
   listNameHandler,
   keyInItemHandler,
@@ -12,8 +14,9 @@ const List = ({
   addSubsequentItem,
   editItem,
   removeItem,
-  toggleDisplay
-}) => {
+  toggleDisplay,
+  expandOrCollapseAll
+}) {
   return (
     <div className="todo-list">
       <div className="todo-list-name-row">
@@ -35,6 +38,8 @@ const List = ({
         />
       </div>
       <div>
+        <OpenWithIcon onClick={e => expandOrCollapseAll(true, list.id)} />
+        <CancelIcon onClick={e => expandOrCollapseAll(false, list.id)} />
         <input
           type="text"
           className="list-input"
@@ -67,6 +72,4 @@ const List = ({
       </ul>
     </div>
   );
-};
-
-export default List;
+}
