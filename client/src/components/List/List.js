@@ -37,9 +37,15 @@ export default function List({
           removeItem={removeItem}
         />
       </div>
-      <div className="">
-        <OpenWithIcon onClick={e => expandOrCollapseAll(true, list.id)} />
-        <CancelIcon onClick={e => expandOrCollapseAll(false, list.id)} />
+      <div>
+        <OpenWithIcon
+          className="open-with-icon"
+          onClick={e => expandOrCollapseAll(true, list.id)}
+        />
+        <CancelIcon
+          className="cancel-icon"
+          onClick={e => expandOrCollapseAll(false, list.id)}
+        />
         <input
           type="text"
           className="list-input"

@@ -143,3 +143,11 @@
   100% {
     transform: rotate(90deg);
     /* CSS3 */ } }
+
+.open-with-icon {
+  cursor: pointer;
+  margin-right: 1rem; }
+
+.cancel-icon {
+  cursor: pointer;
+  margin-right: 1rem; }
