@@ -161,11 +161,11 @@ $dropdown-triangle-size: 16px;
     &:hover {
       background-color: #f4f5f7;
 
-      .todo-item-plus {
+      .list-item-plus {
         visibility: visible;
       }
 
-      .todo-item-cross {
+      .list-item-cross {
         visibility: visible;
       }
     }
@@ -190,12 +190,15 @@ $dropdown-triangle-size: 16px;
   }
 }
 
-.open-with-icon {
+.expand-icon {
   cursor: pointer;
   margin-right: 1rem;
+  vertical-align: middle;
+  width: 1.7rem;
 }
 
-.cancel-icon {
+.collapse-icon {
   cursor: pointer;
   margin-right: 1rem;
+  vertical-align: middle;
 }

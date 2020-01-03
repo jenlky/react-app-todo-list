@@ -124,10 +124,10 @@
 .list-item:hover {
   background-color: #f4f5f7; }
 
-.list-item:hover .todo-item-plus {
+.list-item:hover .list-item-plus {
   visibility: visible; }
 
-.list-item:hover .todo-item-cross {
+.list-item:hover .list-item-cross {
   visibility: visible; }
 
 .toggled-triangle {
@@ -144,10 +144,13 @@
     transform: rotate(90deg);
     /* CSS3 */ } }
 
-.open-with-icon {
+.expand-icon {
   cursor: pointer;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+  vertical-align: middle;
+  width: 1.7rem; }
 
-.cancel-icon {
+.collapse-icon {
   cursor: pointer;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+  vertical-align: middle; }

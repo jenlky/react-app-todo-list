@@ -1,8 +1,8 @@
 import React from "react";
 import ListItem from "./ListItem";
 import Cross from "./Cross";
-import OpenWithIcon from "@material-ui/icons/OpenWith";
-import CancelIcon from "@material-ui/icons/Cancel";
+import expand from "../../assets/expand-24.png";
+import collapse from "../../assets/collapse-24.png";
 import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -53,8 +53,10 @@ export default function List({
           aria-label="expand-all"
           classes={{ tooltip: classes.tooltip }}
         >
-          <OpenWithIcon
-            className="open-with-icon"
+          <img
+            className="expand-icon"
+            src={expand}
+            alt="Expand all"
             onClick={e => expandOrCollapseAll(true, list.id)}
           />
         </Tooltip>
@@ -63,8 +65,10 @@ export default function List({
           aria-label="collapse-all"
           classes={{ tooltip: classes.tooltip }}
         >
-          <CancelIcon
-            className="cancel-icon"
+          <img
+            className="collapse-icon"
+            src={collapse}
+            alt="Collapse all"
             onClick={e => expandOrCollapseAll(false, list.id)}
           />
         </Tooltip>
