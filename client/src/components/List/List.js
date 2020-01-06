@@ -49,18 +49,6 @@ export default function List({
       </div>
       <div>
         <Tooltip
-          title="Expand all"
-          aria-label="expand-all"
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <img
-            className="expand-icon"
-            src={expand}
-            alt="Expand all"
-            onClick={e => expandOrCollapseAll(true, list.id)}
-          />
-        </Tooltip>
-        <Tooltip
           title="Collapse all"
           aria-label="collapse-all"
           classes={{ tooltip: classes.tooltip }}
@@ -70,6 +58,18 @@ export default function List({
             src={collapse}
             alt="Collapse all"
             onClick={e => expandOrCollapseAll(false, list.id)}
+          />
+        </Tooltip>
+        <Tooltip
+          title="Expand all"
+          aria-label="expand-all"
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <img
+            className="expand-icon"
+            src={expand}
+            alt="Expand all"
+            onClick={e => expandOrCollapseAll(true, list.id)}
           />
         </Tooltip>
         <input
