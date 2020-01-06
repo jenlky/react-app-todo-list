@@ -13,31 +13,26 @@ import {
 export default class Lists extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      lists: [
+    const lists = {
+      id: 1,
+      name: "Playground",
+      listItems: [
         {
-          id: 1,
-          name: "Playground",
-          listItems: [
+          id: "1",
+          text: "Type whatever you want",
+          children: [
             {
-              id: "1",
-              text: "Type whatever you want",
+              id: "1-1",
+              text: "Test nested items",
               children: [
                 {
-                  id: "1-1",
-                  text: "Test nested items",
+                  id: "1-1-1",
+                  text: "1-1-1",
                   children: [
                     {
-                      id: "1-1-1",
-                      text: "1-1-1",
-                      children: [
-                        {
-                          id: "1-1-1-1",
-                          text: "1-1-1-1",
-                          children: [],
-                          display: false
-                        }
-                      ],
+                      id: "1-1-1-1",
+                      text: "1-1-1-1",
+                      children: [],
                       display: false
                     }
                   ],
@@ -45,49 +40,40 @@ export default class Lists extends Component {
                 }
               ],
               display: false
-            },
+            }
+          ],
+          display: false
+        },
+        {
+          id: "2",
+          text: "Click on plus to add new child item",
+          children: [
             {
-              id: "2",
-              text: "Click on plus to add new child item",
-              children: [
-                {
-                  id: "2-1",
-                  text: "2-1",
-                  children: [
-                    {
-                      id: "2-1-1",
-                      text: "2-1-1",
-                      children: [
-                        {
-                          id: "2-1-1-1",
-                          text: "2-1-1-1",
-                          children: [],
-                          display: false
-                        }
-                      ],
-                      display: false
-                    }
-                  ],
-                  display: false
-                }
-              ],
-              display: false
-            },
-            {
-              id: "3",
-              text: "Click on right triangle to display child items",
-              children: [],
-              display: false
-            },
-            {
-              id: "4",
-              text: "Click on cross to remove list item",
+              id: "2-1",
+              text: "2-1",
               children: [],
               display: false
             }
-          ]
+          ],
+          display: false
+        },
+        {
+          id: "3",
+          text: "Click on right triangle to display child items",
+          children: [],
+          display: false
+        },
+        {
+          id: "4",
+          text: "Click on cross to remove list item",
+          children: [],
+          display: false
         }
-      ],
+      ]
+    };
+
+    this.state = {
+      lists: this.props.isLoggedIn ? [] : [lists],
       keyInItem: "",
       delay: 150
     };
@@ -98,13 +84,29 @@ export default class Lists extends Component {
     if (isLoggedIn) {
       try {
         const response = await getAllLists(username);
-        console.log("getAllLists response", response);
+        console.log("componentDidMount getAllLists", response);
         this.setState({ lists: response.data });
       } catch (err) {
         console.log(err);
       }
     }
   }
+
+  // async componentDidUpdate() {
+  //   const { isLoggedIn, username } = this.props;
+  //   if (isLoggedIn) {
+  //     try {
+  //       const response = await getAllLists(username);
+  //       console.log("componentDidUpdate getAllLists", response);
+
+  //       if (response.data != this.state.lists) {
+  //         this.setState({ lists: response.data });
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // }
 
   keyInItemHandler = event => {
     this.setState({
@@ -300,6 +302,7 @@ export default class Lists extends Component {
   };
 
   editItem = async (newValue, listId, itemId) => {
+    console.log("editItem value", newValue);
     const lists = [...this.state.lists];
     const { parentItem, listAddress } = this.findItem(
       lists,
@@ -319,7 +322,7 @@ export default class Lists extends Component {
         listAddress,
         updatedListItems
       );
-      console.log("overwriteListItems response", response);
+      console.log("editItem overwriteListItems", response);
     }
   };
 
@@ -437,25 +440,28 @@ export default class Lists extends Component {
   };
 
   render() {
+    console.log(this.state);
+
     return (
       <>
-        {this.state.lists.map(list => {
-          return (
-            <List
-              key={list.id}
-              list={list}
-              listNameHandler={this.listNameHandler}
-              keyInItemHandler={this.keyInItemHandler}
-              addFirstItem={this.addFirstItem}
-              handleEnter={this.handleEnter}
-              addSubsequentItem={this.addSubsequentItem}
-              editItem={this.editItem}
-              removeItem={this.removeItem}
-              toggleDisplay={this.toggleDisplay}
-              expandOrCollapseAll={this.expandOrCollapseAll}
-            />
-          );
-        })}
+        {this.state.lists.length > 0 &&
+          this.state.lists.map(list => {
+            return (
+              <List
+                key={list.id}
+                list={list}
+                listNameHandler={this.listNameHandler}
+                keyInItemHandler={this.keyInItemHandler}
+                addFirstItem={this.addFirstItem}
+                handleEnter={this.handleEnter}
+                addSubsequentItem={this.addSubsequentItem}
+                editItem={this.editItem}
+                removeItem={this.removeItem}
+                toggleDisplay={this.toggleDisplay}
+                expandOrCollapseAll={this.expandOrCollapseAll}
+              />
+            );
+          })}
         <AddNewList addList={this.addList} />
       </>
     );

@@ -140,9 +140,7 @@ $dropdown-triangle-size: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      width: stretch;
-      width: -moz-available;
+      width: 86%;
     }
 
     &-input {
@@ -201,4 +199,35 @@ $dropdown-triangle-size: 16px;
   cursor: pointer;
   margin-right: 1rem;
   vertical-align: middle;
+}
+
+.react-quill {
+  width: inherit;
+  // background-color: #fff;
+  z-index: 1;
+}
+
+.ql-editor {
+  padding: 0px;
+}
+
+.ql-bubble .ql-toolbar .ql-formats {
+  margin: 6px 12px 6px 0px;
+}
+
+.ql-bubble .ql-toolbar .ql-formats:first-child {
+  margin-left: 20px;
+}
+
+.ql-toolbar {
+  z-index: 10;
+}
+
+.ql-bubble .ql-toolbar .ql-formats:last-child {
+  // margin-right: 20px;
+  // padding-right: 10px;
+}
+
+.ql-formats {
+  width: max-content;
 }

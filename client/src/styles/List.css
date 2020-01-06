@@ -106,9 +106,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  width: stretch;
-  width: -moz-available; }
+  width: 86%; }
 
 .list-item-input {
   border: 0;
@@ -154,3 +152,22 @@
   cursor: pointer;
   margin-right: 1rem;
   vertical-align: middle; }
+
+.react-quill {
+  width: inherit;
+  z-index: 1; }
+
+.ql-editor {
+  padding: 0px; }
+
+.ql-bubble .ql-toolbar .ql-formats {
+  margin: 6px 12px 6px 0px; }
+
+.ql-bubble .ql-toolbar .ql-formats:first-child {
+  margin-left: 20px; }
+
+.ql-toolbar {
+  z-index: 10; }
+
+.ql-formats {
+  width: max-content; }
