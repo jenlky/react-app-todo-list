@@ -1,7 +1,9 @@
 import React from "react";
 import Cross from "./Cross";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.bubble.css";
+import { ImageDrop } from "quill-image-drop-module";
+import { ImageResize } from "quill-image-resize-module";
 
 export default function ListItemRight({
   listId,
@@ -11,19 +13,27 @@ export default function ListItemRight({
 }) {
   const itemId = listItem.id.split("-");
 
+  Quill.register("modules/imageResize", ImageResize);
+  Quill.register("modules/imageDrop", ImageDrop);
   const modules = {
     toolbar: [
-      { header: "1" },
-      { header: "2" },
-      "bold",
-      "italic",
-      "underline",
-      "strike",
-      "blockquote",
-      "link",
-      "image",
-      "video"
+      [
+        { header: "1" },
+        { header: "2" },
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        "blockquote",
+        "link",
+        "image",
+        "video"
+      ]
     ],
+    imageDrop: true,
+    imageResize: {
+      displaySize: true
+    },
     clipboard: {
       // toggle to add extra line breaks when pasting HTML:
       matchVisual: false
