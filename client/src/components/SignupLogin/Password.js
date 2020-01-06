@@ -11,7 +11,7 @@ export default function Username({ updateUserState, textField }) {
   const validate = password => {
     if (
       password.match(/^[a-zA-Z0-9]+$/) &&
-      password.length >= 4 &&
+      password.length >= 8 &&
       password.length <= 20
     ) {
       setError(false);
