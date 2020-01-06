@@ -23,11 +23,11 @@ export default class Lists extends Component {
           children: [
             {
               id: "1-1",
-              text: "Test nested items",
+              text: "Click on plus to add child item",
               children: [
                 {
                   id: "1-1-1",
-                  text: "1-1-1",
+                  text: "Test nested items",
                   children: [
                     {
                       id: "1-1-1-1",
@@ -46,7 +46,7 @@ export default class Lists extends Component {
         },
         {
           id: "2",
-          text: "Click on plus to add new child item",
+          text: "Highlight to bold, italicise etc the text",
           children: [
             {
               id: "2-1",
