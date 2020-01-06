@@ -8,7 +8,7 @@ interface UserType extends Document {
   lists: [];
 }
 
-const userSchema: Schema = new mongoose.Schema({
+const userSchema: Schema = new Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
@@ -16,12 +16,12 @@ const userSchema: Schema = new mongoose.Schema({
   lists: [
     {
       id: { type: Number, required: true },
-      name: { type: String },
+      name: String,
       listItems: [
         {
           id: { type: String, required: true },
-          text: { type: String },
-          children: { type: [Object] }
+          text: Schema.Types.Mixed,
+          children: [Object]
         }
       ]
     }
