@@ -8,8 +8,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./dist/server",
-    "start:dev": "nodemon ./dist/server",
+    "start": "node ./dist/src/server",
+    "start:dev": "nodemon ./dist/src/server",
     "test": "jest",
     "test:watch": "jest --watch",
     "build-ts": "tsc && npm run start",
