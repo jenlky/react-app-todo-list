@@ -6,7 +6,7 @@
     "@material-ui/core": "^4.8.2",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.1.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-module": "^1.0.0",
     "react": "^16.8.6",
