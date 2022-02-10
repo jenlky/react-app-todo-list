@@ -47,6 +47,6 @@
     "faker": "^4.1.0",
     "history": "^4.9.0",
     "mutationobserver-shim": "^0.3.3",
-    "node-sass": "^4.12.0"
+    "node-sass": "^7.0.0"
   }
 }
